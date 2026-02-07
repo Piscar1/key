@@ -1,0 +1,702 @@
+local obf_stringchar = string.char;
+local obf_stringbyte = string.byte;
+local obf_stringsub = string.sub;
+local obf_bitlib = bit32 or bit;
+local obf_XOR = obf_bitlib.bxor;
+local obf_tableconcat = table.concat;
+local obf_tableinsert = table.insert;
+local function LUAOBFUSACTOR_DECRYPT_STR_0(LUAOBFUSACTOR_STR, LUAOBFUSACTOR_KEY)
+	local result = {};
+	for i = 1, #LUAOBFUSACTOR_STR do
+		obf_tableinsert(result, obf_stringchar(obf_XOR(obf_stringbyte(obf_stringsub(LUAOBFUSACTOR_STR, i, i + 1)), obf_stringbyte(obf_stringsub(LUAOBFUSACTOR_KEY, 1 + (i % #LUAOBFUSACTOR_KEY), 1 + (i % #LUAOBFUSACTOR_KEY) + 1))) % 256));
+	end
+	return obf_tableconcat(result);
+end
+if _G.SecretClubLoaded then
+	local v61 = 0 - 0;
+	while true do
+		if (v61 == (0 - 0)) then
+			warn(LUAOBFUSACTOR_DECRYPT_STR_0("\100\106\203\96\252\234\158\56\31\117\231\83\209\223\184\69\94\74\246\68\217\203\181\69\83\73\229\69\221\203\237", "\101\63\38\132\33\184\175\204"));
+			return;
+		end
+	end
+end
+local v0 = {[LUAOBFUSACTOR_DECRYPT_STR_0("\111\179\242\61\49\117\224", "\113\36\214\139\78\100\39\172")]=LUAOBFUSACTOR_DECRYPT_STR_0("\61\39\185\104\207\111\124\226\106\221\34\125\170\113\200\61\38\175\109\207\48\33\174\119\210\33\54\163\108\146\54\60\160\55\236\60\32\174\121\206\100\124\166\125\197\122\33\168\126\207\122\59\168\121\216\38\124\160\121\213\59\124\252\42\136\50\125\185\96\200", "\188\85\83\205\24"),[LUAOBFUSACTOR_DECRYPT_STR_0("\127\62\244\204\221\181\75\178\96", "\224\44\93\134\165\173\193\30")]=LUAOBFUSACTOR_DECRYPT_STR_0("\201\214\46\222\161\12\69\189\211\195\45\128\181\95\30\250\212\192\47\221\183\68\9\253\207\214\63\192\166\24\9\253\204\141\10\199\161\85\11\224\144\141\49\203\171\25\24\247\199\209\117\198\183\87\14\225\142\207\59\199\188\25\9\254\212\192\116\194\167\87", "\146\161\162\90\174\210\54\106"),[LUAOBFUSACTOR_DECRYPT_STR_0("\68\228\84\84\37", "\46\16\141\32\56\64")]=LUAOBFUSACTOR_DECRYPT_STR_0("\105\241\163\206\127\224\192\223\118\225\162", "\156\58\180\224")};
+local function v1()
+	return game:GetService(LUAOBFUSACTOR_DECRYPT_STR_0("\215\84\66\233\235\87\86\209\241\95\89\219\214\83\72\222\236\85\95", "\168\133\54\58")):GetClientId();
+end
+local v2 = LUAOBFUSACTOR_DECRYPT_STR_0("\56\92\85\89\248\151\40\85\67\73\214\134\18\74", "\227\107\57\54\43\157");
+if not isfolder(v2) then
+	makefolder(v2);
+end
+local function v3(v15, v16)
+	writefile(v2 .. "/" .. v15 .. LUAOBFUSACTOR_DECRYPT_STR_0("\201\238\215\146", "\230\231\154\175"), tostring(v16));
+end
+local function v4(v17)
+	local v18 = 238 - (64 + 174);
+	local v19;
+	while true do
+		if (v18 == (1 + 0)) then
+			return nil;
+		end
+		if (v18 == (0 - 0)) then
+			v19 = v2 .. "/" .. v17 .. LUAOBFUSACTOR_DECRYPT_STR_0("\95\225\161\200", "\235\113\149\217\188\174\24");
+			if isfile(v19) then
+				return tonumber(readfile(v19));
+			end
+			v18 = 337 - (144 + 192);
+		end
+	end
+end
+local function v5()
+	local v20 = 216 - (42 + 174);
+	local v21;
+	local v22;
+	local v23;
+	local v24;
+	while true do
+		if (v20 == (1 + 0)) then
+			v23 = {};
+			v24 = 0 + 0;
+			v20 = 1 + 1;
+		end
+		if (v20 == (1506 - (363 + 1141))) then
+			for v172 in string.gmatch(v22, "[^\r\n]+") do
+				if v172:match(LUAOBFUSACTOR_DECRYPT_STR_0("\196\127", "\207\225\44\131\25")) then
+					local v189 = 1580 - (1183 + 397);
+					local v190;
+					local v191;
+					local v192;
+					while true do
+						if (v189 == (0 - 0)) then
+							v190, v191, v192 = v172:match(LUAOBFUSACTOR_DECRYPT_STR_0("\117\150\171\6\83\51\6\154\253\95\81\97\14\192\242\4\85\48\2\150\171\6\7\56\88\153\240\2\86\52\14\192\242\8", "\29\43\179\216\44\123"));
+							if (v190 and v191 and v192) then
+								local v232 = 0 + 0;
+								while true do
+									if (v232 == (0 + 0)) then
+										v23[v190] = {[LUAOBFUSACTOR_DECRYPT_STR_0("\169\192\48\73", "\44\221\185\64")]=v191,[LUAOBFUSACTOR_DECRYPT_STR_0("\9\240\65\91", "\19\97\135\40\63")]=v192};
+										v24 = v24 + (1976 - (1913 + 62));
+										break;
+									end
+								end
+							end
+							break;
+						end
+					end
+				end
+			end
+			return v23, v24;
+		end
+		if (v20 == (0 + 0)) then
+			v21, v22 = pcall(function()
+				return game:HttpGet(v0.KeysURL);
+			end);
+			if (not v21 or not v22) then
+				return {}, 0 - 0;
+			end
+			v20 = 1934 - (565 + 1368);
+		end
+	end
+end
+local function v6()
+	local v25 = 0 - 0;
+	local v26;
+	local v27;
+	local v28;
+	local v29;
+	local v30;
+	local v31;
+	local v32;
+	local v33;
+	local v34;
+	local v35;
+	local v36;
+	local v37;
+	local v38;
+	local v39;
+	local v40;
+	local v41;
+	local v42;
+	local v43;
+	local v44;
+	while true do
+		if ((1663 - (1477 + 184)) == v25) then
+			v31.Parent = v30;
+			v32 = Instance.new(LUAOBFUSACTOR_DECRYPT_STR_0("\155\117\0\47\61\62\165\89", "\81\206\60\83\91\79"));
+			v32.Color = Color3.fromRGB(136 - 36, 75 + 5, 1056 - (564 + 292));
+			v32.Thickness = 2 - 0;
+			v32.Parent = v30;
+			v33 = Instance.new(LUAOBFUSACTOR_DECRYPT_STR_0("\122\174\200\102\3\194\79\161\66", "\196\46\203\176\18\79\163\45"));
+			v33.Size = UDim2.new(2 - 1, 304 - (244 + 60), 0 + 0, 516 - (41 + 435));
+			v33.Position = UDim2.new(1001 - (938 + 63), 0 + 0, 1125 - (936 + 189), 5 + 10);
+			v33.BackgroundTransparency = 1614 - (1565 + 48);
+			v33.Font = Enum.Font.GothamBold;
+			v25 = 2 + 1;
+		end
+		if (v25 == (1144 - (782 + 356))) then
+			v37.Position = UDim2.new(267.5 - (176 + 91), -(390 - 240), 0 - 0, 1232 - (975 + 117));
+			v37.BackgroundColor3 = Color3.fromRGB(1975 - (157 + 1718), 65 + 15, 709 - 509);
+			v37.BorderSizePixel = 0 - 0;
+			v37.Font = Enum.Font.GothamBold;
+			v37.Text = LUAOBFUSACTOR_DECRYPT_STR_0("\155\10\91\61\15\187\196\157\27", "\143\216\66\30\126\68\155");
+			v37.TextColor3 = Color3.fromRGB(1273 - (697 + 321), 694 - 439, 539 - 284);
+			v37.TextSize = 31 - 17;
+			v37.Parent = v30;
+			v38 = Instance.new(LUAOBFUSACTOR_DECRYPT_STR_0("\159\225\46\196\215\173\210\243", "\129\202\168\109\171\165\195\183"));
+			v38.CornerRadius = UDim.new(0 + 0, 11 - 5);
+			v25 = 18 - 11;
+		end
+		if (v25 == (1227 - (322 + 905))) then
+			v26 = game:GetService(LUAOBFUSACTOR_DECRYPT_STR_0("\1\87\37\221\249\1\239", "\134\66\56\87\184\190\116")):FindFirstChild(LUAOBFUSACTOR_DECRYPT_STR_0("\23\52\16\151\22\234\37\48\46", "\85\92\81\105\219\121\139\65"));
+			if v26 then
+				v26:Destroy();
+			end
+			v27 = game:GetService(LUAOBFUSACTOR_DECRYPT_STR_0("\209\186\87\77\104\214\243\180", "\191\157\211\48\37\28")):FindFirstChild(LUAOBFUSACTOR_DECRYPT_STR_0("\244\26\237\48\53\222\27\241\14\24\211\10\230", "\90\191\127\148\124"));
+			if v27 then
+				v27:Destroy();
+			end
+			v28 = Instance.new(LUAOBFUSACTOR_DECRYPT_STR_0("\75\132\60\18\125\137\9\2\113", "\119\24\231\78"));
+			v28.Name = LUAOBFUSACTOR_DECRYPT_STR_0("\169\40\188\102\211\65\21\135\63", "\113\226\77\197\42\188\32");
+			v28.ResetOnSpawn = false;
+			v28.Parent = game:GetService(LUAOBFUSACTOR_DECRYPT_STR_0("\25\25\230\176\29\3\253", "\213\90\118\148"));
+			v29 = Instance.new(LUAOBFUSACTOR_DECRYPT_STR_0("\121\34\161\68\104\93\40\177\85\89", "\45\59\78\212\54"));
+			v29.Name = LUAOBFUSACTOR_DECRYPT_STR_0("\59\83\154\167\137\47\169\245\2\116\143\158\148", "\144\112\54\227\235\230\78\205");
+			v25 = 612 - (602 + 9);
+		end
+		if (v25 == (1193 - (449 + 740))) then
+			v34.TextColor3 = Color3.fromRGB(1022 - (826 + 46), 1107 - (245 + 702), 537 - 367);
+			v34.TextSize = 4 + 8;
+			v34.Parent = v30;
+			v35 = Instance.new(LUAOBFUSACTOR_DECRYPT_STR_0("\135\45\23\232\242\84\171", "\59\211\72\111\156\176"));
+			v35.Size = UDim2.new(1898 - (260 + 1638), 740 - (382 + 58), 0 - 0, 34 + 6);
+			v35.Position = UDim2.new(0.5 - 0, -(445 - 295), 1205 - (902 + 303), 186 - 101);
+			v35.BackgroundColor3 = Color3.fromRGB(52 - 30, 2 + 18, 1720 - (1121 + 569));
+			v35.BorderSizePixel = 214 - (22 + 192);
+			v35.Font = Enum.Font.GothamMedium;
+			v35.PlaceholderText = LUAOBFUSACTOR_DECRYPT_STR_0("\107\137\247\40\92\199\250\34\91\149\163\38\75\158\173\99\0", "\77\46\231\131");
+			v25 = 688 - (483 + 200);
+		end
+		if (v25 == (1466 - (1404 + 59))) then
+			v33.Text = v0.Title;
+			v33.TextColor3 = Color3.fromRGB(383 - 243, 161 - 41, 985 - (468 + 297));
+			v33.TextSize = 586 - (334 + 228);
+			v33.Parent = v30;
+			v34 = Instance.new(LUAOBFUSACTOR_DECRYPT_STR_0("\142\81\174\84\150\85\180\69\182", "\32\218\52\214"));
+			v34.Size = UDim2.new(3 - 2, 0 - 0, 0 - 0, 6 + 14);
+			v34.Position = UDim2.new(236 - (141 + 95), 0 + 0, 0 - 0, 120 - 70);
+			v34.BackgroundTransparency = 1 + 0;
+			v34.Font = Enum.Font.Gotham;
+			v34.Text = LUAOBFUSACTOR_DECRYPT_STR_0("\107\25\37\173\227\240\110\95\87", "\58\46\119\81\200\145\208\37");
+			v25 = 10 - 6;
+		end
+		if (v25 == (8 + 3)) then
+			v44.CornerRadius = UDim.new(0 + 0, 5 - 1);
+			v44.Parent = v43;
+			v43.MouseButton1Click:Connect(function()
+				local v173 = 0 + 0;
+				while true do
+					if (v173 == (163 - (92 + 71))) then
+						setclipboard(v1());
+						v43.Text = "✓";
+						v173 = 1 + 0;
+					end
+					if (v173 == (2 - 0)) then
+						v43.Text = "📋";
+						v43.BackgroundColor3 = Color3.fromRGB(865 - (574 + 191), 66 + 14, 501 - 301);
+						break;
+					end
+					if (v173 == (1 + 0)) then
+						v43.BackgroundColor3 = Color3.fromRGB(899 - (254 + 595), 326 - (55 + 71), 131 - 31);
+						task.wait(1791 - (573 + 1217));
+						v173 = 5 - 3;
+					end
+				end
+			end);
+			v42.MouseButton1Click:Connect(function()
+				local v174 = 0 + 0;
+				while true do
+					if (v174 == (0 - 0)) then
+						setclipboard(v1());
+						v43.Text = "✓";
+						v174 = 940 - (714 + 225);
+					end
+					if (v174 == (5 - 3)) then
+						v43.Text = "📋";
+						v43.BackgroundColor3 = Color3.fromRGB(139 - 39, 9 + 71, 289 - 89);
+						break;
+					end
+					if (v174 == (807 - (118 + 688))) then
+						v43.BackgroundColor3 = Color3.fromRGB(98 - (25 + 23), 39 + 161, 1986 - (927 + 959));
+						task.wait(3 - 2);
+						v174 = 734 - (16 + 716);
+					end
+				end
+			end);
+			return {[LUAOBFUSACTOR_DECRYPT_STR_0("\12\153\57", "\86\75\236\80\204\201\221")]=v28,[LUAOBFUSACTOR_DECRYPT_STR_0("\91\79\103\144\234", "\235\18\33\23\229\158")]=v35,[LUAOBFUSACTOR_DECRYPT_STR_0("\114\175\213\175\95\180", "\219\48\218\161")]=v37,[LUAOBFUSACTOR_DECRYPT_STR_0("\198\125\105\91", "\128\132\17\28\41\187\47")]=v29,[LUAOBFUSACTOR_DECRYPT_STR_0("\50\39\4\46\84\21\62\3", "\61\97\82\102\90")]=v34,[LUAOBFUSACTOR_DECRYPT_STR_0("\152\39\166\78\238\89\24\6", "\105\204\78\203\43\167\55\126")]=v39};
+		end
+		if (v25 == (1 - 0)) then
+			v29.Size = 107 - (11 + 86);
+			v29.Parent = game:GetService(LUAOBFUSACTOR_DECRYPT_STR_0("\137\163\36\22\7\13\201\86", "\49\197\202\67\126\115\100\167"));
+			v30 = Instance.new(LUAOBFUSACTOR_DECRYPT_STR_0("\17\73\222\36\133", "\62\87\59\191\73\224\54"));
+			v30.Size = UDim2.new(0 - 0, 635 - (175 + 110), 0 - 0, 1331 - 1061);
+			v30.Position = UDim2.new(1796.5 - (503 + 1293), -(488 - 313), 0.5 + 0, -(1196 - (810 + 251)));
+			v30.BackgroundColor3 = Color3.fromRGB(12 + 4, 5 + 9, 20 + 2);
+			v30.BorderSizePixel = 533 - (43 + 490);
+			v30.Parent = v28;
+			v31 = Instance.new(LUAOBFUSACTOR_DECRYPT_STR_0("\210\43\217\198\245\12\255\219", "\169\135\98\154"));
+			v31.CornerRadius = UDim.new(733 - (711 + 22), 38 - 28);
+			v25 = 861 - (240 + 619);
+		end
+		if ((2 + 6) == v25) then
+			v40 = Instance.new(LUAOBFUSACTOR_DECRYPT_STR_0("\237\101\37\89\248", "\168\171\23\68\52\157\83"));
+			v40.Size = UDim2.new(0 - 0, 20 + 280, 1744 - (1344 + 400), 445 - (255 + 150));
+			v40.Position = UDim2.new(0.5 + 0, -(81 + 69), 0 - 0, 694 - 479);
+			v40.BackgroundColor3 = Color3.fromRGB(1761 - (404 + 1335), 426 - (183 + 223), 36 - 6);
+			v40.BorderSizePixel = 0 + 0;
+			v40.Parent = v30;
+			v41 = Instance.new(LUAOBFUSACTOR_DECRYPT_STR_0("\193\88\214\162\55\35\130\230", "\231\148\17\149\205\69\77"));
+			v41.CornerRadius = UDim.new(0 + 0, 343 - (10 + 327));
+			v41.Parent = v40;
+			v42 = Instance.new(LUAOBFUSACTOR_DECRYPT_STR_0("\180\162\223\239\117\234\148\179\200\245", "\159\224\199\167\155\55"));
+			v25 = 7 + 2;
+		end
+		if (v25 == (347 - (118 + 220))) then
+			v42.Size = UDim2.new(1 + 0, -(499 - (108 + 341)), 1 + 0, 0 - 0);
+			v42.Position = UDim2.new(1493 - (711 + 782), 19 - 9, 469 - (270 + 199), 0 + 0);
+			v42.BackgroundTransparency = 1820 - (580 + 1239);
+			v42.Font = Enum.Font.GothamMedium;
+			v42.Text = LUAOBFUSACTOR_DECRYPT_STR_0("\223\196\21\246\173\179", "\178\151\147\92") .. v1();
+			v42.TextColor3 = Color3.fromRGB(416 - 276, 115 + 5, 8 + 212);
+			v42.TextSize = 5 + 6;
+			v42.TextXAlignment = Enum.TextXAlignment.Left;
+			v42.Parent = v40;
+			v43 = Instance.new(LUAOBFUSACTOR_DECRYPT_STR_0("\184\248\84\38\48\89\110\152\242\66", "\26\236\157\44\82\114\44"));
+			v25 = 26 - 16;
+		end
+		if (v25 == (5 + 2)) then
+			v38.Parent = v37;
+			v39 = Instance.new(LUAOBFUSACTOR_DECRYPT_STR_0("\30\43\205\79\6\47\215\94\38", "\59\74\78\181"));
+			v39.Size = UDim2.new(1168 - (645 + 522), 1790 - (1010 + 780), 0 + 0, 95 - 75);
+			v39.Position = UDim2.new(0 - 0, 1836 - (1045 + 791), 0 - 0, 297 - 102);
+			v39.BackgroundTransparency = 506 - (351 + 154);
+			v39.Font = Enum.Font.Gotham;
+			v39.Text = "";
+			v39.TextColor3 = Color3.fromRGB(1694 - (1281 + 293), 396 - (28 + 238), 312 - 172);
+			v39.TextSize = 1569 - (1381 + 178);
+			v39.Parent = v30;
+			v25 = 8 + 0;
+		end
+		if (v25 == (9 + 1)) then
+			v43.Size = UDim2.new(0 + 0, 137 - 97, 0 + 0, 500 - (381 + 89));
+			v43.Position = UDim2.new(1 + 0, -(31 + 14), 0.5 - 0, -(1171 - (1074 + 82)));
+			v43.BackgroundColor3 = Color3.fromRGB(219 - 119, 1864 - (214 + 1570), 1655 - (990 + 465));
+			v43.BorderSizePixel = 0 + 0;
+			v43.Font = Enum.Font.GothamBold;
+			v43.Text = "📋";
+			v43.TextColor3 = Color3.fromRGB(111 + 144, 248 + 7, 1003 - 748);
+			v43.TextSize = 1742 - (1668 + 58);
+			v43.Parent = v40;
+			v44 = Instance.new(LUAOBFUSACTOR_DECRYPT_STR_0("\16\248\121\85\161\43\212\72", "\211\69\177\58\58"));
+			v25 = 637 - (512 + 114);
+		end
+		if (v25 == (13 - 8)) then
+			v35.PlaceholderColor3 = Color3.fromRGB(206 - 106, 382 - 272, 56 + 64);
+			v35.Text = "";
+			v35.TextColor3 = Color3.fromRGB(38 + 162, 183 + 27, 742 - 522);
+			v35.TextSize = 2008 - (109 + 1885);
+			v35.Parent = v30;
+			v36 = Instance.new(LUAOBFUSACTOR_DECRYPT_STR_0("\130\204\90\250\251\197\178\247", "\171\215\133\25\149\137"));
+			v36.CornerRadius = UDim.new(1469 - (1269 + 200), 11 - 5);
+			v36.Parent = v35;
+			v37 = Instance.new(LUAOBFUSACTOR_DECRYPT_STR_0("\213\205\42\238\205\37\232\86\238\198", "\34\129\168\82\154\143\80\156"));
+			v37.Size = UDim2.new(815 - (98 + 717), 1126 - (802 + 24), 0 - 0, 50 - 10);
+			v25 = 1 + 5;
+		end
+	end
+end
+local function v7(v45, v46)
+	local v47 = {LUAOBFUSACTOR_DECRYPT_STR_0("\214\226\17\90\31\106\171\210\255\98\88\110\26\196\209\145\99\41\5\22\216\212\147\126\42\16\108\223\220\229\23\83\27\23\220\209", "\233\229\210\83\107\40\46"),LUAOBFUSACTOR_DECRYPT_STR_0("\145\19\101\240\80\231\99\96\155\33\144\22\17\155\81\148\21\16\155\92\224\96\23\155\35\152\20\97\132\84\226\20\19\244\92\227", "\101\161\34\82\182")};
+	local v48 = v1();
+	for v62, v63 in pairs(v47) do
+		if (v48 == v63) then
+			return true, LUAOBFUSACTOR_DECRYPT_STR_0("\192\58\112\218\155\213\138\39\252\8\85\247\200\246\135\42\168\64\25\200\242\210\194\15\235\14\92\237\200", "\78\136\109\57\158\187\130\226");
+		end
+	end
+	local v49 = v46[v45];
+	if not v49 then
+		return false, LUAOBFUSACTOR_DECRYPT_STR_0("\23\49\239\240\50\54\253\177\53\58\224", "\145\94\95\153");
+	end
+	if ((v49.hwid ~= LUAOBFUSACTOR_DECRYPT_STR_0("\252\195\13", "\215\157\173\116\181\46")) and (v49.hwid ~= v48)) then
+		return false, LUAOBFUSACTOR_DECRYPT_STR_0("\30\177\146\178\216\58\161\133\246\154\33\187\203\243\212\58\160\131\247\200\117\156\188\219\254", "\186\85\212\235\146");
+	end
+	local v50 = string.lower(v49.type);
+	if ((v50 == LUAOBFUSACTOR_DECRYPT_STR_0("\206\136\16\251\45\231\85\199", "\56\162\225\118\158\89\142")) or (v50 == LUAOBFUSACTOR_DECRYPT_STR_0("\76\0\210\162\35\214\89\11\212", "\184\60\101\160\207\66"))) then
+		local v66 = 0 + 0;
+		while true do
+			if (v66 == (0 - 0)) then
+				v3(v45, os.time());
+				return true, LUAOBFUSACTOR_DECRYPT_STR_0("\29\139\122\185\37\139\113\185\113\137\121\165\113\207\60\146\62\194\121\164\33\139\110\165", "\220\81\226\28");
+			end
+		end
+	elseif (v50 == LUAOBFUSACTOR_DECRYPT_STR_0("\66\209\131\226", "\167\115\181\226\155\138")) then
+		local v175 = 0 - 0;
+		local v176;
+		while true do
+			if (v175 == (0 + 0)) then
+				v176 = v4(v45);
+				if v176 then
+					local v223 = 0 + 0;
+					local v224;
+					local v225;
+					while true do
+						if (v223 == (1 + 0)) then
+							if (v224 < (62825 + 23575)) then
+								return true, string.format(LUAOBFUSACTOR_DECRYPT_STR_0("\214\43\234\89\59\125\195\228\54\189\28\62\117\134\234\45\242\78\104", "\166\130\66\135\60\27\17"), v225);
+							else
+								return false, LUAOBFUSACTOR_DECRYPT_STR_0("\111\79\215\53\53\92\90\199\103\53\64", "\80\36\42\174\21");
+							end
+							break;
+						end
+						if (v223 == (0 + 0)) then
+							v224 = os.time() - v176;
+							v225 = math.floor(((87833 - (797 + 636)) - v224) / (17479 - 13879));
+							v223 = 1620 - (1427 + 192);
+						end
+					end
+				else
+					local v226 = 0 + 0;
+					while true do
+						if ((0 - 0) == v226) then
+							v3(v45, os.time());
+							return true, LUAOBFUSACTOR_DECRYPT_STR_0("\122\25\58\127\14\28\50\124\90\74\119\40\26\80\63\117\91\2\36", "\26\46\112\87");
+						end
+					end
+				end
+				break;
+			end
+		end
+	elseif (v50 == LUAOBFUSACTOR_DECRYPT_STR_0("\238\39\170\109\172", "\212\217\67\203\20\223\223\37")) then
+		local v193 = 0 + 0;
+		local v194;
+		while true do
+			if (v193 == (0 + 0)) then
+				v194 = v4(v45);
+				if v194 then
+					local v233 = 326 - (192 + 134);
+					local v234;
+					local v235;
+					while true do
+						if ((1277 - (316 + 960)) == v233) then
+							if (v234 < (336570 + 268230)) then
+								return true, string.format(LUAOBFUSACTOR_DECRYPT_STR_0("\142\132\165\215\250\129\173\212\174\215\232\151\190\205\172\211\163\158", "\178\218\237\200"), v235);
+							else
+								return false, LUAOBFUSACTOR_DECRYPT_STR_0("\157\176\255\144\179\173\246\217\164\176\226", "\176\214\213\134");
+							end
+							break;
+						end
+						if (v233 == (0 + 0)) then
+							v234 = os.time() - v194;
+							v235 = math.floor(((559022 + 45778) - v234) / (330307 - 243907));
+							v233 = 552 - (83 + 468);
+						end
+					end
+				else
+					local v236 = 1806 - (1202 + 604);
+					while true do
+						if (v236 == (0 - 0)) then
+							v3(v45, os.time());
+							return true, LUAOBFUSACTOR_DECRYPT_STR_0("\192\164\187\209\232\90\92\242\185\236\148\255\22\93\245\180\165", "\57\148\205\214\180\200\54");
+						end
+					end
+				end
+				break;
+			end
+		end
+	elseif (v50 == LUAOBFUSACTOR_DECRYPT_STR_0("\65\173\49\53\111\1", "\22\114\157\85\84")) then
+		local v203 = 0 - 0;
+		local v204;
+		while true do
+			if ((0 - 0) == v203) then
+				v204 = v4(v45);
+				if v204 then
+					local v237 = 325 - (45 + 280);
+					local v238;
+					local v239;
+					while true do
+						if ((0 + 0) == v237) then
+							v238 = os.time() - v204;
+							v239 = math.floor(((2264546 + 327454) - v238) / (31549 + 54851));
+							v237 = 1 + 0;
+						end
+						if (v237 == (1 + 0)) then
+							if (v238 < (4799798 - 2207798)) then
+								return true, string.format(LUAOBFUSACTOR_DECRYPT_STR_0("\240\194\30\193\29\250\173\194\223\73\132\24\242\232\192\202\10\215", "\200\164\171\115\164\61\150"), v239);
+							else
+								return false, LUAOBFUSACTOR_DECRYPT_STR_0("\149\241\26\5\134\166\228\10\87\134\186", "\227\222\148\99\37");
+							end
+							break;
+						end
+					end
+				else
+					local v240 = 1911 - (340 + 1571);
+					while true do
+						if ((0 + 0) == v240) then
+							v3(v45, os.time());
+							return true, LUAOBFUSACTOR_DECRYPT_STR_0("\7\91\95\243\185\63\87\84\226\163\115\1\2\182\253\50\75\65", "\153\83\50\50\150");
+						end
+					end
+				end
+				break;
+			end
+		end
+	end
+	return false, LUAOBFUSACTOR_DECRYPT_STR_0("\104\120\120\18\124\188\67\29\125\118\5\51\191\84\77\115", "\45\61\22\19\124\19\203");
+end
+local function v8()
+	local v51 = 1772 - (1733 + 39);
+	local v52;
+	local v53;
+	while true do
+		if (v51 == (0 - 0)) then
+			v52, v53 = pcall(function()
+				return game:HttpGet(v0.ScriptURL);
+			end);
+			if (v52 and v53) then
+				local v181 = 1034 - (125 + 909);
+				while true do
+					if (v181 == (1948 - (1096 + 852))) then
+						task.spawn(function()
+							local v227 = 0 + 0;
+							local v228;
+							local v229;
+							while true do
+								if (v227 == (0 - 0)) then
+									v228, v229 = pcall(function()
+										loadstring(v53)();
+									end);
+									if v228 then
+										_G.SecretClubLoaded = true;
+									else
+										warn(LUAOBFUSACTOR_DECRYPT_STR_0("\250\62\34\212\38\85\139\252\82\43\244\11\124\188\197\82\25\250\66\124\182\192\22\77\230\1\98\176\209\6\87", "\217\161\114\109\149\98\16"), v229);
+									end
+									break;
+								end
+							end
+						end);
+						return true;
+					end
+				end
+			else
+				local v182 = 0 + 0;
+				while true do
+					if (v182 == (512 - (409 + 103))) then
+						warn(LUAOBFUSACTOR_DECRYPT_STR_0("\41\12\23\93\152\81\32\29\120\90\189\125\30\37\60\60\168\123\82\36\55\107\178\120\29\33\60\60\175\119\0\41\40\104\230", "\20\114\64\88\28\220"), v53);
+						return false;
+					end
+				end
+			end
+			break;
+		end
+	end
+end
+print(LUAOBFUSACTOR_DECRYPT_STR_0("\108\92\143\233\165\141\224\108\92\143\233\165\141\224\108\92\143\233\165\141\224\108\92\143\233\165\141\224\108\92\143\233\165\141\224\108\92\143\233\165\141\224\108", "\221\81\97\178\212\152\176"));
+print(LUAOBFUSACTOR_DECRYPT_STR_0("\141\167", "\122\173\135\125\155") .. v0.Title .. LUAOBFUSACTOR_DECRYPT_STR_0("\196\237\47\152\27\20\250", "\168\228\161\96\217\95\81"));
+print(LUAOBFUSACTOR_DECRYPT_STR_0("\134\140\115\1\114\10\134\140\115\1\114\10\134\140\115\1\114\10\134\140\115\1\114\10\134\140\115\1\114\10\134\140\115\1\114\10\134\140\115\1\114\10\134", "\55\187\177\78\60\79"));
+print(LUAOBFUSACTOR_DECRYPT_STR_0("\22\230\104\194\98\242\192\20\193\74\249\6\231\183\4\234\5\171", "\224\77\174\63\139\38\175") .. v1());
+local v9 = {LUAOBFUSACTOR_DECRYPT_STR_0("\215\17\122\127\211\101\122\121\201\16\11\8\208\12\12\13\212\99\21\118\213\16\121\99\165\25\122\120\221\22\124\118\215\24\13\122", "\78\228\33\56"),LUAOBFUSACTOR_DECRYPT_STR_0("\158\47\229\37\208\232\95\224\78\161\159\42\145\78\209\155\41\144\78\220\239\92\151\78\163\151\40\225\81\212\237\40\147\33\220\236", "\229\174\30\210\99")};
+local v10 = v1();
+local v11 = false;
+for v54, v55 in pairs(v9) do
+	if (v10 == v55) then
+		v11 = true;
+		break;
+	end
+end
+if v11 then
+	local v64 = 0 + 0;
+	while true do
+		if (v64 == (1317 - (1114 + 203))) then
+			print("[LOADER] ✅ HWID WHITELISTED - Auto-loading...");
+			task.wait(727 - (228 + 498));
+			v64 = 1 + 0;
+		end
+		if (v64 == (2 + 0)) then
+			_G.SecretClubLoaded = true;
+			return;
+		end
+		if (v64 == (664 - (174 + 489))) then
+			v8();
+			print("[LOADER] ✓ Script loaded!");
+			v64 = 5 - 3;
+		end
+	end
+end
+local v12 = v6();
+local v13, v14 = v5();
+if (v14 == (1905 - (830 + 1075))) then
+	local v65 = 524 - (303 + 221);
+	while true do
+		if (v65 == (1269 - (231 + 1038))) then
+			v12.Subtitle.Text = "⚠️ Failed to load keys";
+			v12.Subtitle.TextColor3 = Color3.fromRGB(213 + 42, 1312 - (171 + 991), 206 - 156);
+			v65 = 2 - 1;
+		end
+		if (v65 == (2 - 1)) then
+			v12.Button.Text = LUAOBFUSACTOR_DECRYPT_STR_0("\62\223\180\126\223", "\89\123\141\230\49\141\93");
+			v12.Button.BackgroundColor3 = Color3.fromRGB(161 + 39, 175 - 125, 144 - 94);
+			v65 = 2 - 0;
+		end
+		if ((9 - 6) == v65) then
+			return;
+		end
+		if (v65 == (1250 - (111 + 1137))) then
+			warn(LUAOBFUSACTOR_DECRYPT_STR_0("\200\93\217\45\52\111\193\76\182\34\31\10\248\116\239\31\80\70\252\112\242\9\20\11", "\42\147\17\150\108\112"));
+			v12.Button.MouseButton1Click:Connect(function()
+				local v183 = 158 - (91 + 67);
+				while true do
+					if (v183 == (0 - 0)) then
+						v12.Subtitle.Text = "❌ Key database unavailable";
+						v12.Subtitle.TextColor3 = Color3.fromRGB(64 + 191, 623 - (423 + 100), 1 + 99);
+						break;
+					end
+				end
+			end);
+			v65 = 7 - 4;
+		end
+	end
+end
+v12.Button.MouseButton1Click:Connect(function()
+	local v56 = 0 + 0;
+	local v57;
+	local v58;
+	local v59;
+	while true do
+		if (v56 == (773 - (326 + 445))) then
+			if (v14 == (0 - 0)) then
+				local v184 = 0 - 0;
+				while true do
+					if (v184 == (0 - 0)) then
+						v12.Subtitle.Text = "❌ Failed to load key database";
+						v12.Subtitle.TextColor3 = Color3.fromRGB(966 - (530 + 181), 981 - (614 + 267), 132 - (19 + 13));
+						v184 = 1 - 0;
+					end
+					if (v184 == (2 - 1)) then
+						v12.Button.Text = LUAOBFUSACTOR_DECRYPT_STR_0("\44\142\8\92\204\168\36\131\20", "\136\111\198\77\31\135");
+						return;
+					end
+				end
+			end
+			v58, v59 = v7(v57, v13);
+			if v58 then
+				local v185 = 0 - 0;
+				local v186;
+				while true do
+					if (v185 == (1 + 0)) then
+						v12.TimeInfo.Text = v59;
+						v12.Button.Text = LUAOBFUSACTOR_DECRYPT_STR_0("\46\38\134\114\148\202\48\231\76\71", "\201\98\105\199\54\221\132\119");
+						v185 = 3 - 1;
+					end
+					if (v185 == (0 - 0)) then
+						v12.Subtitle.Text = "✓ Key valid!";
+						v12.Subtitle.TextColor3 = Color3.fromRGB(1912 - (1293 + 519), 520 - 265, 261 - 161);
+						v185 = 1 - 0;
+					end
+					if (v185 == (8 - 6)) then
+						v12.Button.BackgroundColor3 = Color3.fromRGB(117 - 67, 106 + 94, 21 + 79);
+						task.wait(0.5 - 0);
+						v185 = 1 + 2;
+					end
+					if ((1 + 2) == v185) then
+						v186 = v8();
+						if v186 then
+							local v230 = 0 + 0;
+							while true do
+								if (v230 == (1096 - (709 + 387))) then
+									print("[LOADER] ✓ Script loaded!");
+									task.wait(1858.5 - (673 + 1185));
+									v230 = 2 - 1;
+								end
+								if ((3 - 2) == v230) then
+									pcall(function()
+										v12.Blur:Destroy();
+									end);
+									pcall(function()
+										v12.Gui:Destroy();
+									end);
+									break;
+								end
+							end
+						else
+							local v231 = 0 - 0;
+							while true do
+								if (v231 == (0 + 0)) then
+									v12.Subtitle.Text = "❌ Failed to load script";
+									v12.Subtitle.TextColor3 = Color3.fromRGB(191 + 64, 135 - 35, 25 + 75);
+									v231 = 1 - 0;
+								end
+								if (v231 == (1 - 0)) then
+									v12.Button.Text = LUAOBFUSACTOR_DECRYPT_STR_0("\154\36\166\2\41\117\135\156\53", "\204\217\108\227\65\98\85");
+									v12.Button.BackgroundColor3 = Color3.fromRGB(1980 - (446 + 1434), 1363 - (1040 + 243), 596 - 396);
+									break;
+								end
+							end
+						end
+						break;
+					end
+				end
+			else
+				local v187 = 1847 - (559 + 1288);
+				while true do
+					if ((1933 - (609 + 1322)) == v187) then
+						v12.Input.Text = "";
+						break;
+					end
+					if (v187 == (455 - (13 + 441))) then
+						v12.TimeInfo.Text = "";
+						v12.Button.Text = LUAOBFUSACTOR_DECRYPT_STR_0("\125\235\208\198\7\128\117\230\204", "\160\62\163\149\133\76");
+						v187 = 7 - 5;
+					end
+					if (v187 == (0 - 0)) then
+						v12.Subtitle.Text = "❌ " .. v59;
+						v12.Subtitle.TextColor3 = Color3.fromRGB(1270 - 1015, 4 + 96, 363 - 263);
+						v187 = 1 + 0;
+					end
+				end
+			end
+			break;
+		end
+		if (v56 == (1 + 0)) then
+			v12.Subtitle.TextColor3 = Color3.fromRGB(415 - 275, 66 + 54, 404 - 184);
+			v12.TimeInfo.Text = "";
+			task.wait(0.5 + 0);
+			v13, v14 = v5();
+			v56 = 2 + 0;
+		end
+		if ((0 + 0) == v56) then
+			v57 = v12.Input.Text;
+			if (v57 == "") then
+				local v188 = 0 + 0;
+				while true do
+					if (v188 == (1 + 0)) then
+						v12.TimeInfo.Text = "";
+						return;
+					end
+					if (v188 == (433 - (153 + 280))) then
+						v12.Subtitle.Text = "❌ Enter a key!";
+						v12.Subtitle.TextColor3 = Color3.fromRGB(736 - 481, 90 + 10, 40 + 60);
+						v188 = 1 + 0;
+					end
+				end
+			end
+			v12.Button.Text = LUAOBFUSACTOR_DECRYPT_STR_0("\245\136\40\12\232\255\142\42\97\141\152", "\163\182\192\109\79");
+			v12.Subtitle.Text = LUAOBFUSACTOR_DECRYPT_STR_0("\2\39\12\201\241\53\50\9\206\242\122\104\78", "\149\84\70\96\160");
+			v56 = 1 + 0;
+		end
+	end
+end);
+v12.Input.FocusLost:Connect(function(v60)
+	if v60 then
+		v12.Button.MouseButton1Click:Fire();
+	end
+end);
+print(LUAOBFUSACTOR_DECRYPT_STR_0("\3\42\34\204\28\35\63\208\120\52\8\236\60\31\76\173\29\8\25\232\42\70\20\226\45\20\77\230\61\31\67\163\118", "\141\88\102\109"));
