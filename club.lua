@@ -1,22 +1,20 @@
 -- SecretClub GUI 
 -- Created by Piscar&Zamorozka
-local art = [[
-
- ####  #####  ####  ####  #####  ##### 
-#     #     ##     # #  #  #      #    
- #### #####  #     #####  #####  #     
-    # #     ##     # #  #  #      #    
-####  #####  ####  # #  #  #####  #    
-
- ####  #     #   # ####  
-#     #     #   # #   # 
-#     #     #   # ####  
-#     #     #   # #   # 
- ####  ##### #### ####  
-
-]]
-
-print(art)
+local lines = {
+    "",
+    " ####  #####  ####  ####  #####  ##### ",
+    "#     #     ##     # #  #  #      #    ",
+    " #### #####  #     #####  #####  #     ",
+    "    # #     ##     # #  #  #      #    ",
+    "####  #####  ####  # #  #  #####  #    ",
+    "",
+    " ####  #     #   # ####  ",
+    "#     #     #   # #   # ",
+    "#     #     #   # ####  ",
+    "#     #     #   # #   # ",
+    " ####  ##### #### ####  ",
+    ""
+}
 
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
@@ -1398,11 +1396,11 @@ local Sidebar = Instance.new("ScrollingFrame")
 Sidebar.Name = "Sidebar"
 Sidebar.Size = UDim2.new(0, 175, 1, -60)
 Sidebar.Position = UDim2.new(0, 0, 0, 60)
-Sidebar.BackgroundColor3 = Color3.fromRGB(16, 14, 22)
+Sidebar.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 Sidebar.BorderSizePixel = 0
-Sidebar.BackgroundTransparency = 0.5
+Sidebar.BackgroundTransparency = 0
 Sidebar.ScrollBarThickness = 4
-Sidebar.ScrollBarImageColor3 = Color3.fromRGB(100, 80, 200)
+Sidebar.ScrollBarImageColor3 = Color3.fromRGB(0, 0, 0)
 Sidebar.CanvasSize = UDim2.new(0, 0, 0, 550)
 Sidebar.Parent = MainFrame
 
@@ -1427,7 +1425,7 @@ local function createSidebarButton(iconText, text, yPos, isActive, iconColor, ta
     local Button = Instance.new("TextButton")
     Button.Name = text
     Button.Size = UDim2.new(1, -20, 0, 34)
-    Button.Position = UDim2.new(0, 10, 0, yPos)
+    Button.Position = UDim2.new(0, 10, 0, yPos)    
     Button.BackgroundColor3 = isActive and Color3.fromRGB(80, 60, 140) or Color3.fromRGB(16, 14, 22)
     Button.Text = ""
     Button.BorderSizePixel = 0
@@ -2197,86 +2195,7 @@ DanceHeader.Parent = FunRight
 
 createButton(FunRight, "🛑 Stop All Animations", function() stopAllAnimations() end)
 
--- Dropdown для анимаций
-local AnimDropdownBtn = Instance.new("TextButton")
-AnimDropdownBtn.Size = UDim2.new(1, 0, 0, 35)
-AnimDropdownBtn.BackgroundColor3 = Color3.fromRGB(35, 35, 45)
-AnimDropdownBtn.Text = "▼ Animation List"
-AnimDropdownBtn.Font = Enum.Font.Gotham
-AnimDropdownBtn.TextSize = 13
-AnimDropdownBtn.TextColor3 = Color3.fromRGB(220, 220, 220)
-AnimDropdownBtn.TextXAlignment = Enum.TextXAlignment.Left
-AnimDropdownBtn.BorderSizePixel = 0
-AnimDropdownBtn.Parent = FunRight
-
-local AnimDBCorner = Instance.new("UICorner")
-AnimDBCorner.CornerRadius = UDim.new(0, 20)
-AnimDBCorner.Parent = AnimDropdownBtn
-
-local AnimDBPadding = Instance.new("UIPadding")
-AnimDBPadding.PaddingLeft = UDim.new(0, 12)
-AnimDBPadding.Parent = AnimDropdownBtn
-
--- Контейнер для выпадающего списка
-local AnimDropdownContainer = Instance.new("Frame")
-AnimDropdownContainer.Size = UDim2.new(1, 0, 0, 0)
-AnimDropdownContainer.Position = UDim2.new(0, 0, 1, 2)
-AnimDropdownContainer.BackgroundColor3 = Color3.fromRGB(28, 28, 35)
-AnimDropdownContainer.BorderSizePixel = 0
-AnimDropdownContainer.Visible = false
-AnimDropdownContainer.ZIndex = 100
-AnimDropdownContainer.ClipsDescendants = true
-AnimDropdownContainer.Parent = AnimDropdownBtn
-
-local AnimDCCorner = Instance.new("UICorner")
-AnimDCCorner.CornerRadius = UDim.new(0, 20)
-AnimDCCorner.Parent = AnimDropdownContainer
-
--- Поиск внутри dropdown
-local AnimSearchFrame = Instance.new("Frame")
-AnimSearchFrame.Size = UDim2.new(1, -8, 0, 30)
-AnimSearchFrame.Position = UDim2.new(0, 4, 0, 4)
-AnimSearchFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
-AnimSearchFrame.BorderSizePixel = 0
-AnimSearchFrame.ZIndex = 101
-AnimSearchFrame.Parent = AnimDropdownContainer
-
-local AnimSearchCorner = Instance.new("UICorner")
-AnimSearchCorner.CornerRadius = UDim.new(0, 15)
-AnimSearchCorner.Parent = AnimSearchFrame
-
-local AnimSearchBox = Instance.new("TextBox")
-AnimSearchBox.Size = UDim2.new(1, -12, 1, -4)
-AnimSearchBox.Position = UDim2.new(0, 6, 0, 2)
-AnimSearchBox.BackgroundTransparency = 1
-AnimSearchBox.Text = ""
-AnimSearchBox.PlaceholderText = "🔍 Search animations..."
-AnimSearchBox.Font = Enum.Font.Gotham
-AnimSearchBox.TextSize = 11
-AnimSearchBox.TextColor3 = Color3.fromRGB(200, 200, 200)
-AnimSearchBox.TextXAlignment = Enum.TextXAlignment.Left
-AnimSearchBox.BorderSizePixel = 0
-AnimSearchBox.ZIndex = 102
-AnimSearchBox.Parent = AnimSearchFrame
-
--- Scroll для анимаций
-local AnimScroll = Instance.new("ScrollingFrame")
-AnimScroll.Size = UDim2.new(1, -8, 1, -42)
-AnimScroll.Position = UDim2.new(0, 4, 0, 38)
-AnimScroll.BackgroundTransparency = 1
-AnimScroll.ScrollBarThickness = 3
-AnimScroll.ScrollBarImageColor3 = Color3.fromRGB(100, 80, 200)
-AnimScroll.BorderSizePixel = 0
-AnimScroll.ZIndex = 101
-AnimScroll.Parent = AnimDropdownContainer
-
-local AnimLayout = Instance.new("UIListLayout")
-AnimLayout.Padding = UDim.new(0, 2)
-AnimLayout.Parent = AnimScroll
-
-local animButtons = {}
-local animDropdownOpen = false
-
+-- Функция воспроизведения анимаций (НЕ ТРОГАЙ!)
 local function playAnimation(data)
     if LocalPlayer.Character then
         local humanoid = LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
@@ -2376,96 +2295,250 @@ local function playAnimation(data)
     end
 end
 
--- Создаём кнопки анимаций в dropdown
-for _, anim in ipairs(animations) do
-    local emoji = "🎵"
-    if anim.name == "Twerk" then emoji = "💃"
-    elseif anim.name == "Dog" then emoji = "🐕"
-    elseif anim.name == "Plane" then emoji = "✈️"
-    elseif anim.name == "Float" then emoji = "🧘"
-    elseif anim.name == "Snake" then emoji = "🐍"
-    elseif anim.name == "Sit" or anim.name == "Sad Sit" or anim.name == "Cat Sit" or anim.name == "Sway Sit" or anim.name == "Sway Sit 2" or anim.name == "Cute Stomach Lay" then emoji = "🪑"
-    elseif anim.name == "Fake Death" or anim.name == "Peter Griffin Death" then emoji = "💀"
-    elseif anim.name == "Basketball Head Spin" then emoji = "🏀"
-    elseif anim.name == "Car" or anim.name == "Tank" then emoji = "🚗"
-    elseif anim.name == "Ragdoll" then emoji = "🤕"
-    elseif anim.name == "Helicopter" or anim.name == "Helicopter 2" or anim.name == "Helicopter 3" then emoji = "🚁"
-    elseif anim.name == "Silver Surfer" then emoji = "🏄"
-    elseif anim.name == "Skibidi Toilet" then emoji = "🚽"
-    elseif anim.name == "Jerk Off" then emoji = "🍆"
+-- ========================================
+-- УЛУЧШЕННЫЙ DROPDOWN ДЛЯ АНИМАЦИЙ
+-- ========================================
+
+-- Панель выбора анимации (как у выбора игроков)
+local AnimSelPanel = Instance.new("Frame")
+AnimSelPanel.Size = UDim2.new(1, 0, 0, 40)
+AnimSelPanel.BackgroundColor3 = Color3.fromRGB(22, 20, 30)
+AnimSelPanel.Parent = FunRight
+
+local AnimSelCorner = Instance.new("UICorner")
+AnimSelCorner.CornerRadius = UDim.new(0, 20)
+AnimSelCorner.Parent = AnimSelPanel
+
+local AnimLabel = Instance.new("TextLabel")
+AnimLabel.Size = UDim2.new(0.6, 0, 1, 0)
+AnimLabel.Position = UDim2.new(0, 8, 0, 0)
+AnimLabel.BackgroundTransparency = 1
+AnimLabel.Text = "Animation: None"
+AnimLabel.Font = Enum.Font.Gotham
+AnimLabel.TextSize = 11
+AnimLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
+AnimLabel.TextXAlignment = Enum.TextXAlignment.Left
+AnimLabel.Parent = AnimSelPanel
+
+local AnimSelectBtn = Instance.new("TextButton")
+AnimSelectBtn.Size = UDim2.new(0, 80, 0, 28)
+AnimSelectBtn.Position = UDim2.new(1, -86, 0.5, -14)
+AnimSelectBtn.BackgroundColor3 = Color3.fromRGB(100, 80, 200)
+AnimSelectBtn.Text = "Select"
+AnimSelectBtn.Font = Enum.Font.Gotham
+AnimSelectBtn.TextSize = 11
+AnimSelectBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+AnimSelectBtn.BorderSizePixel = 0
+AnimSelectBtn.Parent = AnimSelPanel
+
+local AnimSelectBtnCorner = Instance.new("UICorner")
+AnimSelectBtnCorner.CornerRadius = UDim.new(0, 20)
+AnimSelectBtnCorner.Parent = AnimSelectBtn
+
+-- Dropdown контейнер
+local AnimDropdown = Instance.new("Frame")
+AnimDropdown.Size = UDim2.new(1, 0, 0, 450)
+AnimDropdown.Position = UDim2.new(0, 0, 1, 5)
+AnimDropdown.BackgroundColor3 = Color3.fromRGB(26, 24, 34)
+AnimDropdown.BorderSizePixel = 0
+AnimDropdown.Visible = false
+AnimDropdown.ZIndex = 100
+AnimDropdown.Parent = FunRight
+
+local AnimDropCorner = Instance.new("UICorner")
+AnimDropCorner.CornerRadius = UDim.new(0, 20)
+AnimDropCorner.Parent = AnimDropdown
+
+-- Поле поиска
+local AnimSearchFrame = Instance.new("Frame")
+AnimSearchFrame.Size = UDim2.new(1, -16, 0, 32)
+AnimSearchFrame.Position = UDim2.new(0, 8, 0, 8)
+AnimSearchFrame.BackgroundColor3 = Color3.fromRGB(24, 22, 32)
+AnimSearchFrame.BorderSizePixel = 0
+AnimSearchFrame.ZIndex = 101
+AnimSearchFrame.Parent = AnimDropdown
+
+local AnimSearchCorner = Instance.new("UICorner")
+AnimSearchCorner.CornerRadius = UDim.new(0, 16)
+AnimSearchCorner.Parent = AnimSearchFrame
+
+local AnimSearchBox = Instance.new("TextBox")
+AnimSearchBox.Size = UDim2.new(1, -20, 1, 0)
+AnimSearchBox.Position = UDim2.new(0, 10, 0, 0)
+AnimSearchBox.BackgroundTransparency = 1
+AnimSearchBox.Text = ""
+AnimSearchBox.PlaceholderText = "🔍 Search animations..."
+AnimSearchBox.Font = Enum.Font.Gotham
+AnimSearchBox.TextSize = 11
+AnimSearchBox.TextColor3 = Color3.fromRGB(200, 200, 200)
+AnimSearchBox.PlaceholderColor3 = Color3.fromRGB(120, 120, 120)
+AnimSearchBox.TextXAlignment = Enum.TextXAlignment.Left
+AnimSearchBox.ClearTextOnFocus = false
+AnimSearchBox.ZIndex = 102
+AnimSearchBox.Parent = AnimSearchFrame
+
+-- Счётчик анимаций
+local AnimCount = Instance.new("TextLabel")
+AnimCount.Size = UDim2.new(1, -16, 0, 20)
+AnimCount.Position = UDim2.new(0, 8, 0, 45)
+AnimCount.BackgroundTransparency = 1
+AnimCount.Text = "Animations: 0"
+AnimCount.Font = Enum.Font.GothamBold
+AnimCount.TextSize = 10
+AnimCount.TextColor3 = Color3.fromRGB(100, 80, 200)
+AnimCount.TextXAlignment = Enum.TextXAlignment.Left
+AnimCount.ZIndex = 101
+AnimCount.Parent = AnimDropdown
+
+-- ScrollingFrame для списка анимаций
+local AnimScroll = Instance.new("ScrollingFrame")
+AnimScroll.Size = UDim2.new(1, -16, 1, -78)
+AnimScroll.Position = UDim2.new(0, 8, 0, 70)
+AnimScroll.BackgroundTransparency = 1
+AnimScroll.ScrollBarThickness = 6
+AnimScroll.ScrollBarImageColor3 = Color3.fromRGB(100, 80, 200)
+AnimScroll.CanvasSize = UDim2.new(0, 0, 0, 0)
+AnimScroll.ScrollingDirection = Enum.ScrollingDirection.Y
+AnimScroll.ZIndex = 102
+AnimScroll.Parent = AnimDropdown
+
+local AnimLayout = Instance.new("UIListLayout")
+AnimLayout.Padding = UDim.new(0, 4)
+AnimLayout.Parent = AnimScroll
+
+AnimLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+    AnimScroll.CanvasSize = UDim2.new(0, 0, 0, AnimLayout.AbsoluteContentSize.Y + 20)
+end)
+
+local animButtons = {}
+local animDropdownOpen = false
+
+-- Функция обновления списка анимаций
+local function updateAnimationList()
+    for _, btn in pairs(animButtons) do
+        if btn and btn.Parent then
+            btn:Destroy()
+        end
+    end
+    animButtons = {}
+    
+    local searchText = AnimSearchBox.Text:lower()
+    local count = 0
+    
+    for _, anim in ipairs(animations) do
+        local animName = anim.name:lower()
+        
+        if searchText == "" or animName:find(searchText, 1, true) then
+            count = count + 1
+            
+            -- Выбор эмодзи
+            local emoji = "🎵"
+            if anim.name == "Twerk" then emoji = "💃"
+            elseif anim.name == "Dog" then emoji = "🐕"
+            elseif anim.name == "Plane" then emoji = "✈️"
+            elseif anim.name == "Float" then emoji = "🧘"
+            elseif anim.name == "Snake" then emoji = "🐍"
+            elseif anim.name:find("Sit") then emoji = "🪑"
+            elseif anim.name:find("Death") then emoji = "💀"
+            elseif anim.name:find("Basketball") then emoji = "🏀"
+            elseif anim.name == "Car" or anim.name == "Tank" then emoji = "🚗"
+            elseif anim.name == "Ragdoll" then emoji = "🤕"
+            elseif anim.name:find("Helicopter") then emoji = "🚁"
+            elseif anim.name == "Silver Surfer" then emoji = "🏄"
+            elseif anim.name == "Skibidi Toilet" then emoji = "🚽"
+            elseif anim.name == "Jerk Off" then emoji = "🍆"
+            end
+            
+            local AnimBtn = Instance.new("TextButton")
+            AnimBtn.Size = UDim2.new(1, -8, 0, 32)
+            AnimBtn.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
+            AnimBtn.Text = ""
+            AnimBtn.BorderSizePixel = 0
+            AnimBtn.ZIndex = 102
+            AnimBtn.Parent = AnimScroll
+            
+            local ABCorner = Instance.new("UICorner")
+            ABCorner.CornerRadius = UDim.new(0, 16)
+            ABCorner.Parent = AnimBtn
+            
+            -- Эмодзи иконка
+            local AnimIcon = Instance.new("TextLabel")
+            AnimIcon.Size = UDim2.new(0, 24, 1, 0)
+            AnimIcon.Position = UDim2.new(0, 8, 0, 0)
+            AnimIcon.BackgroundTransparency = 1
+            AnimIcon.Text = emoji
+            AnimIcon.Font = Enum.Font.GothamBold
+            AnimIcon.TextSize = 14
+            AnimIcon.ZIndex = 103
+            AnimIcon.Parent = AnimBtn
+            
+            -- Название анимации
+            local AnimNameLabel = Instance.new("TextLabel")
+            AnimNameLabel.Size = UDim2.new(1, -40, 1, 0)
+            AnimNameLabel.Position = UDim2.new(0, 36, 0, 0)
+            AnimNameLabel.BackgroundTransparency = 1
+            AnimNameLabel.Text = anim.name
+            AnimNameLabel.Font = Enum.Font.GothamBold
+            AnimNameLabel.TextSize = 11
+            AnimNameLabel.TextColor3 = Color3.fromRGB(220, 220, 220)
+            AnimNameLabel.TextXAlignment = Enum.TextXAlignment.Left
+            AnimNameLabel.TextTruncate = Enum.TextTruncate.AtEnd
+            AnimNameLabel.ZIndex = 103
+            AnimNameLabel.Parent = AnimBtn
+            
+            -- Hover эффект
+            AnimBtn.MouseEnter:Connect(function()
+                TweenService:Create(AnimBtn, TweenInfo.new(0.15), {
+                    BackgroundColor3 = Color3.fromRGB(100, 80, 200)
+                }):Play()
+            end)
+            
+            AnimBtn.MouseLeave:Connect(function()
+                TweenService:Create(AnimBtn, TweenInfo.new(0.15), {
+                    BackgroundColor3 = Color3.fromRGB(36, 36, 36)
+                }):Play()
+            end)
+            
+            -- Клик по анимации
+            AnimBtn.MouseButton1Click:Connect(function()
+                playAnimation(anim)
+                AnimLabel.Text = "Animation: " .. anim.name
+                AnimLabel.TextColor3 = Color3.fromRGB(100, 255, 140)
+                animDropdownOpen = false
+                AnimDropdown.Visible = false
+                
+                TweenService:Create(AnimBtn, TweenInfo.new(0.1), {
+                    BackgroundColor3 = Color3.fromRGB(100, 255, 140)
+                }):Play()
+                task.wait(0.2)
+                TweenService:Create(AnimBtn, TweenInfo.new(0.2), {
+                    BackgroundColor3 = Color3.fromRGB(36, 36, 36)
+                }):Play()
+            end)
+            
+            table.insert(animButtons, AnimBtn)
+        end
     end
     
-    local AnimBtn = Instance.new("TextButton")
-    AnimBtn.Size = UDim2.new(1, -6, 0, 32)
-    AnimBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
-    AnimBtn.Text = emoji .. " " .. anim.name
-    AnimBtn.Font = Enum.Font.Gotham
-    AnimBtn.TextSize = 12
-    AnimBtn.TextColor3 = Color3.fromRGB(200, 200, 200)
-    AnimBtn.TextXAlignment = Enum.TextXAlignment.Left
-    AnimBtn.BorderSizePixel = 0
-    AnimBtn.ZIndex = 102
-    AnimBtn.Parent = AnimScroll
-    
-    local ABCorner = Instance.new("UICorner")
-    ABCorner.CornerRadius = UDim.new(0, 15)
-    ABCorner.Parent = AnimBtn
-    
-    local ABPadding = Instance.new("UIPadding")
-    ABPadding.PaddingLeft = UDim.new(0, 10)
-    ABPadding.Parent = AnimBtn
-    
-    AnimBtn.MouseEnter:Connect(function()
-        TweenService:Create(AnimBtn, TweenInfo.new(0.15), {BackgroundColor3 = Color3.fromRGB(100, 80, 200)}):Play()
-    end)
-    
-    AnimBtn.MouseLeave:Connect(function()
-        TweenService:Create(AnimBtn, TweenInfo.new(0.15), {BackgroundColor3 = Color3.fromRGB(40, 40, 50)}):Play()
-    end)
-    
-    AnimBtn.MouseButton1Click:Connect(function()
-        playAnimation(anim)
-        AnimDropdownBtn.Text = "▼ " .. anim.name
-    end)
-    
-    table.insert(animButtons, AnimBtn)
+    AnimCount.Text = string.format("Animations: %d / %d", count, #animations)
+    task.wait(0.1)
+    AnimScroll.CanvasSize = UDim2.new(0, 0, 0, AnimLayout.AbsoluteContentSize.Y + 50)
 end
 
--- Обновляем canvas size
-AnimScroll.CanvasSize = UDim2.new(0, 0, 0, AnimLayout.AbsoluteContentSize.Y + 8)
-AnimLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
-    AnimScroll.CanvasSize = UDim2.new(0, 0, 0, AnimLayout.AbsoluteContentSize.Y + 8)
+-- Поиск в реальном времени
+AnimSearchBox:GetPropertyChangedSignal("Text"):Connect(function()
+    updateAnimationList()
 end)
 
--- Обработчик открытия/закрытия dropdown
-AnimDropdownBtn.MouseButton1Click:Connect(function()
+-- Открытие/закрытие dropdown
+AnimSelectBtn.MouseButton1Click:Connect(function()
     animDropdownOpen = not animDropdownOpen
+    AnimDropdown.Visible = animDropdownOpen
     
     if animDropdownOpen then
-        AnimDropdownContainer.Visible = true
-        AnimDropdownContainer.Size = UDim2.new(1, 0, 0, 0)
-        local targetHeight = math.min(#animations * 35 + 42, 500)
-        TweenService:Create(AnimDropdownContainer, TweenInfo.new(0.25, Enum.EasingStyle.Quad), {Size = UDim2.new(1, 0, 0, targetHeight)}):Play()
-    else
-        TweenService:Create(AnimDropdownContainer, TweenInfo.new(0.2, Enum.EasingStyle.Quad), {Size = UDim2.new(1, 0, 0, 0)}):Play()
-        task.wait(0.2)
-        AnimDropdownContainer.Visible = false
-    end
-end)
-
-AnimDropdownBtn.MouseEnter:Connect(function()
-    TweenService:Create(AnimDropdownBtn, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(100, 80, 200)}):Play()
-end)
-
-AnimDropdownBtn.MouseLeave:Connect(function()
-    TweenService:Create(AnimDropdownBtn, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(35, 35, 45)}):Play()
-end)
-
--- Поиск анимаций
-AnimSearchBox:GetPropertyChangedSignal("Text"):Connect(function()
-    local searchText = string.lower(AnimSearchBox.Text)
-    for _, btn in pairs(animButtons) do
-        btn.Visible = searchText == "" or string.find(string.lower(btn.Text), searchText, 1, true) ~= nil
+        updateAnimationList()
+        AnimSearchBox.Text = ""
+        AnimSearchBox:CaptureFocus()
     end
 end)
 
@@ -2473,24 +2546,23 @@ end)
 UserInputService.InputBegan:Connect(function(input)
     if input.UserInputType == Enum.UserInputType.MouseButton1 and animDropdownOpen then
         local mousePos = UserInputService:GetMouseLocation()
-        local btnPos = AnimDropdownBtn.AbsolutePosition
-        local btnSize = AnimDropdownBtn.AbsoluteSize
-        local dropPos = AnimDropdownContainer.AbsolutePosition
-        local dropSize = AnimDropdownContainer.AbsoluteSize
+        local dropPos = AnimDropdown.AbsolutePosition
+        local dropSize = AnimDropdown.AbsoluteSize
+        local btnPos = AnimSelectBtn.AbsolutePosition
+        local btnSize = AnimSelectBtn.AbsoluteSize
         
-        local insideBtn = mousePos.X >= btnPos.X and mousePos.X <= btnPos.X + btnSize.X and 
-                         mousePos.Y >= btnPos.Y and mousePos.Y <= btnPos.Y + btnSize.Y
         local insideDrop = mousePos.X >= dropPos.X and mousePos.X <= dropPos.X + dropSize.X and 
                           mousePos.Y >= dropPos.Y and mousePos.Y <= dropPos.Y + dropSize.Y
+        local insideBtn = mousePos.X >= btnPos.X and mousePos.X <= btnPos.X + btnSize.X and 
+                         mousePos.Y >= btnPos.Y and mousePos.Y <= btnPos.Y + btnSize.Y
         
-        if not insideBtn and not insideDrop then
+        if not insideDrop and not insideBtn then
             animDropdownOpen = false
-            TweenService:Create(AnimDropdownContainer, TweenInfo.new(0.2, Enum.EasingStyle.Quad), {Size = UDim2.new(1, 0, 0, 0)}):Play()
-            task.wait(0.2)
-            AnimDropdownContainer.Visible = false
+            AnimDropdown.Visible = false
         end
     end
 end)
+
 end
 
 -- ========================================
@@ -2602,182 +2674,496 @@ AttachPage, AttachLeft, AttachRight = createPage()
 local AttachHeader = createSectionHeader("Stand Attach")
 AttachHeader.Parent = AttachLeft
 
-local targetContainer, targetTextBox = createTextBox(AttachLeft, "Target Player:", "Type name...", function(text)
-    if text ~= "" then
-        local found = SearchPlayer(text)
-        if found then
-            AttachSettings.target = found.Name
-            targetTextBox.Text = found.Name
-            print("✅ Target set: " .. found.Name)
-        else
-            print("❌ Player not found!")
+
+local standAttachActive = false
+local standAttachDistance = 2.5
+local predictionStrength = 0.5
+local followStandActive = false
+local viewStandActive = false
+local standAttachConnection = nil
+
+
+createToggle(AttachLeft, "Stand Attach", false, function(enabled)
+    standAttachActive = enabled
+    
+    if enabled then
+        -- Проверка: выбран ли игрок
+        if not AttachSettings.target then
+            print("❌ Please select a player first!")
+            return
+        end
+        
+        -- Проверка: есть ли стенд
+        local char = LocalPlayer.Character
+        if not char or not char:FindFirstChild("StandMorph") then
+            print("❌ You need to summon your stand first (Press Q)!")
+            return
+        end
+        
+        
+        standAttachConnection = RunService.RenderStepped:Connect(function()
+            local Char = LocalPlayer.Character
+            local EnemyChar = workspace.Living:FindFirstChild(AttachSettings.target)
+            
+            if Char and EnemyChar and EnemyChar:FindFirstChild("HumanoidRootPart") then
+                local Stand = Char:FindFirstChild("StandMorph")
+                
+                if Stand and Stand:FindFirstChild("HumanoidRootPart") then
+                    -- ⚡ MAX FORCE ДЛЯ МГНОВЕННОГО ПОЗИЦИОНИРОВАНИЯ
+                    local standAttach = Stand.HumanoidRootPart:FindFirstChild("StandAttach")
+                    if standAttach and standAttach:FindFirstChild("AlignPosition") then
+                        standAttach.AlignPosition.MaxForce = 9e9
+                    end
+                    
+                    -- 🎯 РАСЧЁТ ПРЕДСКАЗАНИЯ ДВИЖЕНИЯ
+                    local Prediction = EnemyChar.HumanoidRootPart.Velocity * predictionStrength
+                    
+                    if Prediction.Magnitude == 0 then
+                        -- Цель стоит на месте
+                        Stand.HumanoidRootPart.CFrame = EnemyChar.HumanoidRootPart.CFrame + 
+                            EnemyChar.HumanoidRootPart.CFrame.LookVector * standAttachDistance
+                        Stand.HumanoidRootPart.CFrame = CFrame.lookAt(
+                            Stand.HumanoidRootPart.Position, 
+                            EnemyChar.HumanoidRootPart.Position
+                        )
+                    else
+                        -- Цель движется - используем предсказание
+                        Stand.HumanoidRootPart.CFrame = EnemyChar.HumanoidRootPart.CFrame + Prediction
+                        Stand.HumanoidRootPart.CFrame = CFrame.lookAt(
+                            Stand.HumanoidRootPart.Position, 
+                            EnemyChar.HumanoidRootPart.Position
+                        )
+                    end
+                    
+                    -- 🏃 FOLLOW STAND - телепортирует тело игрока под стендом
+                    if followStandActive and Char.PrimaryPart then
+                        Char.PrimaryPart.CFrame = Stand.HumanoidRootPart.CFrame - Vector3.new(0, 25, 0)
+                    end
+                    
+                    -- 👁️ VIEW STAND - камера фокусируется на цели
+                    if viewStandActive then
+                        if not Char:FindFirstChild("FocusCam") then
+                            local FocusCam = Instance.new("ObjectValue", Char)
+                            FocusCam.Name = "FocusCam"
+                            FocusCam.Value = EnemyChar.HumanoidRootPart
+                        else
+                            Char.FocusCam.Value = EnemyChar.HumanoidRootPart
+                        end
+                    else
+                        local FocusCam = Char:FindFirstChild("FocusCam")
+                        if FocusCam then
+                            FocusCam:Destroy()
+                        end
+                    end
+                end
+            end
+        end)
+        
+        print("✅ Stand Attach ENABLED - Your stand will follow the target")
+    else
+        -- ❌ ВЫКЛЮЧЕНИЕ STAND ATTACH
+        if standAttachConnection then
+            standAttachConnection:Disconnect()
+            standAttachConnection = nil
+        end
+        
+        local Char = LocalPlayer.Character
+        if Char then
+            -- Удаляем FocusCam
+            local FocusCam = Char:FindFirstChild("FocusCam")
+            if FocusCam then
+                FocusCam:Destroy()
+            end
+            
+            -- Поднимаем тело если был Follow Stand
+            if followStandActive and Char.PrimaryPart then
+                Char.PrimaryPart.CFrame = Char.PrimaryPart.CFrame + Vector3.new(0, 25, 0)
+            end
+        end
+        
+        print("❌ Stand Attach DISABLED")
+    end
+end)
+
+-- ========================================
+-- STAND ATTACH DISTANCE SLIDER (0 - 3.5)
+-- ========================================
+createSlider(AttachLeft, "Stand Distance", 0, 3.5, 2.5, function(value) 
+    standAttachDistance = value
+    print("Stand Distance:", value)
+end)
+
+-- ========================================
+-- PREDICTION STRENGTH SLIDER (0 - 0.5)
+-- ========================================
+createSlider(AttachLeft, "Prediction", 0, 0.5, 0.5, function(value) 
+    predictionStrength = value
+    print("Prediction Strength:", value)
+end)
+
+-- ========================================
+-- FOLLOW STAND TOGGLE
+-- ========================================
+createToggle(AttachLeft, "Follow Stand(Maybe kick)", false, function(enabled)
+    followStandActive = enabled
+    
+    if enabled then
+        print("✅ Follow Stand ENABLED - Your body will teleport under stand")
+    else
+        print("❌ Follow Stand DISABLED")
+        
+        -- Поднимаем тело обратно если Stand Attach активен
+        if standAttachActive then
+            local char = LocalPlayer.Character
+            if char and char.PrimaryPart then
+                char.PrimaryPart.CFrame = char.PrimaryPart.CFrame + Vector3.new(0, 25, 0)
+            end
         end
     end
 end)
 
-createToggle(AttachLeft, "Enable Attach", false, function(enabled) AttachSettings.attach = enabled end)
-createSlider(AttachLeft, "Distance", -10, 8, 2, function(value) AttachSettings.distance = value end)
-createSlider(AttachLeft, "Height", -20, 20, 0, function(value) AttachSettings.height = value end)
+-- ========================================
+-- VIEW STAND TOGGLE
+-- ========================================
+createToggle(AttachLeft, "View Stand", false, function(enabled)
+    viewStandActive = enabled
+    
+    if enabled then
+        print("✅ View Stand ENABLED - Camera will focus on target")
+    else
+        print("❌ View Stand DISABLED")
+    end
+end)
 
-local QuickSelectHeader = createSectionHeader("Quick Select")
+-- ========================================
+-- КРАСИВОЕ МЕНЮ ВЫБОРА ИГРОКА (БЕЗ ИЗМЕНЕНИЙ)
+-- ========================================
+local QuickSelectHeader = createSectionHeader("Target Player")
 QuickSelectHeader.Parent = AttachRight
 
-local QuickSelectBtn = Instance.new("TextButton")
-QuickSelectBtn.Size = UDim2.new(1, 0, 0, 35)
-QuickSelectBtn.BackgroundColor3 = Color3.fromRGB(35, 35, 45)
-QuickSelectBtn.Text = "▼ Select Player"
-QuickSelectBtn.Font = Enum.Font.Gotham
-QuickSelectBtn.TextSize = 13
-QuickSelectBtn.TextColor3 = Color3.fromRGB(220, 220, 220)
-QuickSelectBtn.TextXAlignment = Enum.TextXAlignment.Left
-QuickSelectBtn.BorderSizePixel = 0
-QuickSelectBtn.Parent = AttachRight
+-- ========================================
+-- ПАНЕЛЬ ВЫБОРА ИГРОКА (УЛУЧШЕННЫЙ DROPDOWN)
+-- ========================================
+local PlayerSelPanel = Instance.new("Frame")
+PlayerSelPanel.Size = UDim2.new(1, 0, 0, 40)
+PlayerSelPanel.BackgroundColor3 = Color3.fromRGB(22, 20, 30)
+PlayerSelPanel.Parent = AttachRight
 
-local QSCorner = Instance.new("UICorner")
-QSCorner.CornerRadius = UDim.new(0, 20)
-QSCorner.Parent = QuickSelectBtn
+local PlayerSelCorner = Instance.new("UICorner")
+PlayerSelCorner.CornerRadius = UDim.new(0, 20)
+PlayerSelCorner.Parent = PlayerSelPanel
 
-local QSPadding = Instance.new("UIPadding")
-QSPadding.PaddingLeft = UDim.new(0, 12)
-QSPadding.Parent = QuickSelectBtn
+local PlayerLabel = Instance.new("TextLabel")
+PlayerLabel.Size = UDim2.new(0.6, 0, 1, 0)
+PlayerLabel.Position = UDim2.new(0, 8, 0, 0)
+PlayerLabel.BackgroundTransparency = 1
+PlayerLabel.Text = "Target: None"
+PlayerLabel.Font = Enum.Font.Gotham
+PlayerLabel.TextSize = 11
+PlayerLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
+PlayerLabel.TextXAlignment = Enum.TextXAlignment.Left
+PlayerLabel.Parent = PlayerSelPanel
 
-local QuickSelectDropdown = Instance.new("Frame")
-QuickSelectDropdown.Size = UDim2.new(1, 0, 0, 0)
-QuickSelectDropdown.Position = UDim2.new(0, 0, 1, 2)
-QuickSelectDropdown.BackgroundColor3 = Color3.fromRGB(28, 28, 35)
-QuickSelectDropdown.BorderSizePixel = 0
-QuickSelectDropdown.Visible = false
-QuickSelectDropdown.ZIndex = 100
-QuickSelectDropdown.ClipsDescendants = true
-QuickSelectDropdown.Parent = QuickSelectBtn
+local SelectBtn = Instance.new("TextButton")
+SelectBtn.Size = UDim2.new(0, 80, 0, 28)
+SelectBtn.Position = UDim2.new(1, -86, 0.5, -14)
+SelectBtn.BackgroundColor3 = Color3.fromRGB(100, 80, 200)
+SelectBtn.Text = "Select"
+SelectBtn.Font = Enum.Font.Gotham
+SelectBtn.TextSize = 11
+SelectBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+SelectBtn.BorderSizePixel = 0
+SelectBtn.Parent = PlayerSelPanel
 
-local QSDropCorner = Instance.new("UICorner")
-QSDropCorner.CornerRadius = UDim.new(0, 20)
-QSDropCorner.Parent = QuickSelectDropdown
+local SelectBtnCorner = Instance.new("UICorner")
+SelectBtnCorner.CornerRadius = UDim.new(0, 20)
+SelectBtnCorner.Parent = SelectBtn
 
-local QSScroll = Instance.new("ScrollingFrame")
-QSScroll.Size = UDim2.new(1, -8, 1, -8)
-QSScroll.Position = UDim2.new(0, 4, 0, 4)
-QSScroll.BackgroundTransparency = 1
-QSScroll.ScrollBarThickness = 3
-QSScroll.ScrollBarImageColor3 = Color3.fromRGB(100, 80, 200)
-QSScroll.BorderSizePixel = 0
-QSScroll.ZIndex = 101
-QSScroll.Parent = QuickSelectDropdown
+-- ========================================
+-- DROPDOWN С ПОИСКОМ
+-- ========================================
+local PlayerDropdown = Instance.new("Frame")
+PlayerDropdown.Size = UDim2.new(1, 0, 0, 450)
+PlayerDropdown.Position = UDim2.new(0, 0, 1, 5)
+PlayerDropdown.BackgroundColor3 = Color3.fromRGB(26, 24, 34)
+PlayerDropdown.BorderSizePixel = 0
+PlayerDropdown.Visible = false
+PlayerDropdown.ZIndex = 100
+PlayerDropdown.Parent = AttachRight
 
-local QSLayout = Instance.new("UIListLayout")
-QSLayout.Padding = UDim.new(0, 3)
-QSLayout.Parent = QSScroll
+local DropdownCorner = Instance.new("UICorner")
+DropdownCorner.CornerRadius = UDim.new(0, 20)
+DropdownCorner.Parent = PlayerDropdown
 
+-- Поле поиска
+local SearchFrame = Instance.new("Frame")
+SearchFrame.Size = UDim2.new(1, -16, 0, 32)
+SearchFrame.Position = UDim2.new(0, 8, 0, 8)
+SearchFrame.BackgroundColor3 = Color3.fromRGB(24, 22, 32)
+SearchFrame.BorderSizePixel = 0
+SearchFrame.ZIndex = 101
+SearchFrame.Parent = PlayerDropdown
+
+local SearchCorner = Instance.new("UICorner")
+SearchCorner.CornerRadius = UDim.new(0, 16)
+SearchCorner.Parent = SearchFrame
+
+local SearchBox = Instance.new("TextBox")
+SearchBox.Size = UDim2.new(1, -20, 1, 0)
+SearchBox.Position = UDim2.new(0, 10, 0, 0)
+SearchBox.BackgroundTransparency = 1
+SearchBox.Text = ""
+SearchBox.PlaceholderText = "🔍 Search player..."
+SearchBox.Font = Enum.Font.Gotham
+SearchBox.TextSize = 11
+SearchBox.TextColor3 = Color3.fromRGB(200, 200, 200)
+SearchBox.PlaceholderColor3 = Color3.fromRGB(120, 120, 120)
+SearchBox.TextXAlignment = Enum.TextXAlignment.Left
+SearchBox.ClearTextOnFocus = false
+SearchBox.ZIndex = 102
+SearchBox.Parent = SearchFrame
+
+-- Счётчик игроков
+local PlayerCount = Instance.new("TextLabel")
+PlayerCount.Size = UDim2.new(1, -16, 0, 20)
+PlayerCount.Position = UDim2.new(0, 8, 0, 45)
+PlayerCount.BackgroundTransparency = 1
+PlayerCount.Text = "Players: 0"
+PlayerCount.Font = Enum.Font.GothamBold
+PlayerCount.TextSize = 10
+PlayerCount.TextColor3 = Color3.fromRGB(100, 80, 200)
+PlayerCount.TextXAlignment = Enum.TextXAlignment.Left
+PlayerCount.ZIndex = 101
+PlayerCount.Parent = PlayerDropdown
+
+-- ScrollingFrame для списка игроков
+local PlayerScroll = Instance.new("ScrollingFrame")
+PlayerScroll.Size = UDim2.new(1, -16, 1, -78)
+PlayerScroll.Position = UDim2.new(0, 8, 0, 70)
+PlayerScroll.BackgroundTransparency = 1
+PlayerScroll.ScrollBarThickness = 6
+PlayerScroll.ScrollBarImageColor3 = Color3.fromRGB(100, 80, 200)
+PlayerScroll.CanvasSize = UDim2.new(0, 0, 0, 0)
+PlayerScroll.ScrollingDirection = Enum.ScrollingDirection.Y
+PlayerScroll.ZIndex = 102
+PlayerScroll.Parent = PlayerDropdown
+
+local PlayerLayout = Instance.new("UIListLayout")
+PlayerLayout.Padding = UDim.new(0, 4)
+PlayerLayout.Parent = PlayerScroll
+
+PlayerLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+    PlayerScroll.CanvasSize = UDim2.new(0, 0, 0, PlayerLayout.AbsoluteContentSize.Y + 20)
+end)
+
+local playerButtons = {}
 local dropdownOpen = false
 
-local function updateQuickSelectList()
-    for _, child in pairs(QSScroll:GetChildren()) do
-        if child:IsA("TextButton") then
-            child:Destroy()
+-- Функция обновления списка игроков
+local function updatePlayerList()
+    for _, btn in pairs(playerButtons) do
+        if btn and btn.Parent then
+            btn:Destroy()
         end
     end
+    playerButtons = {}
     
-    local playerCount = 0
+    local searchText = SearchBox.Text:lower()
+    local count = 0
+    
     for _, plr in pairs(Players:GetPlayers()) do
         if plr ~= LocalPlayer then
-            playerCount = playerCount + 1
-            local PlayerBtn = Instance.new("TextButton")
-            PlayerBtn.Size = UDim2.new(1, -6, 0, 32)
-            PlayerBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
-            PlayerBtn.Text = "👤 " .. plr.Name
-            PlayerBtn.Font = Enum.Font.Gotham
-            PlayerBtn.TextSize = 12
-            PlayerBtn.TextColor3 = Color3.fromRGB(200, 200, 200)
-            PlayerBtn.TextXAlignment = Enum.TextXAlignment.Left
-            PlayerBtn.BorderSizePixel = 0
-            PlayerBtn.ZIndex = 102
-            PlayerBtn.Parent = QSScroll
+            local displayName = plr.DisplayName:lower()
+            local username = plr.Name:lower()
             
-            local PBCorner = Instance.new("UICorner")
-            PBCorner.CornerRadius = UDim.new(0, 15)
-            PBCorner.Parent = PlayerBtn
-            
-            local PBPadding = Instance.new("UIPadding")
-            PBPadding.PaddingLeft = UDim.new(0, 10)
-            PBPadding.Parent = PlayerBtn
-            
-            PlayerBtn.MouseEnter:Connect(function()
-                TweenService:Create(PlayerBtn, TweenInfo.new(0.15), {BackgroundColor3 = Color3.fromRGB(100, 80, 200)}):Play()
-            end)
-            
-            PlayerBtn.MouseLeave:Connect(function()
-                TweenService:Create(PlayerBtn, TweenInfo.new(0.15), {BackgroundColor3 = Color3.fromRGB(40, 40, 50)}):Play()
-            end)
-            
-            PlayerBtn.MouseButton1Click:Connect(function()
-                AttachSettings.target = plr.Name
-                targetTextBox.Text = plr.Name
-                QuickSelectBtn.Text = "▼ " .. plr.Name
-                dropdownOpen = false
-                TweenService:Create(QuickSelectDropdown, TweenInfo.new(0.2, Enum.EasingStyle.Quad), {Size = UDim2.new(1, 0, 0, 0)}):Play()
-                task.wait(0.2)
-                QuickSelectDropdown.Visible = false
-            end)
+            if searchText == "" or displayName:find(searchText, 1, true) or username:find(searchText, 1, true) then
+                count = count + 1
+                
+                local PlayerBtn = Instance.new("TextButton")
+                PlayerBtn.Size = UDim2.new(1, -8, 0, 32)
+                PlayerBtn.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
+                PlayerBtn.Text = ""
+                PlayerBtn.BorderSizePixel = 0
+                PlayerBtn.ZIndex = 102
+                PlayerBtn.Parent = PlayerScroll
+                
+                local PBCorner = Instance.new("UICorner")
+                PBCorner.CornerRadius = UDim.new(0, 16)
+                PBCorner.Parent = PlayerBtn
+                
+                -- Иконка игрока
+                local PlayerIcon = Instance.new("TextLabel")
+                PlayerIcon.Size = UDim2.new(0, 24, 1, 0)
+                PlayerIcon.Position = UDim2.new(0, 8, 0, 0)
+                PlayerIcon.BackgroundTransparency = 1
+                PlayerIcon.Text = "👤"
+                PlayerIcon.Font = Enum.Font.GothamBold
+                PlayerIcon.TextSize = 14
+                PlayerIcon.TextColor3 = Color3.fromRGB(100, 80, 200)
+                PlayerIcon.ZIndex = 103
+                PlayerIcon.Parent = PlayerBtn
+                
+                -- Имя игрока
+                local PlayerNameLabel = Instance.new("TextLabel")
+                PlayerNameLabel.Size = UDim2.new(1, -70, 0, 14)
+                PlayerNameLabel.Position = UDim2.new(0, 36, 0, 4)
+                PlayerNameLabel.BackgroundTransparency = 1
+                PlayerNameLabel.Text = plr.DisplayName
+                PlayerNameLabel.Font = Enum.Font.GothamBold
+                PlayerNameLabel.TextSize = 11
+                PlayerNameLabel.TextColor3 = Color3.fromRGB(220, 220, 220)
+                PlayerNameLabel.TextXAlignment = Enum.TextXAlignment.Left
+                PlayerNameLabel.TextTruncate = Enum.TextTruncate.AtEnd
+                PlayerNameLabel.ZIndex = 103
+                PlayerNameLabel.Parent = PlayerBtn
+                
+                -- Username
+                local UsernameLabel = Instance.new("TextLabel")
+                UsernameLabel.Size = UDim2.new(1, -70, 0, 12)
+                UsernameLabel.Position = UDim2.new(0, 36, 0, 17)
+                UsernameLabel.BackgroundTransparency = 1
+                UsernameLabel.Text = "@" .. plr.Name
+                UsernameLabel.Font = Enum.Font.Gotham
+                UsernameLabel.TextSize = 9
+                UsernameLabel.TextColor3 = Color3.fromRGB(140, 140, 140)
+                UsernameLabel.TextXAlignment = Enum.TextXAlignment.Left
+                UsernameLabel.TextTruncate = Enum.TextTruncate.AtEnd
+                UsernameLabel.ZIndex = 103
+                UsernameLabel.Parent = PlayerBtn
+                
+                -- Индикатор выбора
+                local SelectedIndicator = Instance.new("Frame")
+                SelectedIndicator.Name = "SelectedIndicator"
+                SelectedIndicator.Size = UDim2.new(0, 4, 0, 20)
+                SelectedIndicator.Position = UDim2.new(0, 2, 0.5, -10)
+                SelectedIndicator.BackgroundColor3 = Color3.fromRGB(100, 255, 140)
+                SelectedIndicator.BorderSizePixel = 0
+                SelectedIndicator.Visible = AttachSettings.target == plr.Name
+                SelectedIndicator.ZIndex = 104
+                SelectedIndicator.Parent = PlayerBtn
+                
+                local IndicatorCorner = Instance.new("UICorner")
+                IndicatorCorner.CornerRadius = UDim.new(1, 0)
+                IndicatorCorner.Parent = SelectedIndicator
+                
+                -- Hover эффект
+                PlayerBtn.MouseEnter:Connect(function()
+                    TweenService:Create(PlayerBtn, TweenInfo.new(0.15), {
+                        BackgroundColor3 = Color3.fromRGB(100, 80, 200)
+                    }):Play()
+                end)
+                
+                PlayerBtn.MouseLeave:Connect(function()
+                    TweenService:Create(PlayerBtn, TweenInfo.new(0.15), {
+                        BackgroundColor3 = Color3.fromRGB(36, 36, 36)
+                    }):Play()
+                end)
+                
+                -- Клик по игроку
+                PlayerBtn.MouseButton1Click:Connect(function()
+                    AttachSettings.target = plr.Name
+                    PlayerLabel.Text = "Target: " .. plr.DisplayName
+                    PlayerLabel.TextColor3 = Color3.fromRGB(100, 255, 140)
+                    
+                    -- Обновляем индикаторы выбора
+                    for _, btn in pairs(playerButtons) do
+                        local indicator = btn:FindFirstChild("SelectedIndicator")
+                        if indicator then
+                            indicator.Visible = false
+                        end
+                    end
+                    SelectedIndicator.Visible = true
+                    
+                    -- Закрываем dropdown
+                    dropdownOpen = false
+                    PlayerDropdown.Visible = false
+                    
+                    -- Анимация подтверждения
+                    TweenService:Create(PlayerBtn, TweenInfo.new(0.1), {
+                        BackgroundColor3 = Color3.fromRGB(100, 255, 140)
+                    }):Play()
+                    task.wait(0.2)
+                    TweenService:Create(PlayerBtn, TweenInfo.new(0.2), {
+                        BackgroundColor3 = Color3.fromRGB(36, 36, 36)
+                    }):Play()
+                end)
+                
+                table.insert(playerButtons, PlayerBtn)
+            end
         end
     end
     
-    local contentHeight = playerCount * 35
-    QSScroll.CanvasSize = UDim2.new(0, 0, 0, contentHeight)
+    PlayerCount.Text = string.format("Players: %d / %d", count, #Players:GetPlayers() - 1)
+    task.wait(0.1)
+    PlayerScroll.CanvasSize = UDim2.new(0, 0, 0, PlayerLayout.AbsoluteContentSize.Y + 50)
 end
 
-QuickSelectBtn.MouseButton1Click:Connect(function()
+-- Поиск в реальном времени
+SearchBox:GetPropertyChangedSignal("Text"):Connect(function()
+    updatePlayerList()
+end)
+
+-- Открытие/закрытие dropdown
+SelectBtn.MouseButton1Click:Connect(function()
     dropdownOpen = not dropdownOpen
+    PlayerDropdown.Visible = dropdownOpen
     
     if dropdownOpen then
-        updateQuickSelectList()
-        QuickSelectDropdown.Visible = true
-        QuickSelectDropdown.Size = UDim2.new(1, 0, 0, 0)
-        local targetHeight = math.min(#Players:GetPlayers() * 35, 200)
-        TweenService:Create(QuickSelectDropdown, TweenInfo.new(0.25, Enum.EasingStyle.Quad), {Size = UDim2.new(1, 0, 0, targetHeight)}):Play()
-    else
-        TweenService:Create(QuickSelectDropdown, TweenInfo.new(0.2, Enum.EasingStyle.Quad), {Size = UDim2.new(1, 0, 0, 0)}):Play()
-        task.wait(0.2)
-        QuickSelectDropdown.Visible = false
+        updatePlayerList()
+        SearchBox.Text = ""
+        SearchBox:CaptureFocus()
     end
 end)
 
-QuickSelectBtn.MouseEnter:Connect(function()
-    TweenService:Create(QuickSelectBtn, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(100, 80, 200)}):Play()
-end)
-
-QuickSelectBtn.MouseLeave:Connect(function()
-    TweenService:Create(QuickSelectBtn, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(35, 35, 45)}):Play()
-end)
-
-Players.PlayerAdded:Connect(function(plr)
-    task.wait(0.3)
-    if dropdownOpen then
-        updateQuickSelectList()
-    end
-end)
-
+-- Закрытие при клике вне dropdown
 UserInputService.InputBegan:Connect(function(input)
     if input.UserInputType == Enum.UserInputType.MouseButton1 and dropdownOpen then
         local mousePos = UserInputService:GetMouseLocation()
-        local btnPos = QuickSelectBtn.AbsolutePosition
-        local btnSize = QuickSelectBtn.AbsoluteSize
-        local dropPos = QuickSelectDropdown.AbsolutePosition
-        local dropSize = QuickSelectDropdown.AbsoluteSize
+        local dropPos = PlayerDropdown.AbsolutePosition
+        local dropSize = PlayerDropdown.AbsoluteSize
+        local btnPos = SelectBtn.AbsolutePosition
+        local btnSize = SelectBtn.AbsoluteSize
         
-        local insideBtn = mousePos.X >= btnPos.X and mousePos.X <= btnPos.X + btnSize.X and 
-                         mousePos.Y >= btnPos.Y and mousePos.Y <= btnPos.Y + btnSize.Y
         local insideDrop = mousePos.X >= dropPos.X and mousePos.X <= dropPos.X + dropSize.X and 
                           mousePos.Y >= dropPos.Y and mousePos.Y <= dropPos.Y + dropSize.Y
+        local insideBtn = mousePos.X >= btnPos.X and mousePos.X <= btnPos.X + btnSize.X and 
+                         mousePos.Y >= btnPos.Y and mousePos.Y <= btnPos.Y + btnSize.Y
         
-        if not insideBtn and not insideDrop then
+        if not insideDrop and not insideBtn then
             dropdownOpen = false
-            TweenService:Create(QuickSelectDropdown, TweenInfo.new(0.2, Enum.EasingStyle.Quad), {Size = UDim2.new(1, 0, 0, 0)}):Play()
-            task.wait(0.2)
-            QuickSelectDropdown.Visible = false
+            PlayerDropdown.Visible = false
         end
     end
 end)
+
+-- Автообновление списка каждые 3 секунды
+task.spawn(function()
+    while task.wait(3) do
+        if dropdownOpen then
+            updatePlayerList()
+        end
+    end
+end)
+
+-- Обновление при входе/выходе игроков
+Players.PlayerAdded:Connect(function()
+    task.wait(0.5)
+    if dropdownOpen then
+        updatePlayerList()
+    end
+end)
+
+Players.PlayerRemoving:Connect(function(plr)
+    if AttachSettings.target == plr.Name then
+        AttachSettings.target = nil
+        PlayerLabel.Text = "Target: None"
+        PlayerLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
+    end
+    if dropdownOpen then
+        updatePlayerList()
+    end
+end)
+
 end
 
 -- ========================================
@@ -2900,6 +3286,7 @@ DropdownCorner.CornerRadius = UDim.new(0, 20)
 DropdownCorner.Parent = PlayerDropdown
 
 local DropdownStroke = Instance.new("UIStroke")
+DropdownStroke.Transparency = 1
 DropdownStroke.Color = Color3.fromRGB(100, 80, 200)
 DropdownStroke.Thickness = 2
 DropdownStroke.Parent = PlayerDropdown
@@ -3338,11 +3725,11 @@ local function ApplyTheme(theme)
         TweenService:Create(mainStroke, TweenInfo.new(0.3), {Color = theme.Color}):Play()
     end
     
-    -- Обновляем TopBar Stroke
+     --Обновляем TopBar Stroke
     local topStroke = TopBar:FindFirstChildOfClass("UIStroke")
     if topStroke then
-        TweenService:Create(topStroke, TweenInfo.new(0.3), {Color = theme.Color}):Play()
-    end
+         TweenService:Create(topStroke, TweenInfo.new(0.3), {Color = theme.Color}):Play()
+ end
 end
 
 -- ========================================
@@ -3805,13 +4192,13 @@ CustomColorBtn.MouseButton1Click:Connect(function()
         TweenService:Create(settingsStroke, TweenInfo.new(0.3), {Color = newColor}):Play()
         
         -- Обновляем MainFrame Stroke
-        local mainStroke = MainFrame:FindFirstChildOfClass("UIStroke")
-        if not mainStroke then
-            mainStroke = Instance.new("UIStroke")
-            mainStroke.Thickness = 2
-            mainStroke.Parent = MainFrame
-        end
-        TweenService:Create(mainStroke, TweenInfo.new(0.3), {Color = newColor}):Play()
+       -- local mainStroke = MainFrame:FindFirstChildOfClass("UIStroke")
+       -- if not mainStroke then
+          --  mainStroke = Instance.new("UIStroke")
+           -- mainStroke.Thickness = 2
+           -- mainStroke.Parent = MainFrame
+       -- end
+       -- TweenService:Create(mainStroke, TweenInfo.new(0.3), {Color = newColor}):Play()
         
         -- Обновляем TopBar Stroke
         local topStroke = TopBar:FindFirstChildOfClass("UIStroke")
@@ -4083,6 +4470,22 @@ RunService.Heartbeat:Connect(function()
             )
         end
     end
+    task.spawn(function()
+    while task.wait() do
+        if AttachSettings.attach and AttachSettings.target then
+            local stand = GetStand()
+            local target = SearchPlayer(AttachSettings.target)
+            
+            if stand and target and target.Character and target.Character:FindFirstChild("HumanoidRootPart") then
+                stand:SetPrimaryPartCFrame(
+                    target.Character.HumanoidRootPart.CFrame * 
+                    CFrame.new(0, AttachSettings.height, -AttachSettings.distance) * 
+                    CFrame.Angles(0, math.rad(180), 0)
+                )
+            end
+        end
+    end
+end)
 end)
 
 -- ========================================
@@ -4764,4 +5167,3 @@ task.spawn(function()
     print("[Watermark] ✓ Loaded in top-right corner!")
 end)  -- Closes task.spawn(function() from line 3511
 end
-
