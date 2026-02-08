@@ -2186,35 +2186,52 @@ FunPage, FunLeft, FunRight = createPage()
 -- ========================================
 -- AUTO KILL ROOM SETTINGS
 -- ========================================
+--// Мягкий Anticheat Bypass (не ломает игру)
 local success = pcall(function()
-    -- Disable all anticheat remote events
+    -- Disable только античит логи, но НЕ ВСЕ логи
     for i,v in pairs(getconnections(game:GetService("LogService").MessageOut)) do
-        v:Disable()
+        local func = debug.getinfo(v.Function)
+        -- Отключаем только если это античит
+        if func and func.source and (func.source:find("Anticheat") or func.source:find("AntiExploit")) then
+            v:Disable()
+        end
     end
     
     for i,v in pairs(getconnections(game:GetService("ScriptContext").Error)) do
-        v:Disable()
-    end
-end)
-
--- Bypass client effects
-pcall(function()
-    if game.ReplicatedStorage:FindFirstChild("ClientFX") then
-        for i,v in getconnections(game.ReplicatedStorage.ClientFX.OnClientEvent) do
+        local func = debug.getinfo(v.Function)
+        if func and func.source and (func.source:find("Anticheat") or func.source:find("AntiExploit")) then
             v:Disable()
         end
     end
 end)
 
--- Advanced Raycast Hook
+-- НЕ ОТКЛЮЧАЕМ ClientFX! Он нужен для стендов!
+-- Вместо этого фильтруем только античит вызовы
 pcall(function()
-    local oldraycast = workspace.Raycast
-    workspace.Raycast = function(...)
-        return nil
+    if game.ReplicatedStorage:FindFirstChild("ClientFX") then
+        -- Не отключаем полностью!
+        -- ClientFX нужен для визуализации стендов
     end
 end)
 
--- Namecall Hook with better protection
+-- Умный Raycast Hook (не ломает всё)
+pcall(function()
+    local oldraycast = workspace.Raycast
+    workspace.Raycast = function(self, origin, direction, params)
+        -- Пропускаем нормальные райкасты
+        -- Блокируем только подозрительные античит проверки
+        local source = debug.getinfo(2, "s").source
+        
+        if source and (source:find("Anticheat") or source:find("AntiExploit")) then
+            return nil -- Блокируем античит
+        end
+        
+        -- Все остальные райкасты работают нормально
+        return oldraycast(self, origin, direction, params)
+    end
+end)
+
+-- Namecall Hook (этот можно оставить как есть)
 pcall(function()
     local mt = getrawmetatable(game)
     local oldnamecall = mt.__namecall
@@ -2242,7 +2259,7 @@ pcall(function()
     setreadonly(mt, true)
 end)
 
--- Create bypass marker
+-- Bypass marker
 if workspace:FindFirstChild("AnticheatBypass") then
     workspace.AnticheatBypass:Destroy()
 end
@@ -2253,11 +2270,7 @@ bypass.Transparency = 1
 bypass.Anchored = true
 bypass.CanCollide = false
 bypass.Size = Vector3.new(1, 1, 1)
-
-print("Enhanced Anticheat Bypass loaded!")
-
-wait(1)
-
+    
 
 local autoKillSettings = {
     enabled = false,
