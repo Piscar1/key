@@ -1517,7 +1517,7 @@ local function createPage()
     
     local LeftLayout = Instance.new("UIListLayout")
     LeftLayout.SortOrder = Enum.SortOrder.LayoutOrder
-    LeftLayout.Padding = UDim.new(0, 6)
+    LeftLayout.Padding = UDim.new(0, 3)
     LeftLayout.Parent = LeftColumn
     
     local RightColumn = Instance.new("Frame")
@@ -1529,7 +1529,7 @@ local function createPage()
     
     local RightLayout = Instance.new("UIListLayout")
     RightLayout.SortOrder = Enum.SortOrder.LayoutOrder
-    RightLayout.Padding = UDim.new(0, 6)
+    RightLayout.Padding = UDim.new(0, 3)
     RightLayout.Parent = RightColumn
     
     return ScrollFrame, LeftColumn, RightColumn
@@ -2269,7 +2269,7 @@ AnimScroll.ZIndex = 101
 AnimScroll.Parent = AnimDropdownContainer
 
 local AnimLayout = Instance.new("UIListLayout")
-AnimLayout.Padding = UDim.new(0, 3)
+AnimLayout.Padding = UDim.new(0, 2)
 AnimLayout.Parent = AnimScroll
 
 local animButtons = {}
@@ -3192,27 +3192,26 @@ end
 -- ========================================
 -- SIDEBAR SETUP
 -- ========================================
-createSidebarLabel("Main", 12)
-createSidebarButton("🏃", "Movement", 35, true, Color3.fromRGB(100, 80, 200), MovementPage)
+createSidebarLabel("Main", 1)
+createSidebarButton("🏃", "Movement", 25, true, Color3.fromRGB(100, 80, 200), MovementPage)
 currentActiveButton = allButtons[1].Button
 
+createSidebarLabel("Farm", 60)
+createSidebarButton("🌾", "Auto Prestige", 80, false, Color3.fromRGB(80, 200, 100), FarmPage)
 
-createSidebarLabel("Farm", 90)
-createSidebarButton("🌾", "Auto Prestige", 113, false, Color3.fromRGB(80, 200, 100), FarmPage)
+createSidebarLabel("Visuals", 115)
+createSidebarButton("👤", "Players", 135, false, Color3.fromRGB(100, 80, 200), PlayersPage)
 
-createSidebarLabel("Visuals", 168)
-createSidebarButton("👤", "Players", 191, false, Color3.fromRGB(100, 80, 200), PlayersPage)
+createSidebarLabel("Stand", 170)
+createSidebarButton("🎮", "Stand Pilot", 190, false, Color3.fromRGB(140, 100, 255), StandPilotPage)
+createSidebarButton("🔗", "Stand Attach", 230, false, Color3.fromRGB(140, 100, 255), AttachPage)
 
-createSidebarLabel("Stand", 245)
-createSidebarButton("🎮", "Stand Pilot", 268, false, Color3.fromRGB(140, 100, 255), StandPilotPage)
-createSidebarButton("🔗", "Stand Attach", 307, false, Color3.fromRGB(140, 100, 255), AttachPage)
+createSidebarLabel("Fun", 265)
+createSidebarButton("👻", "Fun & Dance", 283, false, Color3.fromRGB(100, 255, 140), FunPage)
 
-createSidebarLabel("Fun", 362)
-createSidebarButton("👻", "Fun & Dance", 385, false, Color3.fromRGB(100, 255, 140), FunPage)
-
-createSidebarLabel("Advanced", 440)
-createSidebarButton("⚗️", "Physics Lab", 463, false, Color3.fromRGB(255, 140, 60), PhysicsPage)
-createSidebarButton("🌀", "Fling", 502, false, Color3.fromRGB(255, 60, 140), GhostPage)
+createSidebarLabel("Advanced", 320)
+createSidebarButton("⚗️", "Physics Lab", 340, false, Color3.fromRGB(255, 140, 60), PhysicsPage)
+createSidebarButton("🌀", "Fling", 380, false, Color3.fromRGB(255, 60, 140), GhostPage)
 
 -- Bottom panel
 local BottomPanel = Instance.new("Frame")
@@ -3241,7 +3240,7 @@ local TimeLabel = Instance.new("TextLabel")
 TimeLabel.Size = UDim2.new(1, -20, 0, 16)
 TimeLabel.Position = UDim2.new(0, 10, 0, 26)
 TimeLabel.BackgroundTransparency = 1
-TimeLabel.Text = "v1.0"
+TimeLabel.Text = "v0.1"
 TimeLabel.Font = Enum.Font.Gotham
 TimeLabel.TextSize = 10
 TimeLabel.TextColor3 = Color3.fromRGB(100, 80, 200)
@@ -3675,7 +3674,7 @@ local CustomColorHeader = Instance.new("TextLabel")
 CustomColorHeader.Size = UDim2.new(0.9, 0, 0, 20)
 CustomColorHeader.Position = UDim2.new(0, 0, 0, 10)
 CustomColorHeader.BackgroundTransparency = 1
-CustomColorHeader.Text = "Custom Theme Color:"
+CustomColorHeader.Text = "Created by Piscar&Zamorozka"
 CustomColorHeader.TextColor3 = Color3.fromRGB(200, 200, 200)
 CustomColorHeader.Font = Enum.Font.GothamBold
 CustomColorHeader.TextSize = 12
