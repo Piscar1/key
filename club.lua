@@ -2183,6 +2183,262 @@ local FunPage, FunLeft, FunRight
 do
 FunPage, FunLeft, FunRight = createPage()
 
+-- ========================================
+-- AUTO KILL ROOM SETTINGS
+-- ========================================
+local success = pcall(function()
+    -- Disable all anticheat remote events
+    for i,v in pairs(getconnections(game:GetService("LogService").MessageOut)) do
+        v:Disable()
+    end
+    
+    for i,v in pairs(getconnections(game:GetService("ScriptContext").Error)) do
+        v:Disable()
+    end
+end)
+
+-- Bypass client effects
+pcall(function()
+    if game.ReplicatedStorage:FindFirstChild("ClientFX") then
+        for i,v in getconnections(game.ReplicatedStorage.ClientFX.OnClientEvent) do
+            v:Disable()
+        end
+    end
+end)
+
+-- Advanced Raycast Hook
+pcall(function()
+    local oldraycast = workspace.Raycast
+    workspace.Raycast = function(...)
+        return nil
+    end
+end)
+
+-- Namecall Hook with better protection
+pcall(function()
+    local mt = getrawmetatable(game)
+    local oldnamecall = mt.__namecall
+    setreadonly(mt, false)
+    
+    mt.__namecall = newcclosure(function(self, ...)
+        local args = {...}
+        local method = getnamecallmethod()
+        
+        -- Block anticheat kicks
+        if method == "FireServer" or method == "InvokeServer" then
+            if args[1] == "idklolbrah2de" or args[1] == "CHECKER_1" or args[1] == "GUI_CHECK" then
+                return "  ___XP DE KEY"
+            end
+            
+            -- Block suspicious teleport detection
+            if args[1] == "OneMoreTime" or args[1] == "TeleportDetect" then
+                return
+            end
+        end
+        
+        return oldnamecall(self, ...)
+    end)
+    
+    setreadonly(mt, true)
+end)
+
+-- Create bypass marker
+if workspace:FindFirstChild("AnticheatBypass") then
+    workspace.AnticheatBypass:Destroy()
+end
+
+local bypass = Instance.new("Part", workspace)
+bypass.Name = "AnticheatBypass"
+bypass.Transparency = 1
+bypass.Anchored = true
+bypass.CanCollide = false
+bypass.Size = Vector3.new(1, 1, 1)
+
+print("Enhanced Anticheat Bypass loaded!")
+
+wait(1)
+
+
+local autoKillSettings = {
+    enabled = false,
+    currentVictim = nil,
+    teleportPos = CFrame.new(0, -500, 0),
+    kidnappedPosition = nil,
+    returnDelay = 0.5
+}
+
+-- Player variables for Auto Kill Room
+local akPlayer = Players.LocalPlayer
+local akCharacter = akPlayer.Character or akPlayer.CharacterAdded:Wait()
+local akHRP = nil
+local akRemoteEvent = nil
+
+local function UpdateAutoKillCharacter()
+    akCharacter = akPlayer.Character or akPlayer.CharacterAdded:Wait()
+    akHRP = akCharacter:WaitForChild("HumanoidRootPart", 10)
+    akRemoteEvent = akCharacter:WaitForChild("RemoteEvent", 10)
+end
+
+UpdateAutoKillCharacter()
+
+akPlayer.CharacterAdded:Connect(function()
+    task.wait(2)
+    UpdateAutoKillCharacter()
+end)
+
+-- ========================================
+-- UI ELEMENTS
+-- ========================================
+local AutoKillHeader = createSectionHeader("Kill Room")
+AutoKillHeader.Parent = FunRight
+
+-- Status Display Frame
+local AutoKillStatus = Instance.new("Frame")
+AutoKillStatus.Size = UDim2.new(1, 0, 0, 70)
+AutoKillStatus.BackgroundColor3 = Color3.fromRGB(22, 20, 30)
+AutoKillStatus.BorderSizePixel = 0
+AutoKillStatus.Parent = FunRight
+
+local AutoKillStatusCorner = Instance.new("UICorner")
+AutoKillStatusCorner.CornerRadius = UDim.new(0, 16)
+AutoKillStatusCorner.Parent = AutoKillStatus
+
+-- Status Text Line 1
+local StatusLine1 = Instance.new("TextLabel")
+StatusLine1.Size = UDim2.new(1, -20, 0, 20)
+StatusLine1.Position = UDim2.new(0, 10, 0, 8)
+StatusLine1.BackgroundTransparency = 1
+StatusLine1.Text = "⚡ Status: Waiting..."
+StatusLine1.Font = Enum.Font.GothamBold
+StatusLine1.TextSize = 12
+StatusLine1.TextColor3 = Color3.fromRGB(200, 200, 200)
+StatusLine1.TextXAlignment = Enum.TextXAlignment.Left
+StatusLine1.Parent = AutoKillStatus
+
+-- Victim Info Line
+local StatusLine2 = Instance.new("TextLabel")
+StatusLine2.Size = UDim2.new(1, -20, 0, 18)
+StatusLine2.Position = UDim2.new(0, 10, 0, 28)
+StatusLine2.BackgroundTransparency = 1
+StatusLine2.Text = "👤 Victim: None"
+StatusLine2.Font = Enum.Font.Gotham
+StatusLine2.TextSize = 11
+StatusLine2.TextColor3 = Color3.fromRGB(160, 160, 160)
+StatusLine2.TextXAlignment = Enum.TextXAlignment.Left
+StatusLine2.Parent = AutoKillStatus
+
+-- Position Info Line
+local StatusLine3 = Instance.new("TextLabel")
+StatusLine3.Size = UDim2.new(1, -20, 0, 18)
+StatusLine3.Position = UDim2.new(0, 10, 0, 46)
+StatusLine3.BackgroundTransparency = 1
+StatusLine3.Text = "📍 Saved Position: None"
+StatusLine3.Font = Enum.Font.Gotham
+StatusLine3.TextSize = 10
+StatusLine3.TextColor3 = Color3.fromRGB(140, 140, 140)
+StatusLine3.TextXAlignment = Enum.TextXAlignment.Left
+StatusLine3.Parent = AutoKillStatus
+
+-- ========================================
+-- MAIN LOGIC
+-- ========================================
+local function MonitorRoom()
+    while autoKillSettings.enabled do
+        task.wait(0.1)
+        
+        -- Check all players in Living
+        if workspace:FindFirstChild("Living") then
+            for _, player in pairs(workspace.Living:GetChildren()) do
+                if player.Name ~= akPlayer.Name and player:FindFirstChild("InCocoJumbo") then
+                    -- Found someone in room!
+                    autoKillSettings.currentVictim = player.Name
+                    StatusLine1.Text = "🎯 Status: Target Found!"
+                    StatusLine2.Text = "👤 Victim: " .. player.Name
+                    
+                    -- Save position where we kidnapped them
+                    if akHRP then
+                        autoKillSettings.kidnappedPosition = akHRP.CFrame
+                        local pos = autoKillSettings.kidnappedPosition.Position
+                        StatusLine3.Text = string.format("📍 Saved: %.0f, %.0f, %.0f", pos.X, pos.Y, pos.Z)
+                        StatusLine3.TextColor3 = Color3.fromRGB(100, 255, 140)
+                        print("✅ Position saved:", autoKillSettings.kidnappedPosition)
+                    end
+                    
+                    -- Auto release loop
+                    StatusLine1.Text = "💀 Status: Releasing..."
+                    local releaseStart = tick()
+                    
+                    while autoKillSettings.enabled and player:FindFirstChild("InCocoJumbo") and tick() - releaseStart < 5 do
+                        pcall(function()
+                            akHRP.CFrame = autoKillSettings.teleportPos
+                            akHRP.Velocity = Vector3.new()
+                            akRemoteEvent:FireServer("InputBegan", {["Input"] = Enum.KeyCode.Z, ["HoldW"] = true})
+                        end)
+                        task.wait()
+                    end
+                    
+                    StatusLine1.Text = "✅ Status: Kill Confirmed!"
+                    StatusLine1.TextColor3 = Color3.fromRGB(100, 255, 140)
+                    
+                    -- Wait and teleport back
+                    task.wait(autoKillSettings.returnDelay)
+                    
+                    if autoKillSettings.kidnappedPosition and akHRP then
+                        StatusLine1.Text = "🔄 Status: Returning..."
+                        StatusLine1.TextColor3 = Color3.fromRGB(100, 180, 255)
+                        
+                        -- Teleport back
+                        pcall(function()
+                            akHRP.CFrame = autoKillSettings.kidnappedPosition
+                            akHRP.Velocity = Vector3.new()
+                        end)
+                        
+                        task.wait(0.3)
+                        StatusLine1.Text = "⚡ Status: Waiting..."
+                        StatusLine1.TextColor3 = Color3.fromRGB(200, 200, 200)
+                    end
+                    
+                    StatusLine2.Text = "👤 Victim: None"
+                    autoKillSettings.currentVictim = nil
+                end
+            end
+        end
+    end
+end
+
+-- ========================================
+-- CONTROLS
+-- ========================================
+createToggle(FunRight, "Kill Room", false, function(enabled)
+    autoKillSettings.enabled = enabled
+    
+    if enabled then
+        StatusLine1.Text = "⚡ Status: Active - Waiting..."
+        StatusLine1.TextColor3 = Color3.fromRGB(100, 255, 140)
+        StatusLine2.Text = "👤 Victim: None"
+        StatusLine3.Text = "📍 Saved Position: None"
+        StatusLine3.TextColor3 = Color3.fromRGB(140, 140, 140)
+        
+        task.spawn(MonitorRoom)
+        print("Kill Room ENABLED")
+    else
+        StatusLine1.Text = "❌ Status: Disabled"
+        StatusLine1.TextColor3 = Color3.fromRGB(255, 80, 80)
+        StatusLine2.Text = "👤 Victim: None"
+        StatusLine3.Text = "📍 Saved Position: None"
+        StatusLine3.TextColor3 = Color3.fromRGB(140, 140, 140)
+        
+        autoKillSettings.currentVictim = nil
+        autoKillSettings.kidnappedPosition = nil
+        print("Kill Room DISABLED")
+    end
+end)
+
+createSlider(FunRight, "Return Delay", 0, 2, 0.5, function(value)
+    autoKillSettings.returnDelay = value / 10
+    print("Return Delay set to:", autoKillSettings.returnDelay, "seconds")
+end)
+
 local FunHeader = createSectionHeader("Invisibility")
 FunHeader.Parent = FunLeft
 
@@ -2190,10 +2446,13 @@ createToggle(FunLeft, "Invisibility", false, function(enabled)
     if enabled then pcall(Invisibile) else pcall(Uninvisible) end
 end)
 
+
 local DanceHeader = createSectionHeader("Animations")
 DanceHeader.Parent = FunRight
 
 createButton(FunRight, "🛑 Stop All Animations", function() stopAllAnimations() end)
+
+
 
 -- Функция воспроизведения анимаций (НЕ ТРОГАЙ!)
 local function playAnimation(data)
