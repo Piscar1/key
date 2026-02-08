@@ -3183,7 +3183,7 @@ end)
 
 -- Остальные элементы Ghost Hub
 createToggle(GhostLeft, "Attraction", false, function(enabled) gh_isRunning = enabled end)
-createToggle(GhostLeft, "Ghost Fling", false, function(enabled) gh_isFlingActive = enabled end)
+createToggle(GhostLeft, "Fling", false, function(enabled) gh_isFlingActive = enabled end)
 createToggle(GhostRight, "Auto Reset", false, function(enabled) gh_isAutoResetEnabled = enabled end)
 createToggle(GhostRight, "Auto-Click [K]", false, function(enabled) _G.AutoClicker = enabled end)
 createSlider(GhostRight, "Predict", 0, 100, 30, function(value) _G.PredictValue = value / 100 end)
@@ -4096,11 +4096,11 @@ end
 local function GH_InvisibleReset()
     _G.IsResetting = true
     GH_PressKey(Enum.KeyCode.Escape)
-    task.wait(0.05)
+    task.wait(0.15)
     GH_PressKey(Enum.KeyCode.R)
-    task.wait(0.05)
+    task.wait(0.25)
     GH_PressKey(Enum.KeyCode.Return)
-    task.wait(0.2)
+    task.wait(0.3)
     _G.IsResetting = false
 end
 
