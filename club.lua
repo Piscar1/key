@@ -1,20 +1,22 @@
 -- SecretClub GUI 
 -- Created by Piscar&Zamorozka
-local lines = {
-    "",
-    " ####  #####  ####  ####  #####  ##### ",
-    "#     #     ##     # #  #  #      #    ",
-    " #### #####  #     #####  #####  #     ",
-    "    # #     ##     # #  #  #      #    ",
-    "####  #####  ####  # #  #  #####  #    ",
-    "",
-    " ####  #     #   # ####  ",
-    "#     #     #   # #   # ",
-    "#     #     #   # ####  ",
-    "#     #     #   # #   # ",
-    " ####  ##### #### ####  ",
-    ""
-}
+local art = [[
+
+ ####  #####  ####  ####  #####  ##### 
+#     #     ##     # #  #  #      #    
+ #### #####  #     #####  #####  #     
+    # #     ##     # #  #  #      #    
+####  #####  ####  # #  #  #####  #    
+
+ ####  #     #   # ####  
+#     #     #   # #   # 
+#     #     #   # ####  
+#     #     #   # #   # 
+ ####  ##### #### ####  
+
+]]
+
+print(art)
 
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
@@ -4762,3 +4764,4 @@ task.spawn(function()
     print("[Watermark] ✓ Loaded in top-right corner!")
 end)  -- Closes task.spawn(function() from line 3511
 end
+
