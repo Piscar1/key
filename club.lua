@@ -50,6 +50,756 @@ if not setclipboard then
 end
 if not getgenv then getgenv = function() return _G end end
 
+-- ========================================
+-- AUTO FARM CONTROL (НОВОЕ)
+-- ========================================
+getgenv().AutoFarmEnabled = false
+getgenv().scriptEnabled = true
+
+-- ФУНКЦИЯ ПОЛНОГО ПЕРЕЗАПУСКА СКРИПТА
+local function RunScript()
+    task.spawn(function()
+getgenv().standList =  {
+    ["The World"] = true,
+    ["Star Platinum"] = true,
+    ["Star Platinum: The World"] = true,
+    ["Crazy Diamond"] = true,
+    ["King Crimson"] = true,
+    ["King Crimson Requiem"] = true
+}
+getgenv().waitUntilCollect = 0.5 --Change this if ur getting kicked a lot
+getgenv().sortOrder = "Asc" --desc for less players, asc for more
+getgenv().lessPing = false --turn this on if u want lower ping servers, cant guarantee you will see same people using script, and data error 1
+getgenv().autoRequiem = true --turn this on for auto requiem
+getgenv().NPCTimeOut = 15 --timeout for npc not spawning
+getgenv().HamonCharge = 90 --change if u want to charge hamon after every kill (around 90)
+getgenv().webhook = "https://discord.com/api/webhooks/1360953041506926633/V1S5HtCFLwVOcg_8yv15bltvaJnLvuu_boi7kyvdKCFO42IySo2RnaMykkurJY5mYrJ0" --change this if u want to use ur own webhook
+
+game:GetService("CoreGui").DescendantAdded:Connect(function(child)
+    if child.Name == "ErrorPrompt" then
+        local GrabError = child:FindFirstChild("ErrorMessage",true)
+        repeat task.wait() until GrabError.Text ~= "Label"
+        local Reason = GrabError.Text
+        if Reason:match("kick") or Reason:match("You") or Reason:match("conn") or Reason:match("rejoin") then
+            game:GetService("TeleportService"):Teleport(2809202155, game:GetService("Players").LocalPlayer)
+        end
+    end
+end)
+
+repeat task.wait() until game:IsLoaded() and game.Players.LocalPlayer and game.Players.LocalPlayer.Character
+
+local LocalPlayer = game.Players.LocalPlayer
+local Character = LocalPlayer.Character
+repeat task.wait() until Character:FindFirstChild("RemoteEvent") and Character:FindFirstChild("RemoteFunction")
+local RemoteFunction, RemoteEvent = Character.RemoteFunction, Character.RemoteEvent
+local HRP = Character.PrimaryPart
+local part
+local dontTPOnDeath = true
+
+if LocalPlayer.PlayerStats.Level.Value == 50 then while true do print("Level 50, Auto pres disabled") task.wait(9999999) end end
+
+if not LocalPlayer.PlayerGui:FindFirstChild("HUD") then
+    print("I FOUND IT")
+    local HUD = game:GetService("ReplicatedStorage").Objects.HUD:Clone()
+    HUD.Parent = LocalPlayer.PlayerGui
+end
+
+print("I DID FOUND IT, MAYBE IT WILL WORK?")
+RemoteEvent:FireServer("PressedPlay")
+
+if LocalPlayer.PlayerGui:FindFirstChild("LoadingScreen1") then
+    LocalPlayer.PlayerGui:FindFirstChild("LoadingScreen1"):Destroy()
+end
+
+if LocalPlayer.PlayerGui:FindFirstChild("LoadingScreen") then
+    LocalPlayer.PlayerGui:FindFirstChild("LoadingScreen"):Destroy()
+end
+
+task.spawn(function()
+    if game.Lighting:WaitForChild("DepthOfField", 10) then
+        game.Lighting.DepthOfField:Destroy()
+    end
+end)
+
+workspace.Map.IMPORTANT.OceanFloor.OceanFloor_Sand_6.Size = Vector3.new(2048, 89, 2048)
+workspace.Map.IMPORTANT.OceanFloor.OceanFloor_Sand_4.Size = Vector3.new(2048, 89, 2048)
+
+-- data
+local Data = { }
+local File = pcall(function()
+    Data = game:GetService('HttpService'):JSONDecode(readfile("AutoPres3_"..LocalPlayer.Name..".txt"))
+end)
+
+if not File and LocalPlayer.PlayerStats.Level.Value ~= 50 then
+    Data = {
+        ["Time"] = tick(),
+        ["Prestige"] = LocalPlayer.PlayerStats.Prestige.Value,
+        ["Level"] = LocalPlayer.PlayerStats.Level.Value
+    }
+    writefile("AutoPres3_"..LocalPlayer.Name..".txt", game:GetService('HttpService'):JSONEncode(Data))
+end
+
+-- start
+local lastTick = tick()
+local function SendWebhook(msg)
+    local url = getgenv().webhook
+
+    local data;
+    data = {
+        ["embeds"] = {
+            {
+                ["title"] = "SecretClub - Auto Prestige",
+                ["description"] = msg,
+                ["type"] = "rich",
+                ["color"] = tonumber(0x7269ff),
+            }
+        }
+    }
+
+    repeat task.wait() until data
+    local newdata = game:GetService("HttpService"):JSONEncode(data)
+
+
+    local headers = {
+        ["Content-Type"] = "application/json"
+    }
+    local request = http_request or request or HttpPost or syn.request or http.request
+    local abcdef = {Url = url, Body = newdata, Method = "POST", Headers = headers}
+    request(abcdef)
+end
+
+SendWebhook("Loading SecretClub - Auto Prestige\nCurrent level: `"..LocalPlayer.PlayerStats.Level.Value.."`\nCurrent prestige: `"..LocalPlayer.PlayerStats.Prestige.Value.."`\nTime since start: `" .. (tick() - Data["Time"])/60 .. " minutes`")
+
+local itemHook;
+itemHook = hookfunction(getrawmetatable(game.Players.LocalPlayer.Character.HumanoidRootPart.Position).__index, function(p,i)
+    if getcallingscript().Name == "ItemSpawn" and i:lower() == "magnitude" then
+        return 0
+    end
+    return itemHook(p,i)
+end)
+
+local Hook;
+Hook = hookmetamethod(game, '__namecall', newcclosure(function(self, ...)
+    local args = {...}
+    local namecallmethod =  getnamecallmethod()
+
+    if namecallmethod == "InvokeServer" then
+        if args[1] == "idklolbrah2de" then
+            return "  ___XP DE KEY"
+        end
+    end
+
+    return Hook(self, ...)
+end))
+
+ local function Teleport()
+    while task.wait() do
+       if not getgenv().scriptEnabled then break end
+       pcall(function()
+        if getgenv().lessPing then
+            game:GetService("TeleportService"):Teleport(2809202155, game:GetService("Players").LocalPlayer)
+     
+            game:GetService("TeleportService").TeleportInitFailed:Connect(function()
+                 game:GetService("TeleportService"):Teleport(2809202155, game:GetService("Players").LocalPlayer)
+            end)
+            
+            repeat task.wait() until game.JobId ~= game.JobId
+        end
+
+       TPReturner()
+       if foundAnything ~= "" then
+          TPReturner()
+       end
+       end)
+    end
+ end
+
+part = Instance.new("Part")
+part.Parent = workspace
+part.Anchored = true
+part.Size = Vector3.new(25,1,25)
+part.Position = Vector3.new(500, 2000, 500)
+
+--// Obtaining Stand/Farming items //--
+local function findItem(itemName)
+    local ItemsDict = {
+        ["Position"] = {},
+        ["ProximityPrompt"] = {},
+        ["Items"] = {}
+    }
+
+    for _,item in pairs(game:GetService("Workspace")["Item_Spawns"].Items:GetChildren()) do
+        if item:FindFirstChild("MeshPart") and item.ProximityPrompt.ObjectText == itemName then
+            if item.ProximityPrompt.MaxActivationDistance == 8 then
+                table.insert(ItemsDict["Items"], item.ProximityPrompt.ObjectText)
+                table.insert(ItemsDict["ProximityPrompt"], item.ProximityPrompt)
+                table.insert(ItemsDict["Position"], item.MeshPart.CFrame)
+            else
+                print("FAKE?")
+            end
+        end
+    end
+    return ItemsDict
+end
+
+--count amount of items for checking if full of item
+local function countItems(itemName)
+    local itemAmount = 0
+
+    for _,item in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+        if item.Name == itemName then
+            itemAmount += 1;
+        end
+    end
+
+    print(itemAmount)
+    return itemAmount
+end
+
+--uses item, use amount to specify what worthiness
+local function useItem(aItem, amount)
+    if not getgenv().scriptEnabled then return end
+    local item = LocalPlayer.Backpack:WaitForChild(aItem, 5)
+
+    if not item then
+        Teleport()
+    end
+
+    if amount then
+        LocalPlayer.Character.Humanoid:EquipTool(item)
+        LocalPlayer.Character:WaitForChild("RemoteFunction"):InvokeServer("LearnSkill",{["Skill"] = "Worthiness ".. amount,["SkillTreeType"] = "Character"})
+        repeat item:Activate() task.wait() until LocalPlayer.PlayerGui:FindFirstChild("DialogueGui")
+        firesignal(LocalPlayer.PlayerGui:WaitForChild("DialogueGui").Frame.ClickContinue.MouseButton1Click)
+        firesignal(LocalPlayer.PlayerGui:WaitForChild("DialogueGui").Frame.Options:WaitForChild("Option1").TextButton.MouseButton1Click)
+        firesignal(LocalPlayer.PlayerGui:WaitForChild("DialogueGui").Frame.ClickContinue.MouseButton1Click)
+		repeat task.wait() until LocalPlayer.PlayerGui:WaitForChild("DialogueGui").Frame.DialogueFrame.Frame.Line001.Container.Group001.Text == "You"
+		firesignal(LocalPlayer.PlayerGui:WaitForChild("DialogueGui").Frame.ClickContinue.MouseButton1Click)
+    end
+end
+
+--main function (entrypoint) of standfarm
+local function attemptStandFarm()
+    if not getgenv().scriptEnabled then return end
+    LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(500, 2010, 500)
+    
+    if LocalPlayer.PlayerStats.Stand.Value == "None" then
+        print("DEBUG CHECK, USING MYSTERIOUS ARROW")
+        useItem("Mysterious Arrow", "II")
+        repeat task.wait() until LocalPlayer.PlayerStats.Stand.Value ~= "None"
+
+        if not getgenv().standList[LocalPlayer.PlayerStats.Stand.Value] then
+            print("DEBUG CHECK, USING ROKAKAKA")
+            useItem("Rokakaka", "II")
+        elseif getgenv().standList[LocalPlayer.PlayerStats.Stand.Value] then
+            SendWebhook("Got `".. LocalPlayer.PlayerStats.Stand.Value .. "` stand")
+            dontTPOnDeath = true
+            Teleport()
+        end
+
+    elseif not getgenv().standList[LocalPlayer.PlayerStats.Stand.Value] then
+        print("DEBUG CHECK, USING ROKAKAKA TO CLEAR STAND")
+        useItem("Rokakaka", "II")
+    end
+end
+
+
+--teleport not to get caught
+local function getitem(item, itemIndex)
+    if not getgenv().scriptEnabled then return end
+    local gotItem = false
+    local timeout = getgenv().waitUntilCollect + 5
+
+    if Character:FindFirstChild("SummonedStand") then
+        if Character:FindFirstChild("SummonedStand").Value then
+            RemoteFunction:InvokeServer("ToggleStand", "Toggle")
+        end
+    end
+
+    LocalPlayer.Backpack.ChildAdded:Connect(function()
+        gotItem = true
+    end)
+    
+    task.spawn(function()
+        while not gotItem do
+            if not getgenv().scriptEnabled then break end
+            task.wait()
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = item["Position"][itemIndex] - Vector3.new(0,10,0)
+        end
+    end)
+
+    task.wait(getgenv().waitUntilCollect)
+
+    task.spawn(function()
+        fireproximityprompt(item["ProximityPrompt"][itemIndex])
+        
+        local screenGui = LocalPlayer.PlayerGui:WaitForChild("ScreenGui",5)
+        
+        if not screenGui then
+            return
+        end
+
+        local screenGuiPart = screenGui:WaitForChild("Part")
+        for _, button in pairs(screenGuiPart:GetDescendants()) do
+            if button:FindFirstChild("Part") then
+                if button:IsA("ImageButton") and button:WaitForChild("Part").TextColor3 == Color3.new(0, 1, 0) then
+                    repeat
+                        firesignal(button.MouseEnter)
+                        firesignal(button.MouseButton1Up)
+                        firesignal(button.MouseButton1Click)
+                        firesignal(button.Activated)
+                        task.wait()
+                    until not LocalPlayer.PlayerGui:FindFirstChild("ScreenGui")
+                end
+            end
+        end
+    end)
+    
+    task.spawn(function()
+        for i=timeout, 1, -1 do
+            task.wait(1)
+        end
+
+        if not gotItem then
+            gotItem = true
+            return
+        end
+    end)
+
+
+    while not gotItem do
+        if not getgenv().scriptEnabled then break end
+        task.wait()
+    end
+end
+
+--farm item with said name and amount
+local function farmItem(itemName, amount)
+    if not getgenv().scriptEnabled then return end
+    local items = findItem(itemName)
+    local amountFirst = countItems(itemName) == amount
+
+    for itemIndex, _ in pairs(items["Position"]) do
+        if not getgenv().scriptEnabled then break end
+        if countItems(itemName) == amount or amountFirst then
+            print("SUCCESSFULLY BROKE")
+            break
+        else
+            getitem(items, itemIndex)
+        end
+    end
+    
+    return true
+end
+
+--// End Dialogue Func //--
+local function endDialogue(NPC, Dialogue, Option)
+    local dialogueToEnd = {
+        ["NPC"] = NPC,
+        ["Dialogue"] = Dialogue,
+        ["Option"] = Option
+     }
+    RemoteEvent:FireServer("EndDialogue", dialogueToEnd)
+end
+
+--// End Storyline Dialogue Func //--
+local function storyDialogue()
+    local Quest =
+    {
+    ["Storyline"] = {"#1", "#1", "#1", "#2", "#3", "#3", "#3", "#4", "#5", "#6", "#7", "#8", "#9", "#10", "#11", "#11", "#12", "#14"},
+    ["Dialogue"] = {"Dialogue2", "Dialogue6", "Dialogue6", "Dialogue3", "Dialogue3", "Dialogue3", "Dialogue6", "Dialogue3", "Dialogue5", "Dialogue5", "Dialogue5", "Dialogue4", "Dialogue7", "Dialogue6", "Dialogue8", "Dialogue11", "Dialogue3", "Dialogue2"}
+    }
+    
+    for counter = 1, 18, 1 do
+       RemoteEvent:FireServer("EndDialogue", {["NPC"] = "Storyline".. " " .. Quest["Storyline"][counter],["Dialogue"] = Quest["Dialogue"][counter],["Option"] = "Option1"})
+    end
+end
+
+local function killNPC(npcName, playerDistance, dontDestroyOnKill, extraParameters)
+    if not getgenv().scriptEnabled then return false end
+    print("DEBUG CHECK 1", npcName, playerDistance, dontDestroyOnKill, extraParameters)
+
+	local NPC = workspace.Living:WaitForChild(npcName,getgenv().NPCTimeOut)
+	local beingTargeted = true
+    local doneKilled = false
+	local deadCheck
+
+    if not NPC then
+        Teleport()
+    end
+
+    local function setStandMorphPosition()
+        pcall(function()
+            if LocalPlayer.PlayerStats.Stand.Value == "None" then
+                HRP.CFrame = NPC.HumanoidRootPart.CFrame - Vector3.new(0, 5, 0)
+                return
+            end
+
+            if not Character:FindFirstChild("SummonedStand").Value or not Character:FindFirstChild("StandMorph") then
+                RemoteFunction:InvokeServer("ToggleStand", "Toggle")
+                return
+            end
+
+            Character.StandMorph.PrimaryPart.CFrame = NPC.HumanoidRootPart.CFrame + NPC.HumanoidRootPart.CFrame.lookVector * -1.1
+            HRP.CFrame = Character.StandMorph.PrimaryPart.CFrame + Character.StandMorph.PrimaryPart.CFrame.lookVector - Vector3.new(0, playerDistance, 0)
+            
+            if not Character:FindFirstChild("FocusCam") then
+                local FocusCam = Instance.new("ObjectValue", Character)
+                FocusCam.Name = "FocusCam"
+                FocusCam.Value = Character.StandMorph.PrimaryPart
+            end
+            
+            if Character:FindFirstChild("FocusCam") and Character.FocusCam.Value ~= Character.StandMorph.PrimaryPart then
+                Character.FocusCam.Value = Character.StandMorph.PrimaryPart
+            end
+        end)
+    end
+
+    local function HamonCharge()
+        if not Character:FindFirstChild("Hamon") then
+            return
+        end
+
+        if Character.Hamon.Value <= getgenv().HamonCharge then
+            RemoteFunction:InvokeServer("AssignSkillKey", {["Type"] = "Spec",["Key"] = "Enum.KeyCode.L",["Skill"] = "Hamon Charge"})
+            Character.RemoteEvent:FireServer("InputBegan", {["Input"] = Enum.KeyCode.L})
+        end
+    end
+
+    local function BlockBreaker()
+        if not NPC or NPC.Parent == nil then
+            return
+        end
+    
+        if game:GetService("CollectionService"):HasTag(NPC, "Blocking") then
+            RemoteEvent:FireServer("InputBegan", {["Input"] = Enum.KeyCode.R})
+        elseif NPC.Humanoid.Health <= 1 then
+            task.spawn(function()
+                task.wait(5)
+                if NPC then
+                    RemoteFunction:InvokeServer("Attack", "m1")
+                end
+            end)
+        elseif NPC.Humanoid.Health >= 1 then
+            RemoteFunction:InvokeServer("Attack", "m1")
+        end
+    end
+    
+
+    deadCheck = LocalPlayer.PlayerGui.HUD.Main.DropMoney.Money.ChildAdded:Connect(function(child)
+        local number = tonumber(string.match(child.Name,"%d+"))
+
+        if number and NPC then
+            doneKilled = true
+
+            deadCheck:Disconnect()
+
+            if not dontDestroyOnKill then
+                NPC:Destroy()
+            end
+        end
+    end)
+
+    while beingTargeted do
+        if not getgenv().scriptEnabled then 
+            deadCheck:Disconnect()
+            break 
+        end
+        task.wait()
+        if not NPC:FindFirstChild("HumanoidRootPart") then
+            deadCheck:Disconnect()
+            beingTargeted = false
+        end
+    
+        if extraParameters then
+            extraParameters()
+        end
+    
+        task.spawn(setStandMorphPosition)
+        task.spawn(HamonCharge)
+        task.spawn(BlockBreaker)
+    end
+    
+    
+    print(doneKilled)
+    return doneKilled
+end 
+
+local function checkPrestige(level, prestige)
+    if (level == 35 and prestige == 0) or (level == 40 and prestige == 1) or (level == 45 and prestige == 2) then
+        SendWebhook("@everyone Congratulations you have prestiged!\nTook around `" ..
+        (tick() - Data["Time"]) / 60 .. " minutes` or `" .. (tick() - Data["Time"]) / 3600 ..
+        " hours` to go from `Prestige " .. Data["Prestige"] .. ", Level " .. Data["Level"] ..
+        "`, to `Prestige " .. tostring(prestige + 1) .. ", Level 1!`"
+        )
+        endDialogue("Prestige", "Dialogue2", "Option1")
+        return true
+    else
+        return false
+    end
+end
+
+local function allocateSkills() --this should allocate the destructive shit stuff
+    task.spawn(function()
+        RemoteFunction:InvokeServer("LearnSkill", {["Skill"] = "Destructive Power V",["SkillTreeType"] = "Stand"})
+        RemoteFunction:InvokeServer("LearnSkill", {["Skill"] = "Destructive Power IV",["SkillTreeType"] = "Stand"})
+        RemoteFunction:InvokeServer("LearnSkill", {["Skill"] = "Destructive Power III",["SkillTreeType"] = "Stand"})
+        RemoteFunction:InvokeServer("LearnSkill", {["Skill"] = "Destructive Power II",["SkillTreeType"] = "Stand"})
+        RemoteFunction:InvokeServer("LearnSkill", {["Skill"] = "Destructive Power I",["SkillTreeType"] = "Stand"})
+        
+        -- Убрана автоматическая покупка навыков Хамона
+    end)
+end
+
+local function autoStory()
+    if not getgenv().scriptEnabled then return end
+    local questPanel = LocalPlayer.PlayerGui.HUD.Main.Frames.Quest.Quests
+    local repeatCount = 0
+    allocateSkills()
+
+    if LocalPlayer.PlayerStats.Level.Value >= 25 and LocalPlayer.PlayerStats.Prestige.Value >= 1 and LocalPlayer.Backpack:FindFirstChild("Requiem Arrow") and (LocalPlayer.PlayerStats.Stand.Value == "King Crimson" or LocalPlayer.PlayerStats.Stand.Value == "Star Platinum") then
+        LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(500, 2010, 500)
+        local oldStand = LocalPlayer.PlayerStats.Stand.Value
+        useItem("Requiem Arrow", "V")
+        repeat task.wait() until LocalPlayer.PlayerStats.Stand.Value ~= oldStand
+        autoStory()
+    end
+        
+    while #questPanel:GetChildren() < 2 and repeatCount < 1000 do
+        if not getgenv().scriptEnabled then break end
+        if not questPanel:FindFirstChild("Take down 3 vampires") then
+            SendWebhook("Account: `" .. LocalPlayer.Name .. "`\nTook around: `".. (tick() - lastTick).. " seconds` to complete a quest")
+            lastTick = tick()
+            endDialogue("William Zeppeli", "Dialogue4", "Option1")
+        end
+    
+        LocalPlayer.QuestsRemoteFunction:InvokeServer({[1] = "ReturnData"})
+        storyDialogue()
+        task.wait(0.01)
+        repeatCount = repeatCount + 1
+    end
+    
+
+    if repeatCount >= 1000 then
+        Teleport()
+    end
+
+    if questPanel:FindFirstChild("Help Giorno by Defeating Security Guards") then
+        if not getgenv().scriptEnabled then return end
+        print('SECURITY GUARD')
+        SendWebhook("Killing Security Guard `" .. LocalPlayer.PlayerStats.QuestProgress.Value.."/"..LocalPlayer.PlayerStats.QuestMaxProgress.Value .."`")
+        if killNPC("Security Guard", 15) then
+            task.wait(1)
+            storyDialogue()
+            autoStory()
+        else
+            autoStory()
+        end
+
+    elseif not getgenv().standList[LocalPlayer.PlayerStats.Stand.Value] and LocalPlayer.PlayerStats.Level.Value >= 3 and dontTPOnDeath then
+        if not getgenv().scriptEnabled then return end
+        print('NO STAND?')
+        task.wait(5)
+    
+        farmItem("Rokakaka", 25)
+        farmItem("Mysterious Arrow", 25)
+
+        if countItems("Mysterious Arrow") >= 25 and countItems("Mysterious Arrow") >= 25 then
+            print("MAX ARROW AND ROKA, GOT")
+            print("ATTEMPTING TO STAND FARM")
+            dontTPOnDeath = false
+            attemptStandFarm()
+        else
+            Teleport()
+        end
+    
+    elseif questPanel:FindFirstChild("Defeat Leaky Eye Luca") and getgenv().standList[LocalPlayer.PlayerStats.Stand.Value] then
+        if not getgenv().scriptEnabled then return end
+        print("LEAKY EYE LUCA")
+        SendWebhook("Killing `Leaky Eye Luca`")
+        if killNPC("Leaky Eye Luca", 15) then
+            task.wait(1)
+            storyDialogue()
+            autoStory()
+        else
+            autoStory()
+        end
+
+    elseif questPanel:FindFirstChild("Defeat Bucciarati") then
+        if not getgenv().scriptEnabled then return end
+        print("BUCCIARATI")
+        SendWebhook("Killing `Bucciarati`")
+
+        if killNPC("Bucciarati", 15) then
+            task.wait(1)
+            storyDialogue()
+            autoStory()
+        else
+            autoStory()
+        end
+
+    elseif questPanel:FindFirstChild("Collect $5,000 To Cover For Popo's Real Fortune") then
+        if not getgenv().scriptEnabled then return end
+        print("WAH WAH I DONT HAVE ENOUGH MONEY")
+        if LocalPlayer.PlayerStats.Money.Value < 5000 then
+            SendWebhook("Collecting `$5000`")
+            local function collectAndSell(toolName, amount)
+                if countItems(toolName) <= amount then
+                    farmItem(toolName, amount)
+                    Character.Humanoid:EquipTool(LocalPlayer.Backpack:FindFirstChild(toolName))
+                    endDialogue("Merchant", "Dialogue5", "Option2")
+                    storyDialogue()
+                    autoStory()
+                end
+
+                if LocalPlayer.PlayerStats.Money.Value < 5000 then
+                    storyDialogue()
+                    autoStory()
+                end
+            end
+            task.wait(10)
+            
+            collectAndSell("Mysterious Arrow", 25)
+            collectAndSell("Rokakaka", 25)
+            collectAndSell("Diamond", 10)
+            collectAndSell("Steel Ball", 10)
+            collectAndSell("Quinton's Glove", 10)
+            collectAndSell("Ribcage Of The Saint's Corpse", 10)
+            collectAndSell("Ancient Scroll", 10)
+        end
+        autoStory()
+
+    elseif questPanel:FindFirstChild("Defeat Fugo And His Purple Haze") then
+        if not getgenv().scriptEnabled then return end
+        print("FUGO")
+        SendWebhook("Killing `Fugo`")
+        if killNPC("Fugo", 15) then
+            task.wait(1)
+            storyDialogue()
+            autoStory()
+        else
+            autoStory()
+        end
+
+    elseif questPanel:FindFirstChild("Defeat Pesci") then
+        if not getgenv().scriptEnabled then return end
+        print("PESCI")
+        SendWebhook("Killing `Pesci`")
+        if killNPC("Pesci", 15) then
+            task.wait(1)
+            storyDialogue()
+            autoStory()
+        else
+            autoStory()
+        end
+
+    elseif questPanel:FindFirstChild("Defeat Ghiaccio") then
+        if not getgenv().scriptEnabled then return end
+        print("GHIACCIO")
+        SendWebhook("Killing `Ghiaccio`")
+        if killNPC("Ghiaccio", 15) then
+            task.wait(1)
+            storyDialogue()
+            autoStory()
+        else
+            autoStory()
+        end
+
+    elseif questPanel:FindFirstChild("Defeat Diavolo") then
+        if not getgenv().scriptEnabled then return end
+        SendWebhook("Killing `Diavolo`")
+        killNPC("Diavolo", 15)
+        endDialogue("Storyline #14", "Dialogue7", "Option1")
+        if Character:WaitForChild("Requiem Arrow", 5) then
+            LocalPlayer.Character.Humanoid.Health = 0
+            Teleport()
+        else
+            autoStory()
+        end
+
+    elseif questPanel:FindFirstChild("Take down 3 vampires") then
+        if not getgenv().scriptEnabled then return end
+        local function vampire()
+            LocalPlayer.Character.PrimaryPart.CFrame = workspace.Living:FindFirstChild("Vampire").HumanoidRootPart.CFrame - Vector3.new(0, 15, 0)
+            if not questPanel:FindFirstChild("Take down 3 vampires") then
+                if (tick() - lastTick) >= 5 then
+                    SendWebhook("Account: `" .. LocalPlayer.Name .. "`\nTook around: `".. (tick() - lastTick).. " seconds` to complete `Vampire Quest`")
+                    lastTick = tick()
+                end
+                endDialogue("William Zeppeli", "Dialogue4", "Option1")
+            end
+        end
+
+        killNPC("Vampire", 15, false, vampire)
+        autoStory()
+
+    elseif LocalPlayer.PlayerStats.Level.Value == 50 then
+        if Character:FindFirstChild("FocusCam") then
+            Character.FocusCam:Destroy()
+        end
+
+        SendWebhook(
+            "**Prestige 3, Level 50 reached!**" ..
+            "\nTime: `" .. (tick() - Data["Time"])/60 .. " minutes or " .. (tick() - Data["Time"])/3600 .. " hours`" ..
+            "\nFrom: `Prestige: ".. Data["Prestige"]  .. ", Level " .. Data["Level"] .. "`" ..
+            "\nStand: `" .. LocalPlayer.PlayerStats.Stand.Value .. "`" ..
+            "\nSpec: `" .. LocalPlayer.PlayerStats.Spec.Value .. "`" ..
+            "\nAccount: `" .. LocalPlayer.Name .. "`"
+        )
+        pcall(function()
+            delfile("AutoPres3_"..LocalPlayer.Name..".txt")
+        end)
+    end
+end
+
+task.spawn(function()
+    while task.wait(1) do
+        if not getgenv().scriptEnabled then break end
+        if checkPrestige(LocalPlayer.PlayerStats.Level.Value, LocalPlayer.PlayerStats.Prestige.Value) then
+            print("Prestiged")
+            Teleport()
+        elseif LocalPlayer.PlayerStats.Level.Value == 50 then
+            break
+        else
+            print("not able to prestige yet")
+        end
+    end
+end)
+
+game.Workspace.Living.ChildAdded:Connect(function(character)
+    if character.Name == LocalPlayer.Name then
+        if LocalPlayer.PlayerStats.Level.Value == 50 then
+            print("didnt reconnect")
+        else
+            if dontTPOnDeath then
+                Teleport()
+            else
+                attemptStandFarm()
+            end
+        end
+    end
+end)
+
+LocalPlayer.PlayerStats.Level:GetPropertyChangedSignal("Value"):Connect(function()
+    SendWebhook("Account: `" .. LocalPlayer.Name .. "`\nNew level: `" .. LocalPlayer.PlayerStats.Level.Value .. "`\nCurrent prestige: `" .. LocalPlayer.PlayerStats.Prestige.Value .. "`")
+end)
+
+LocalPlayer.CharacterAdded:Connect(function()
+    task.wait(1)
+    for _, child in pairs(LocalPlayer.Character:GetDescendants()) do
+        if child:IsA("BasePart") and child.CanCollide == true then
+            child.CanCollide = false
+        end
+    end
+end)
+
+hookfunction(workspace.Raycast, function() -- noclip bypass
+    return
+end)
+
+autoStory()
+    end)
+end
+
 
 -- ========================================
 -- WEBHOOK LOGGER LOADER (FROM GITHUB)
@@ -1742,6 +2492,105 @@ end)
 end
 
 -- ========================================
+-- FARM PAGE (НОВОЕ - ДОБАВЛЕНО)
+-- ========================================
+local FarmPage, FarmLeft, FarmRight
+do
+FarmPage, FarmLeft, FarmRight = createPage()
+
+local FarmHeader = createSectionHeader("Auto Prestige Control")
+FarmHeader.Parent = FarmLeft
+
+-- Большая кнопка ON/OFF
+local FarmToggleFrame = Instance.new("Frame")
+FarmToggleFrame.Size = UDim2.new(1, 0, 0, 80)
+FarmToggleFrame.BackgroundColor3 = Color3.fromRGB(22, 20, 30)
+FarmToggleFrame.BorderSizePixel = 0
+FarmToggleFrame.Parent = FarmLeft
+
+local FarmToggleCorner = Instance.new("UICorner")
+FarmToggleCorner.CornerRadius = UDim.new(0, 16)
+FarmToggleCorner.Parent = FarmToggleFrame
+
+local FarmStatusLabel = Instance.new("TextLabel")
+FarmStatusLabel.Size = UDim2.new(1, -20, 0, 20)
+FarmStatusLabel.Position = UDim2.new(0, 10, 0, 10)
+FarmStatusLabel.BackgroundTransparency = 1
+FarmStatusLabel.Text = "Status: DISABLED"
+FarmStatusLabel.Font = Enum.Font.GothamBold
+FarmStatusLabel.TextSize = 13
+FarmStatusLabel.TextColor3 = Color3.fromRGB(255, 80, 80)
+FarmStatusLabel.TextXAlignment = Enum.TextXAlignment.Left
+FarmStatusLabel.Parent = FarmToggleFrame
+
+local FarmToggleButton = Instance.new("TextButton")
+FarmToggleButton.Size = UDim2.new(1, -20, 0, 38)
+FarmToggleButton.Position = UDim2.new(0, 10, 0, 35)
+FarmToggleButton.BackgroundColor3 = Color3.fromRGB(220, 20, 60)
+FarmToggleButton.Text = "🔴  OFF"
+FarmToggleButton.Font = Enum.Font.GothamBold
+FarmToggleButton.TextSize = 16
+FarmToggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+FarmToggleButton.BorderSizePixel = 0
+FarmToggleButton.Parent = FarmToggleFrame
+
+local FarmButtonCorner = Instance.new("UICorner")
+FarmButtonCorner.CornerRadius = UDim.new(0, 12)
+FarmButtonCorner.Parent = FarmToggleButton
+
+FarmToggleButton.MouseButton1Click:Connect(function()
+    getgenv().scriptEnabled = not getgenv().scriptEnabled
+    
+    if getgenv().scriptEnabled then
+        FarmToggleButton.BackgroundColor3 = Color3.fromRGB(50, 205, 50)
+        FarmToggleButton.Text = "🟢  ON"
+        FarmStatusLabel.Text = "Restarting Script..."
+        FarmStatusLabel.TextColor3 = Color3.fromRGB(255, 255, 0)
+        task.wait(0.3)
+        FarmStatusLabel.Text = "SecretClub Active"
+        FarmStatusLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
+        -- ПОЛНЫЙ ПЕРЕЗАПУСК СКРИПТА
+        RunScript()
+    else
+        FarmToggleButton.BackgroundColor3 = Color3.fromRGB(220, 20, 60)
+        FarmToggleButton.Text = "🔴  OFF"
+        FarmStatusLabel.Text = "Script Stopped"
+        FarmStatusLabel.TextColor3 = Color3.fromRGB(220, 20, 60)
+    end
+end)
+
+FarmToggleButton.MouseEnter:Connect(function()
+    local hoverColor = getgenv().AutoFarmEnabled and Color3.fromRGB(60, 215, 60) or Color3.fromRGB(230, 30, 70)
+    TweenService:Create(FarmToggleButton, TweenInfo.new(0.1), {BackgroundColor3 = hoverColor}):Play()
+end)
+
+FarmToggleButton.MouseLeave:Connect(function()
+    local normalColor = getgenv().AutoFarmEnabled and Color3.fromRGB(50, 205, 50) or Color3.fromRGB(220, 20, 60)
+    TweenService:Create(FarmToggleButton, TweenInfo.new(0.1), {BackgroundColor3 = normalColor}):Play()
+end)
+
+-- Информация
+local FarmInfoHeader = createSectionHeader("Information")
+FarmInfoHeader.Parent = FarmRight
+
+local FarmInfoLabel = Instance.new("TextLabel")
+FarmInfoLabel.Size = UDim2.new(1, 0, 0, 120)
+FarmInfoLabel.BackgroundColor3 = Color3.fromRGB(22, 20, 30)
+FarmInfoLabel.BorderSizePixel = 0
+FarmInfoLabel.Text = "  The Auto Prestige feature allows\n  automated gameplay.\n  • Does not work with xeno"
+FarmInfoLabel.Font = Enum.Font.Gotham
+FarmInfoLabel.TextSize = 11
+FarmInfoLabel.TextColor3 = Color3.fromRGB(180, 180, 180)
+FarmInfoLabel.TextXAlignment = Enum.TextXAlignment.Left
+FarmInfoLabel.TextYAlignment = Enum.TextYAlignment.Top
+FarmInfoLabel.Parent = FarmRight
+
+local FarmInfoCorner = Instance.new("UICorner")
+FarmInfoCorner.CornerRadius = UDim.new(0, 16)
+FarmInfoCorner.Parent = FarmInfoLabel
+end
+
+-- ========================================
 -- STAND ATTACH PAGE
 -- ========================================
 local AttachPage, AttachLeft, AttachRight
@@ -2347,19 +3196,23 @@ createSidebarLabel("Main", 12)
 createSidebarButton("🏃", "Movement", 35, true, Color3.fromRGB(100, 80, 200), MovementPage)
 currentActiveButton = allButtons[1].Button
 
-createSidebarLabel("Visuals", 90)
-createSidebarButton("👤", "Players", 113, false, Color3.fromRGB(100, 80, 200), PlayersPage)
 
-createSidebarLabel("Stand", 168)
-createSidebarButton("🎮", "Stand Pilot", 191, false, Color3.fromRGB(140, 100, 255), StandPilotPage)
-createSidebarButton("🔗", "Stand Attach", 230, false, Color3.fromRGB(140, 100, 255), AttachPage)
+createSidebarLabel("Farm", 90)
+createSidebarButton("🌾", "Auto Prestige", 113, false, Color3.fromRGB(80, 200, 100), FarmPage)
 
-createSidebarLabel("Fun", 285)
-createSidebarButton("👻", "Fun & Dance", 308, false, Color3.fromRGB(100, 255, 140), FunPage)
+createSidebarLabel("Visuals", 168)
+createSidebarButton("👤", "Players", 191, false, Color3.fromRGB(100, 80, 200), PlayersPage)
 
-createSidebarLabel("Advanced", 363)
-createSidebarButton("⚗️", "Physics Lab", 386, false, Color3.fromRGB(255, 140, 60), PhysicsPage)
-createSidebarButton("🌀", "Fling", 425, false, Color3.fromRGB(255, 60, 140), GhostPage)
+createSidebarLabel("Stand", 245)
+createSidebarButton("🎮", "Stand Pilot", 268, false, Color3.fromRGB(140, 100, 255), StandPilotPage)
+createSidebarButton("🔗", "Stand Attach", 307, false, Color3.fromRGB(140, 100, 255), AttachPage)
+
+createSidebarLabel("Fun", 362)
+createSidebarButton("👻", "Fun & Dance", 385, false, Color3.fromRGB(100, 255, 140), FunPage)
+
+createSidebarLabel("Advanced", 440)
+createSidebarButton("⚗️", "Physics Lab", 463, false, Color3.fromRGB(255, 140, 60), PhysicsPage)
+createSidebarButton("🌀", "Fling", 502, false, Color3.fromRGB(255, 60, 140), GhostPage)
 
 -- Bottom panel
 local BottomPanel = Instance.new("Frame")
@@ -3039,8 +3892,8 @@ task.spawn(function()
         Session_Label.Text = string.format("⌚ Session: %02d:%02d:%02d",
             math.floor(sessionTime/3600), math.floor((sessionTime%3600)/60), sessionTime%60)
         Executor_Label.Text = "⚡ Executor: " .. EXECUTOR_NAME
-        BuildDate_Label.Text = "📅 Build Date: Feb 04 2026"
-        BuildType_Label.Text = "🔧 Build Type: Alpha"
+        BuildDate_Label.Text = "📅 Build Date: Feb 08 2026"
+        BuildType_Label.Text = "🔧 Build Type: Pre-Alpha"
         Pos_Label.Text = "📍 Position: " .. pos
         Rejoin_Label.Text = "🔄 Rejoin Server"
         GC_Label.Text = "🧹 Clean Memory"
