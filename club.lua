@@ -2097,6 +2097,187 @@ createToggle(PlayersLeft, "Distance ESP", false, function(enabled) espDistanceEn
 createToggle(PlayersLeft, "Tracers", false, function(enabled) espTracerEnabled = enabled end)
 createSlider(PlayersLeft, "Text Size", 10, 30, 14, function(value) espFontSize = value end)
 
+-- ========================================
+-- DAY/NIGHT CONTROL
+-- ========================================
+local DayNightHeader = createSectionHeader("Day/Night Control")
+DayNightHeader.Parent = PlayersRight
+
+-- Сохраняем оригинальные настройки освещения
+local OriginalLightingSettings = {
+    ClockTime = game.Lighting.ClockTime,
+    Brightness = game.Lighting.Brightness,
+    Ambient = game.Lighting.Ambient,
+    OutdoorAmbient = game.Lighting.OutdoorAmbient
+}
+
+local TimeFrozen = false
+
+-- Preset buttons (Dawn, Day, Sunset, Night)
+local PresetContainer = Instance.new("Frame")
+PresetContainer.Size = UDim2.new(1, 0, 0, 100)
+PresetContainer.BackgroundTransparency = 1
+PresetContainer.Parent = PlayersRight
+
+local function createTimePreset(name, emoji, time, pos)
+    local Btn = Instance.new("TextButton")
+    Btn.Size = UDim2.new(0.48, 0, 0, 42)
+    Btn.Position = pos
+    Btn.BackgroundColor3 = Color3.fromRGB(30, 28, 38)
+    Btn.Text = ""
+    Btn.BorderSizePixel = 0
+    Btn.Parent = PresetContainer
+    
+    local Corner = Instance.new("UICorner")
+    Corner.CornerRadius = UDim.new(0, 12)
+    Corner.Parent = Btn
+    
+    local EmojiLabel = Instance.new("TextLabel")
+    EmojiLabel.Size = UDim2.new(0, 25, 1, 0)
+    EmojiLabel.Position = UDim2.new(0, 5, 0, 0)
+    EmojiLabel.BackgroundTransparency = 1
+    EmojiLabel.Text = emoji
+    EmojiLabel.Font = Enum.Font.GothamBold
+    EmojiLabel.TextSize = 16
+    EmojiLabel.Parent = Btn
+    
+    local NameLabel = Instance.new("TextLabel")
+    NameLabel.Size = UDim2.new(1, -35, 1, 0)
+    NameLabel.Position = UDim2.new(0, 30, 0, 0)
+    NameLabel.BackgroundTransparency = 1
+    NameLabel.Text = name
+    NameLabel.Font = Enum.Font.Gotham
+    NameLabel.TextSize = 12
+    NameLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
+    NameLabel.TextXAlignment = Enum.TextXAlignment.Left
+    NameLabel.Parent = Btn
+    
+    Btn.MouseEnter:Connect(function()
+        TweenService:Create(Btn, TweenInfo.new(0.15), {BackgroundColor3 = Color3.fromRGB(100, 80, 200)}):Play()
+    end)
+    
+    Btn.MouseLeave:Connect(function()
+        TweenService:Create(Btn, TweenInfo.new(0.15), {BackgroundColor3 = Color3.fromRGB(30, 28, 38)}):Play()
+    end)
+    
+    Btn.MouseButton1Click:Connect(function()
+        TweenService:Create(game.Lighting, TweenInfo.new(1, Enum.EasingStyle.Quad), {ClockTime = time}):Play()
+    end)
+end
+
+createTimePreset("Dawn", "🌄", 6, UDim2.new(0, 0, 0, 0))
+createTimePreset("Day", "☀️", 12, UDim2.new(0.52, 0, 0, 0))
+createTimePreset("Sunset", "🌆", 18, UDim2.new(0, 0, 0, 48))
+createTimePreset("Night", "🌙", 0, UDim2.new(0.52, 0, 0, 48))
+
+-- Time Slider
+local SliderContainer = Instance.new("Frame")
+SliderContainer.Size = UDim2.new(1, 0, 0, 50)
+SliderContainer.BackgroundTransparency = 1
+SliderContainer.Parent = PlayersRight
+
+local SliderLabel = Instance.new("TextLabel")
+SliderLabel.Size = UDim2.new(1, 0, 0, 20)
+SliderLabel.BackgroundTransparency = 1
+SliderLabel.Text = "Time: " .. string.format("%.1f", game.Lighting.ClockTime)
+SliderLabel.Font = Enum.Font.Gotham
+SliderLabel.TextSize = 11
+SliderLabel.TextColor3 = Color3.fromRGB(180, 180, 180)
+SliderLabel.TextXAlignment = Enum.TextXAlignment.Left
+SliderLabel.Parent = SliderContainer
+
+local SliderBack = Instance.new("Frame")
+SliderBack.Size = UDim2.new(1, 0, 0, 3)
+SliderBack.Position = UDim2.new(0, 0, 0, 25)
+SliderBack.BackgroundColor3 = Color3.fromRGB(26, 24, 34)
+SliderBack.BorderSizePixel = 0
+SliderBack.Parent = SliderContainer
+
+local SliderFill = Instance.new("Frame")
+SliderFill.Size = UDim2.new(game.Lighting.ClockTime / 24, 0, 1, 0)
+SliderFill.BackgroundColor3 = Color3.fromRGB(100, 80, 200)
+SliderFill.BorderSizePixel = 0
+SliderFill.Parent = SliderBack
+
+local SliderDot = Instance.new("Frame")
+SliderDot.Size = UDim2.new(0, 10, 0, 10)
+SliderDot.Position = UDim2.new(game.Lighting.ClockTime / 24, -5, 0.5, -5)
+SliderDot.BackgroundColor3 = Color3.fromRGB(100, 80, 200)
+SliderDot.BorderSizePixel = 0
+SliderDot.Parent = SliderBack
+
+local DotCorner = Instance.new("UICorner")
+DotCorner.CornerRadius = UDim.new(1, 0)
+DotCorner.Parent = SliderDot
+
+local timeSliderDragging = false
+
+SliderBack.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        timeSliderDragging = true
+    end
+end)
+
+UserInputService.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        timeSliderDragging = false
+    end
+end)
+
+UserInputService.InputChanged:Connect(function(input)
+    if timeSliderDragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+        local mouse = UserInputService:GetMouseLocation().X
+        local sliderPos = SliderBack.AbsolutePosition.X
+        local sliderSize = SliderBack.AbsoluteSize.X
+        
+        local percent = math.clamp((mouse - sliderPos) / sliderSize, 0, 1)
+        local value = percent * 24
+        
+        game.Lighting.ClockTime = value
+        SliderLabel.Text = "Time: " .. string.format("%.1f", value)
+        SliderFill.Size = UDim2.new(percent, 0, 1, 0)
+        SliderDot.Position = UDim2.new(percent, -5, 0.5, -5)
+    end
+end)
+
+-- Freeze Time Toggle
+createToggle(PlayersRight, "Freeze Time", false, function(enabled)
+    TimeFrozen = enabled
+end)
+
+-- Reset Button
+createButton(PlayersRight, "🔄 Reset Lighting", function()
+    TweenService:Create(game.Lighting, TweenInfo.new(1, Enum.EasingStyle.Quad), {
+        ClockTime = OriginalLightingSettings.ClockTime,
+        Brightness = OriginalLightingSettings.Brightness,
+        Ambient = OriginalLightingSettings.Ambient,
+        OutdoorAmbient = OriginalLightingSettings.OutdoorAmbient
+    }):Play()
+    
+    TimeFrozen = false
+end)
+
+-- Update loop for time display
+task.spawn(function()
+    while task.wait(0.5) do
+        if not TimeFrozen then
+            local currentTime = game.Lighting.ClockTime
+            SliderLabel.Text = "Time: " .. string.format("%.1f", currentTime)
+            
+            local percent = currentTime / 24
+            SliderFill.Size = UDim2.new(percent, 0, 1, 0)
+            SliderDot.Position = UDim2.new(percent, -5, 0.5, -5)
+        end
+    end
+end)
+
+-- Freeze time logic
+RunService.Heartbeat:Connect(function()
+    if TimeFrozen then
+        game.Lighting.ClockTime = game.Lighting.ClockTime
+    end
+end)
+
 -- ESP Color Picker Button
 do
     local ColorPickerBtn = Instance.new("TextButton")
@@ -2359,16 +2540,27 @@ local function MonitorRoom()
     while autoKillSettings.enabled do
         task.wait(0.1)
         
-        -- Check all players in Living
         if workspace:FindFirstChild("Living") then
             for _, player in pairs(workspace.Living:GetChildren()) do
-                if player.Name ~= akPlayer.Name and player:FindFirstChild("InCocoJumbo") then
+                -- 🔥 УЛУЧШЕННЫЕ ПРОВЕРКИ:
+                local isMe = player.Name == akPlayer.Name
+                local hasTag = player:FindFirstChild("InCocoJumbo")
+                local hasHumanoid = player:FindFirstChild("Humanoid")
+                local isAlive = hasHumanoid and hasHumanoid.Health > 0
+                local hasHRP = player:FindFirstChild("HumanoidRootPart")
+                
+                -- ✅ Атакуем только если:
+                -- 1. Это НЕ мы
+                -- 2. Есть тег InCocoJumbo
+                -- 3. Игрок живой
+                -- 4. Есть HumanoidRootPart
+                if not isMe and hasTag and isAlive and hasHRP then
                     -- Found someone in room!
                     autoKillSettings.currentVictim = player.Name
                     StatusLine1.Text = "🎯 Status: Target Found!"
                     StatusLine2.Text = "👤 Victim: " .. player.Name
                     
-                    -- Save position where we kidnapped them
+                    -- Save position
                     if akHRP then
                         autoKillSettings.kidnappedPosition = akHRP.CFrame
                         local pos = autoKillSettings.kidnappedPosition.Position
@@ -2381,7 +2573,11 @@ local function MonitorRoom()
                     StatusLine1.Text = "💀 Status: Releasing..."
                     local releaseStart = tick()
                     
-                    while autoKillSettings.enabled and player:FindFirstChild("InCocoJumbo") and tick() - releaseStart < 5 do
+                    while autoKillSettings.enabled and 
+                          player:FindFirstChild("InCocoJumbo") and 
+                          player:FindFirstChild("Humanoid") and 
+                          player.Humanoid.Health > 0 and  -- ← ДОБАВЛЕНО
+                          tick() - releaseStart < 5 do
                         pcall(function()
                             akHRP.CFrame = autoKillSettings.teleportPos
                             akHRP.Velocity = Vector3.new()
@@ -2393,14 +2589,12 @@ local function MonitorRoom()
                     StatusLine1.Text = "✅ Status: Kill Confirmed!"
                     StatusLine1.TextColor3 = Color3.fromRGB(100, 255, 140)
                     
-                    -- Wait and teleport back
                     task.wait(autoKillSettings.returnDelay)
                     
                     if autoKillSettings.kidnappedPosition and akHRP then
                         StatusLine1.Text = "🔄 Status: Returning..."
                         StatusLine1.TextColor3 = Color3.fromRGB(100, 180, 255)
                         
-                        -- Teleport back
                         pcall(function()
                             akHRP.CFrame = autoKillSettings.kidnappedPosition
                             akHRP.Velocity = Vector3.new()
