@@ -1227,8 +1227,10 @@ local espFontSize = 14
 
 local flyEnabled = false
 local flySpeed = 50
-local flyKeybind = Enum.KeyCode.F
+local flyKeybind = Enum.KeyCode.Tab
 local waitingForFlyKey = false
+local invisKeybind = Enum.KeyCode.L
+local waitingForInvisKey = false
 local bv, bg = nil, nil
 local noclipEnabled = false
 local speedHackEnabled = false
@@ -2052,7 +2054,7 @@ MovementHeader.Parent = MovementLeft
 
 flyToggleButton = createToggle(MovementLeft, "Fly", false, toggleFlyState)
 
-local flyKeybindBtn = createButton(MovementLeft, "Fly Key: F [Right Click]", function() end)
+local flyKeybindBtn = createButton(MovementLeft, "Fly Key: Tab Right Click]", function() end)
 flyKeybindBtn.MouseButton2Click:Connect(function()
     waitingForFlyKey = true
     flyKeybindBtn.Text = "Press Any Key..."
@@ -2651,6 +2653,28 @@ FunHeader.Parent = FunLeft
 
 createToggle(FunLeft, "Invisibility", false, function(enabled)
     if enabled then pcall(Invisibile) else pcall(Uninvisible) end
+end)
+
+local invisKeybindBtn = createButton(FunLeft, "Invis Key: L [Right Click]", function() end)
+
+invisKeybindBtn.MouseButton2Click:Connect(function()
+    waitingForInvisKey = true
+    invisKeybindBtn.Text = "Press Any Key..."
+    invisKeybindBtn.BackgroundColor3 = Color3.fromRGB(100, 80, 200)
+    
+    local connection
+    connection = UserInputService.InputBegan:Connect(function(input, gameProcessed)
+        if gameProcessed then return end
+        if input.UserInputType == Enum.UserInputType.Keyboard then
+            invisKeybind = input.KeyCode
+            waitingForInvisKey = false
+            invisKeybindBtn.Text = "Invis Key: " .. invisKeybind.Name .. " [Right Click]"
+            TweenService:Create(invisKeybindBtn, TweenInfo.new(0.2), {
+                BackgroundColor3 = Color3.fromRGB(22, 20, 30)
+            }):Play()
+            connection:Disconnect()
+        end
+    end)
 end)
 
 
@@ -5458,6 +5482,41 @@ UserInputService.InputBegan:Connect(function(input, gameProcessed)
             end
         end
     end
+    
+    -- 🔥 НОВЫЙ КОД ДЛЯ INVISIBILITY 🔥
+    if input.KeyCode == invisKeybind and not inTextBox and not waitingForInvisKey then
+        isInvisible = not isInvisible
+        
+        if isInvisible then
+            pcall(Invisibile)
+        else
+            pcall(Uninvisible)
+        end
+        
+        -- Обновляем визуальное состояние toggle переключателя
+        for _, page in pairs({FunPage}) do
+            if page and page.Visible then
+                for _, column in pairs(page:GetChildren()) do
+                    if column.Name == "LeftColumn" then
+                        for _, toggle in pairs(column:GetChildren()) do
+                            if toggle:IsA("Frame") then
+                                local label = toggle:FindFirstChild("TextLabel")
+                                if label and label.Text == "Invisibility" then
+                                    local switch = toggle:FindFirstChildOfClass("TextButton")
+                                    if switch then
+                                        TweenService:Create(switch, TweenInfo.new(0.15), {
+                                            BackgroundColor3 = isInvisible and Color3.fromRGB(100, 80, 200) or Color3.fromRGB(40, 38, 48)
+                                        }):Play()
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+    -- 🔥 КОНЕЦ КОДА ДЛЯ INVISIBILITY 🔥
     
     if input.KeyCode == Enum.KeyCode.K and not inTextBox then
         _G.AutoClicker = not _G.AutoClicker
