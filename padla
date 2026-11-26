@@ -3355,7 +3355,7 @@ local MoneyText = Main:WaitForChild("DropMoney"):WaitForChild("Money")
 
 local healthSize = BarHealth.Size
 local expSize = BarExp.Size
-local LEVEL_MULTIPLIER = 100
+local LEVEL_MULTIPLIER = 50
 
 local LevelInd = Main:FindFirstChild("LevelIndicator")
 if LevelInd then LevelInd.Visible = false end
@@ -3520,15 +3520,22 @@ end
 
 -- 4. AddMessage (РЎвЂљР С•РЎРѓРЎвЂљРЎвЂ№ РЎРѓР В±Р С•Р С”РЎС“ РЎРѓР В»Р ВµР Р†Р В° РЎРѓР Р…Р С‘Р В·РЎС“ Р Р…Р В°Р Т‘ РЎвЂ¦Р С•РЎвЂљР В±Р В°РЎР‚Р С•Р С) + QuestCompleted
 local MsgList = MessagesGui:WaitForChild("List")
-MsgList.AnchorPoint = Vector2.new(0, 1)
-MsgList.Position = UDim2.new(0, 14, 1, -90)
-MsgList.Size = UDim2.new(0, 420, 0, 260)
+MsgList.AnchorPoint = Vector2.new(0, 0)
+MsgList.Position = UDim2.new(0.115, 0, 0.505, 0)
+MsgList.Size = UDim2.new(0, 480, 0, 260)
 local msgLayout = MsgList:FindFirstChildOfClass("UIListLayout")
 if msgLayout then
-	msgLayout.VerticalAlignment = Enum.VerticalAlignment.Bottom
+	msgLayout.HorizontalAlignment = Enum.HorizontalAlignment.Left
+	msgLayout.VerticalAlignment = Enum.VerticalAlignment.Top
+	msgLayout.Padding = UDim.new(0, 2)
 end
 local MsgTemplate = MsgList:WaitForChild("Template")
 MsgTemplate.Visible = false
+MsgTemplate.Size = UDim2.new(1, 0, 0, 26)
+MsgTemplate.Font = Enum.Font.Cartoon
+MsgTemplate.TextScaled = false
+MsgTemplate.TextSize = 20
+MsgTemplate.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
 MsgTemplate.TextXAlignment = Enum.TextXAlignment.Left
 
 AddMessage = function(text, color, dura)
@@ -3630,18 +3637,18 @@ hookNativeGui = function(obj)
 					end
 
 					syncBar()
-					bar:GetPropertyChangedSignal("Visible"):Connect(syncBar)
+					track(bar:GetPropertyChangedSignal("Visible"):Connect(syncBar))
 					if gradNode then
-						gradNode:GetPropertyChangedSignal("Offset"):Connect(syncBar)
+						track(gradNode:GetPropertyChangedSignal("Offset"):Connect(syncBar))
 					elseif fallbackFill and fallbackFill:IsA("GuiObject") then
-						fallbackFill:GetPropertyChangedSignal("Size"):Connect(syncBar)
+						track(fallbackFill:GetPropertyChangedSignal("Size"):Connect(syncBar))
 					end
-					bar.AncestryChanged:Connect(function(_, p)
+					track(bar.AncestryChanged:Connect(function(_, p)
 						if not p then RemoveChargeBar(title) end
-					end)
+					end))
 				end
 				for _, ch in ipairs(cb:GetChildren()) do hookChargeBar(ch) end
-				cb.ChildAdded:Connect(function(ch) task.defer(hookChargeBar, ch) end)
+				track(cb.ChildAdded:Connect(function(ch) task.defer(hookChargeBar, ch) end))
 			end
 		end
 	elseif obj.Name == "CurrencyGui" then
@@ -3696,8 +3703,14 @@ local function unloadAll()
 	table.clear(_conns)
 	for g in pairs(_suppressedGuis) do
 		if g and g.Parent then
-			pcall(function() g.Enabled = true end)
+			pcall(function()
+				g:SetAttribute("_HookedByYBA", nil)
+				g.Enabled = true
+			end)
 		end
+	end
+	for _, ch in ipairs(PlayerGui:GetChildren()) do
+		pcall(function() ch:SetAttribute("_HookedByYBA", nil) end)
 	end
 	table.clear(_suppressedGuis)
 	pcall(function()
@@ -3727,5 +3740,3 @@ env.YBA_UI = {
 	RefreshPlayers = refreshPlayerList,
 	Unload = unloadAll,
 }
-
-AddMessage("YBA 1:1 HUD loaded", Color3.fromRGB(255, 230, 120), 2.5)
