@@ -28,6 +28,19 @@ local function getGuiParent()
 	return PlayerGui
 end
 
+local env = (type(getgenv) == "function" and getgenv()) or _G
+if env.YBA_UI and type(env.YBA_UI.Unload) == "function" then
+	pcall(env.YBA_UI.Unload)
+end
+
+local _unloaded = false
+local _conns = {}
+local _suppressedGuis = {}
+local function track(c)
+	if c then table.insert(_conns, c) end
+	return c
+end
+
 local guiParent = getGuiParent()
 for _, name in ipairs({"HUD", "Messages", "Fleet_Footwork Gui"}) do
 	local old = guiParent:FindFirstChild(name)
@@ -3144,10 +3157,11 @@ local function suppressGui(obj)
 	if not obj:IsA("LayerCollector") then return end
 
 	if SUPPRESS_SEPARATE_GUIS[obj.Name] then
+		_suppressedGuis[obj] = true
 		obj.Enabled = false
-		obj:GetPropertyChangedSignal("Enabled"):Connect(function()
-			if obj.Enabled then obj.Enabled = false end
-		end)
+		track(obj:GetPropertyChangedSignal("Enabled"):Connect(function()
+			if not _unloaded and obj.Enabled then obj.Enabled = false end
+		end))
 		task.defer(hookNativeGui, obj)
 		return
 	end
@@ -3170,10 +3184,11 @@ end
 for _, ch in ipairs(PlayerGui:GetChildren()) do
 	suppressGui(ch)
 end
-PlayerGui.ChildAdded:Connect(function(ch)
+track(PlayerGui.ChildAdded:Connect(function(ch)
+	if _unloaded then return end
 	suppressGui(ch)
-	task.delay(0.15, suppressGui, ch)
-end)
+	task.delay(0.15, function() if not _unloaded then suppressGui(ch) end end)
+end))
 
 pcall(function()
 	for _, d in ipairs(CoreGui:GetDescendants()) do
@@ -3181,11 +3196,12 @@ pcall(function()
 			suppressInviteNode(d)
 		end
 	end
-	CoreGui.DescendantAdded:Connect(function(d)
+	track(CoreGui.DescendantAdded:Connect(function(d)
+		if _unloaded then return end
 		if not (d:IsDescendantOf(HUD) or d:IsDescendantOf(MessagesGui) or d:IsDescendantOf(FleetGui)) then
 			task.defer(suppressInviteNode, d)
 		end
-	end)
+	end))
 end)
 
 local function toRoman(num)
@@ -3314,8 +3330,8 @@ local function refreshPlayerList()
 end
 
 refreshPlayerList()
-Players.PlayerAdded:Connect(function() task.defer(refreshPlayerList) end)
-Players.PlayerRemoving:Connect(function() task.defer(refreshPlayerList) end)
+track(Players.PlayerAdded:Connect(function() task.defer(refreshPlayerList) end))
+track(Players.PlayerRemoving:Connect(function() task.defer(refreshPlayerList) end))
 local plRemote = ReplicatedStorage:FindFirstChild("PlayerlistHandlerRemote")
 if plRemote and plRemote:IsA("RemoteEvent") then
 	plRemote.OnClientEvent:Connect(function(a)
@@ -3447,7 +3463,7 @@ local function bindChar(char)
 	end)
 end
 if LocalPlayer.Character then task.spawn(bindChar, LocalPlayer.Character) end
-LocalPlayer.CharacterAdded:Connect(bindChar)
+track(LocalPlayer.CharacterAdded:Connect(bindChar))
 
 task.spawn(function()
 	local ps = LocalPlayer:FindFirstChild("PlayerStats") or LocalPlayer:WaitForChild("PlayerStats", 3)
@@ -3671,7 +3687,34 @@ end
 Indicators.Position = UDim2.new(Indicators.Position.X.Scale, Indicators.Position.X.Offset, 0.0000, -57)
 list.Position = UDim2.new(list.Position.X.Scale, list.Position.X.Offset, 0.0334, -41)
 
-local env = (type(getgenv) == "function" and getgenv()) or _G
+local function unloadAll()
+	if _unloaded then return end
+	_unloaded = true
+	for _, c in ipairs(_conns) do
+		pcall(function() c:Disconnect() end)
+	end
+	table.clear(_conns)
+	for g in pairs(_suppressedGuis) do
+		if g and g.Parent then
+			pcall(function() g.Enabled = true end)
+		end
+	end
+	table.clear(_suppressedGuis)
+	pcall(function()
+		local sg = game:GetService("StarterGui")
+		sg:SetCoreGuiEnabled(Enum.CoreGuiType.PlayerList, true)
+		sg:SetCoreGuiEnabled(Enum.CoreGuiType.Health, true)
+	end)
+	for _, g in ipairs({HUD, MessagesGui, FleetGui}) do
+		if g and g.Parent then
+			pcall(function() g:Destroy() end)
+		end
+	end
+	if env.YBA_UI and env.YBA_UI.HUD == HUD then
+		env.YBA_UI = nil
+	end
+end
+
 env.YBA_UI = {
 	HUD = HUD,
 	Messages = MessagesGui,
@@ -3682,6 +3725,7 @@ env.YBA_UI = {
 	SetExp = updateExp,
 	SetMoney = function(v) MoneyText.Text = tostring(v) end,
 	RefreshPlayers = refreshPlayerList,
+	Unload = unloadAll,
 }
 
 AddMessage("YBA 1:1 HUD loaded", Color3.fromRGB(255, 230, 120), 2.5)
