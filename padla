@@ -1,0 +1,3687 @@
+
+
+if not game:IsLoaded() then
+	game.Loaded:Wait()
+end
+
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local UserInputService = game:GetService("UserInputService")
+local Debris = game:GetService("Debris")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local CoreGui = game:GetService("CoreGui")
+
+local LocalPlayer = Players.LocalPlayer
+while not LocalPlayer do
+	task.wait()
+	LocalPlayer = Players.LocalPlayer
+end
+local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
+
+local function getGuiParent()
+	if type(gethui) == "function" then
+		local ok, hui = pcall(gethui)
+		if ok and hui then return hui end
+	end
+	local ok, test = pcall(function() return CoreGui.Name end)
+	if ok and test then return CoreGui end
+	return PlayerGui
+end
+
+local guiParent = getGuiParent()
+for _, name in ipairs({"HUD", "Messages", "Fleet_Footwork Gui"}) do
+	local old = guiParent:FindFirstChild(name)
+	if old then old:Destroy() end
+end
+
+local function buildHUD(parent)
+local i4 = Instance.new("ScreenGui")
+i4.Name = "HUD"
+i4.Enabled = true
+i4.ResetOnSpawn = true
+i4.ZIndexBehavior = Enum.ZIndexBehavior.Global
+i4.DisplayOrder = 0
+i4.Parent = parent
+local i51 = Instance.new("ImageLabel")
+i51.Name = "QuestCompleted"
+i51.Visible = false
+i51.Active = false
+i51.AnchorPoint = Vector2.new(0, 0)
+i51.Position = UDim2.new(0.75, 0, 0.6, 0)
+i51.Size = UDim2.new(0.212141, 0, 0.247534, 0)
+i51.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i51.ZIndex = 1
+i51.Rotation = 0
+i51.ClipsDescendants = false
+i51.LayoutOrder = 0
+i51.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+i51.BackgroundTransparency = 1
+i51.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i51.BorderSizePixel = 0
+i51.Image = "rbxassetid://4109914103"
+i51.ImageColor3 = Color3.fromRGB(188, 185, 255)
+i51.ImageTransparency = 0
+i51.ScaleType = Enum.ScaleType.Stretch
+i51.SliceCenter = Rect.new(0, 0, 0, 0)
+i51.SliceScale = 1
+i51.ImageRectOffset = Vector2.new(0, 0)
+i51.ImageRectSize = Vector2.new(0, 0)
+i51.Rotation = 0
+i51.Parent = i4
+local i52 = Instance.new("Sound")
+i52.Name = "Sound"
+i52.Parent = i51
+local i53 = Instance.new("TextLabel")
+i53.Name = "Quest"
+i53.Visible = true
+i53.Active = false
+i53.AnchorPoint = Vector2.new(0, 0)
+i53.Position = UDim2.new(0.194345, 0, 0.135227, 0)
+i53.Size = UDim2.new(0.668384, 0, 0.215488, 0)
+i53.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i53.ZIndex = 1
+i53.Rotation = 0
+i53.ClipsDescendants = false
+i53.LayoutOrder = 0
+i53.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+i53.BackgroundTransparency = 1
+i53.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i53.BorderSizePixel = 1
+i53.Text = "Quest: Kill Dio"
+i53.TextColor3 = Color3.fromRGB(255, 255, 255)
+i53.TextTransparency = 0
+i53.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i53.TextStrokeTransparency = 0
+i53.Font = Enum.Font.ArialBold
+i53.TextSize = 14
+i53.TextScaled = true
+i53.TextWrapped = true
+i53.TextXAlignment = Enum.TextXAlignment.Center
+i53.TextYAlignment = Enum.TextYAlignment.Center
+i53.RichText = false
+i53.Rotation = 0
+i53.Parent = i51
+local i54 = Instance.new("TextLabel")
+i54.Name = "Money"
+i54.Visible = true
+i54.Active = false
+i54.AnchorPoint = Vector2.new(0, 0)
+i54.Position = UDim2.new(0.112687, 0, 0.378453, 0)
+i54.Size = UDim2.new(0.341835, 0, 0.16276, 0)
+i54.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i54.ZIndex = 1
+i54.Rotation = 0
+i54.ClipsDescendants = false
+i54.LayoutOrder = 0
+i54.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+i54.BackgroundTransparency = 1
+i54.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i54.BorderSizePixel = 1
+i54.Text = "+$50"
+i54.TextColor3 = Color3.fromRGB(255, 255, 0)
+i54.TextTransparency = 0
+i54.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i54.TextStrokeTransparency = 1
+i54.Font = Enum.Font.Cartoon
+i54.TextSize = 14
+i54.TextScaled = true
+i54.TextWrapped = true
+i54.TextXAlignment = Enum.TextXAlignment.Center
+i54.TextYAlignment = Enum.TextYAlignment.Center
+i54.RichText = false
+i54.Rotation = 0
+i54.Parent = i51
+local i55 = Instance.new("TextLabel")
+i55.Name = "Experience"
+i55.Visible = true
+i55.Active = false
+i55.AnchorPoint = Vector2.new(0, 0)
+i55.Position = UDim2.new(0.572858, 0, 0.378453, 0)
+i55.Size = UDim2.new(0.341835, 0, 0.16276, 0)
+i55.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i55.ZIndex = 1
+i55.Rotation = 0
+i55.ClipsDescendants = false
+i55.LayoutOrder = 0
+i55.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+i55.BackgroundTransparency = 1
+i55.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i55.BorderSizePixel = 1
+i55.Text = "+50 EXP"
+i55.TextColor3 = Color3.fromRGB(85, 255, 0)
+i55.TextTransparency = 0
+i55.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i55.TextStrokeTransparency = 1
+i55.Font = Enum.Font.Cartoon
+i55.TextSize = 14
+i55.TextScaled = true
+i55.TextWrapped = true
+i55.TextXAlignment = Enum.TextXAlignment.Center
+i55.TextYAlignment = Enum.TextYAlignment.Center
+i55.RichText = false
+i55.Rotation = 0
+i55.Parent = i51
+local i56 = Instance.new("TextLabel")
+i56.Name = "Cosmetic"
+i56.Visible = true
+i56.Active = false
+i56.AnchorPoint = Vector2.new(0, 0)
+i56.Position = UDim2.new(0.0654766, 0, 0.541213, 0)
+i56.Size = UDim2.new(0.865959, 0, 0.190041, 0)
+i56.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i56.ZIndex = 1
+i56.Rotation = 0
+i56.ClipsDescendants = false
+i56.LayoutOrder = 0
+i56.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+i56.BackgroundTransparency = 1
+i56.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i56.BorderSizePixel = 1
+i56.Text = "+Cosmetic: Bruno Buciarati's Hair"
+i56.TextColor3 = Color3.fromRGB(0, 255, 255)
+i56.TextTransparency = 0
+i56.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i56.TextStrokeTransparency = 0
+i56.Font = Enum.Font.Cartoon
+i56.TextSize = 14
+i56.TextScaled = true
+i56.TextWrapped = true
+i56.TextXAlignment = Enum.TextXAlignment.Center
+i56.TextYAlignment = Enum.TextYAlignment.Center
+i56.RichText = false
+i56.Rotation = 0
+i56.Parent = i51
+local i57 = Instance.new("TextLabel")
+i57.Name = "Tool"
+i57.Visible = true
+i57.Active = false
+i57.AnchorPoint = Vector2.new(0, 0)
+i57.Position = UDim2.new(0.134042, 0, 0.729991, 0)
+i57.Size = UDim2.new(0.729227, 0, 0.171163, 0)
+i57.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i57.ZIndex = 1
+i57.Rotation = 0
+i57.ClipsDescendants = false
+i57.LayoutOrder = 0
+i57.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+i57.BackgroundTransparency = 1
+i57.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i57.BorderSizePixel = 1
+i57.Text = "+Tool: Requiem Arrow"
+i57.TextColor3 = Color3.fromRGB(170, 85, 255)
+i57.TextTransparency = 0
+i57.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i57.TextStrokeTransparency = 0
+i57.Font = Enum.Font.Cartoon
+i57.TextSize = 14
+i57.TextScaled = true
+i57.TextWrapped = true
+i57.TextXAlignment = Enum.TextXAlignment.Center
+i57.TextYAlignment = Enum.TextYAlignment.Center
+i57.RichText = false
+i57.Rotation = 0
+i57.Parent = i51
+local i58 = Instance.new("ScrollingFrame")
+i58.Name = "Playerlist"
+i58.Visible = true
+i58.Active = false
+i58.AnchorPoint = Vector2.new(0, 0)
+i58.Position = UDim2.new(0.806, 0, 0.0334399, 0)
+i58.Size = UDim2.new(0.179, 0, 0.32, 0)
+i58.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i58.ZIndex = 1
+i58.Rotation = 0
+i58.ClipsDescendants = true
+i58.LayoutOrder = 0
+i58.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+i58.BackgroundTransparency = 1
+i58.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i58.BorderSizePixel = 1
+i58.CanvasSize = UDim2.new(0, 0, 0.5, 0)
+i58.ScrollBarThickness = 5
+i58.ScrollingDirection = Enum.ScrollingDirection.XY
+i58.Rotation = 0
+i58.Parent = i4
+local i59 = Instance.new("ImageLabel")
+i59.Name = "Indicators"
+i59.Visible = true
+i59.Active = false
+i59.AnchorPoint = Vector2.new(0, 0)
+i59.Position = UDim2.new(3.97748e-07, 0, -1.4063e-08, 0)
+i59.Size = UDim2.new(1, 0, 0.15, 0)
+i59.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i59.ZIndex = 1
+i59.Rotation = 0
+i59.ClipsDescendants = false
+i59.LayoutOrder = 0
+i59.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+i59.BackgroundTransparency = 1
+i59.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i59.BorderSizePixel = 1
+i59.Image = "rbxassetid://5928446618"
+i59.ImageColor3 = Color3.fromRGB(255, 255, 255)
+i59.ImageTransparency = 0
+i59.ScaleType = Enum.ScaleType.Fit
+i59.SliceCenter = Rect.new(0, 0, 0, 0)
+i59.SliceScale = 1
+i59.ImageRectOffset = Vector2.new(0, 0)
+i59.ImageRectSize = Vector2.new(0, 0)
+i59.Rotation = 0
+i59.Parent = i58
+local i60 = Instance.new("TextLabel")
+i60.Name = "Prestige"
+i60.Visible = true
+i60.Active = false
+i60.AnchorPoint = Vector2.new(0, 0)
+i60.Position = UDim2.new(0, 0, 0.265204, 0)
+i60.Size = UDim2.new(0.3, 0, 0.446789, 0)
+i60.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i60.ZIndex = 1
+i60.Rotation = 0
+i60.ClipsDescendants = false
+i60.LayoutOrder = 0
+i60.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+i60.BackgroundTransparency = 1
+i60.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i60.BorderSizePixel = 1
+i60.Text = "PRESTIGE"
+i60.TextColor3 = Color3.fromRGB(255, 252, 162)
+i60.TextTransparency = 0
+i60.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i60.TextStrokeTransparency = 0
+i60.Font = Enum.Font.Arcade
+i60.TextSize = 17
+i60.TextScaled = true
+i60.TextWrapped = true
+i60.TextXAlignment = Enum.TextXAlignment.Center
+i60.TextYAlignment = Enum.TextYAlignment.Center
+i60.RichText = false
+i60.Rotation = 0
+i60.Parent = i59
+local i61 = Instance.new("UITextSizeConstraint")
+i61.Name = "UITextSizeConstraint"
+i61.MaxTextSize = 17
+i61.MinTextSize = 1
+i61.Parent = i60
+local i62 = Instance.new("TextLabel")
+i62.Name = "Players"
+i62.Visible = true
+i62.Active = false
+i62.AnchorPoint = Vector2.new(0, 0)
+i62.Position = UDim2.new(0.3, 0, 0.265204, 0)
+i62.Size = UDim2.new(0.287109, 0, 0.446789, 0)
+i62.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i62.ZIndex = 1
+i62.Rotation = 0
+i62.ClipsDescendants = false
+i62.LayoutOrder = 0
+i62.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+i62.BackgroundTransparency = 1
+i62.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i62.BorderSizePixel = 1
+i62.Text = "PLAYER"
+i62.TextColor3 = Color3.fromRGB(207, 247, 255)
+i62.TextTransparency = 0
+i62.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i62.TextStrokeTransparency = 0
+i62.Font = Enum.Font.Arcade
+i62.TextSize = 17
+i62.TextScaled = true
+i62.TextWrapped = true
+i62.TextXAlignment = Enum.TextXAlignment.Center
+i62.TextYAlignment = Enum.TextYAlignment.Center
+i62.RichText = false
+i62.Rotation = 0
+i62.Parent = i59
+local i63 = Instance.new("UITextSizeConstraint")
+i63.Name = "UITextSizeConstraint"
+i63.MaxTextSize = 17
+i63.MinTextSize = 1
+i63.Parent = i62
+local i64 = Instance.new("TextLabel")
+i64.Name = "Gang"
+i64.Visible = true
+i64.Active = false
+i64.AnchorPoint = Vector2.new(0, 0)
+i64.Position = UDim2.new(0.7, 0, 0.265204, 0)
+i64.Size = UDim2.new(0.295859, 0, 0.446789, 0)
+i64.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i64.ZIndex = 1
+i64.Rotation = 0
+i64.ClipsDescendants = false
+i64.LayoutOrder = 0
+i64.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+i64.BackgroundTransparency = 1
+i64.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i64.BorderSizePixel = 1
+i64.Text = "GANG"
+i64.TextColor3 = Color3.fromRGB(214, 210, 255)
+i64.TextTransparency = 0
+i64.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i64.TextStrokeTransparency = 0
+i64.Font = Enum.Font.Arcade
+i64.TextSize = 17
+i64.TextScaled = true
+i64.TextWrapped = true
+i64.TextXAlignment = Enum.TextXAlignment.Center
+i64.TextYAlignment = Enum.TextYAlignment.Center
+i64.RichText = false
+i64.Rotation = 0
+i64.Parent = i59
+local i65 = Instance.new("UITextSizeConstraint")
+i65.Name = "UITextSizeConstraint"
+i65.MaxTextSize = 17
+i65.MinTextSize = 1
+i65.Parent = i64
+local i66 = Instance.new("Frame")
+i66.Name = "Template"
+i66.Visible = false
+i66.Active = false
+i66.AnchorPoint = Vector2.new(0, 0)
+i66.Position = UDim2.new(0.2, 0, 0.125, 0)
+i66.Size = UDim2.new(0.75, 0, 0.06, 0)
+i66.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i66.ZIndex = 1
+i66.Rotation = 0
+i66.ClipsDescendants = false
+i66.LayoutOrder = 0
+i66.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+i66.BackgroundTransparency = 1
+i66.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i66.BorderSizePixel = 1
+i66.Rotation = 0
+i66.Parent = i58
+local i67 = Instance.new("TextLabel")
+i67.Name = "PlayerNameRanked"
+i67.Visible = false
+i67.Active = false
+i67.AnchorPoint = Vector2.new(0, 0)
+i67.Position = UDim2.new(0.182679, 0, 0.117371, 0)
+i67.Size = UDim2.new(0.382321, 0, 1, 0)
+i67.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i67.ZIndex = 2
+i67.Rotation = 0
+i67.ClipsDescendants = false
+i67.LayoutOrder = 0
+i67.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+i67.BackgroundTransparency = 1
+i67.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i67.BorderSizePixel = 0
+i67.Text = "Player1testing"
+i67.TextColor3 = Color3.fromRGB(255, 255, 255)
+i67.TextTransparency = 0
+i67.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i67.TextStrokeTransparency = 0
+i67.Font = Enum.Font.Code
+i67.TextSize = 16
+i67.TextScaled = false
+i67.TextWrapped = true
+i67.TextXAlignment = Enum.TextXAlignment.Left
+i67.TextYAlignment = Enum.TextYAlignment.Center
+i67.RichText = false
+i67.Rotation = 0
+i67.Parent = i66
+local i68 = Instance.new("TextLabel")
+i68.Name = "GangName"
+i68.Visible = true
+i68.Active = false
+i68.AnchorPoint = Vector2.new(0, 0)
+i68.Position = UDim2.new(0.575, 0, 0.117371, 0)
+i68.Size = UDim2.new(0.425, 0, 1, 0)
+i68.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i68.ZIndex = 2
+i68.Rotation = 0
+i68.ClipsDescendants = false
+i68.LayoutOrder = 0
+i68.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+i68.BackgroundTransparency = 1
+i68.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i68.BorderSizePixel = 0
+i68.Text = "19 iq and below gang"
+i68.TextColor3 = Color3.fromRGB(255, 255, 255)
+i68.TextTransparency = 0
+i68.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i68.TextStrokeTransparency = 0
+i68.Font = Enum.Font.Jura
+i68.TextSize = 14
+i68.TextScaled = false
+i68.TextWrapped = true
+i68.TextXAlignment = Enum.TextXAlignment.Right
+i68.TextYAlignment = Enum.TextYAlignment.Center
+i68.RichText = false
+i68.Rotation = 0
+i68.Parent = i66
+local i69 = Instance.new("UITextSizeConstraint")
+i69.Name = "UITextSizeConstraint"
+i69.MaxTextSize = 14
+i69.MinTextSize = 1
+i69.Parent = i68
+local i70 = Instance.new("ImageLabel")
+i70.Name = "ImageLabel"
+i70.Visible = true
+i70.Active = false
+i70.AnchorPoint = Vector2.new(0, 0)
+i70.Position = UDim2.new(0, 0, -0.282629, 0)
+i70.Size = UDim2.new(1.05, 0, 1.8, 0)
+i70.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i70.ZIndex = 1
+i70.Rotation = 0
+i70.ClipsDescendants = false
+i70.LayoutOrder = 0
+i70.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+i70.BackgroundTransparency = 1
+i70.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i70.BorderSizePixel = 1
+i70.Image = "rbxassetid://5928446618"
+i70.ImageColor3 = Color3.fromRGB(255, 255, 255)
+i70.ImageTransparency = 0
+i70.ScaleType = Enum.ScaleType.Fit
+i70.SliceCenter = Rect.new(0, 0, 0, 0)
+i70.SliceScale = 1
+i70.ImageRectOffset = Vector2.new(0, 0)
+i70.ImageRectSize = Vector2.new(0, 0)
+i70.Rotation = 0
+i70.Parent = i66
+local i71 = Instance.new("ImageLabel")
+i71.Name = "Prestige"
+i71.Visible = true
+i71.Active = false
+i71.AnchorPoint = Vector2.new(0, 0)
+i71.Position = UDim2.new(-0.163588, 0, 0, 0)
+i71.Size = UDim2.new(0.153126, 0, 1.31713, 0)
+i71.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i71.ZIndex = 1
+i71.Rotation = 0
+i71.ClipsDescendants = false
+i71.LayoutOrder = 0
+i71.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+i71.BackgroundTransparency = 1
+i71.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i71.BorderSizePixel = 0
+i71.Image = "rbxassetid://5928443068"
+i71.ImageColor3 = Color3.fromRGB(255, 255, 255)
+i71.ImageTransparency = 0
+i71.ScaleType = Enum.ScaleType.Fit
+i71.SliceCenter = Rect.new(0, 0, 0, 0)
+i71.SliceScale = 1
+i71.ImageRectOffset = Vector2.new(0, 0)
+i71.ImageRectSize = Vector2.new(0, 0)
+i71.Rotation = 0
+i71.Parent = i66
+local i72 = Instance.new("TextLabel")
+i72.Name = "TextLabel"
+i72.Visible = true
+i72.Active = false
+i72.AnchorPoint = Vector2.new(0, 0)
+i72.Position = UDim2.new(0, 0, 0, 0)
+i72.Size = UDim2.new(1, 0, 1, 0)
+i72.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i72.ZIndex = 1
+i72.Rotation = 0
+i72.ClipsDescendants = false
+i72.LayoutOrder = 0
+i72.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+i72.BackgroundTransparency = 1
+i72.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i72.BorderSizePixel = 0
+i72.Text = "0"
+i72.TextColor3 = Color3.fromRGB(255, 255, 255)
+i72.TextTransparency = 0
+i72.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i72.TextStrokeTransparency = 0
+i72.Font = Enum.Font.Arcade
+i72.TextSize = 14
+i72.TextScaled = true
+i72.TextWrapped = true
+i72.TextXAlignment = Enum.TextXAlignment.Center
+i72.TextYAlignment = Enum.TextYAlignment.Center
+i72.RichText = false
+i72.Rotation = 0
+i72.Parent = i71
+local i73 = Instance.new("TextLabel")
+i73.Name = "PlayerRank"
+i73.Visible = false
+i73.Active = false
+i73.AnchorPoint = Vector2.new(0, 0)
+i73.Position = UDim2.new(-0.00442403, 0, 0.117, 0)
+i73.Size = UDim2.new(0.159785, 0, 1, 0)
+i73.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i73.ZIndex = 2
+i73.Rotation = 0
+i73.ClipsDescendants = false
+i73.LayoutOrder = 0
+i73.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+i73.BackgroundTransparency = 1
+i73.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i73.BorderSizePixel = 0
+i73.Text = "#50"
+i73.TextColor3 = Color3.fromRGB(255, 255, 255)
+i73.TextTransparency = 0
+i73.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i73.TextStrokeTransparency = 0
+i73.Font = Enum.Font.GothamBlack
+i73.TextSize = 16
+i73.TextScaled = true
+i73.TextWrapped = true
+i73.TextXAlignment = Enum.TextXAlignment.Center
+i73.TextYAlignment = Enum.TextYAlignment.Center
+i73.RichText = false
+i73.Rotation = 0
+i73.Parent = i66
+local i74 = Instance.new("UITextSizeConstraint")
+i74.Name = "UITextSizeConstraint"
+i74.MaxTextSize = 16
+i74.MinTextSize = 1
+i74.Parent = i73
+local i75 = Instance.new("TextLabel")
+i75.Name = "PlayerName"
+i75.Visible = true
+i75.Active = false
+i75.AnchorPoint = Vector2.new(0, 0)
+i75.Position = UDim2.new(0.0500827, 0, 0.117371, 0)
+i75.Size = UDim2.new(0.514917, 0, 1, 0)
+i75.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i75.ZIndex = 2
+i75.Rotation = 0
+i75.ClipsDescendants = false
+i75.LayoutOrder = 0
+i75.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+i75.BackgroundTransparency = 1
+i75.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i75.BorderSizePixel = 0
+i75.Text = "Player1testing"
+i75.TextColor3 = Color3.fromRGB(255, 255, 255)
+i75.TextTransparency = 0
+i75.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i75.TextStrokeTransparency = 0
+i75.Font = Enum.Font.Code
+i75.TextSize = 16
+i75.TextScaled = true
+i75.TextWrapped = true
+i75.TextXAlignment = Enum.TextXAlignment.Center
+i75.TextYAlignment = Enum.TextYAlignment.Center
+i75.RichText = false
+i75.Rotation = 0
+i75.Parent = i66
+local i76 = Instance.new("UITextSizeConstraint")
+i76.Name = "UITextSizeConstraint"
+i76.MaxTextSize = 16
+i76.MinTextSize = 1
+i76.Parent = i75
+local i77 = Instance.new("Frame")
+i77.Name = "cepit88d82"
+i77.Visible = true
+i77.Active = false
+i77.AnchorPoint = Vector2.new(0, 0)
+i77.Position = UDim2.new(0.2, 0, 0.125, 0)
+i77.Size = UDim2.new(0.75, 0, 0.06, 0)
+i77.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i77.ZIndex = 1
+i77.Rotation = 0
+i77.ClipsDescendants = false
+i77.LayoutOrder = 0
+i77.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+i77.BackgroundTransparency = 1
+i77.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i77.BorderSizePixel = 1
+i77.Rotation = 0
+i77.Parent = i58
+local i78 = Instance.new("TextLabel")
+i78.Name = "PlayerNameRanked"
+i78.Visible = false
+i78.Active = false
+i78.AnchorPoint = Vector2.new(0, 0)
+i78.Position = UDim2.new(0.182679, 0, 0.117371, 0)
+i78.Size = UDim2.new(0.382321, 0, 1, 0)
+i78.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i78.ZIndex = 2
+i78.Rotation = 0
+i78.ClipsDescendants = false
+i78.LayoutOrder = 0
+i78.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+i78.BackgroundTransparency = 1
+i78.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i78.BorderSizePixel = 0
+i78.Text = "cepit88d82"
+i78.TextColor3 = Color3.fromRGB(255, 255, 255)
+i78.TextTransparency = 0
+i78.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i78.TextStrokeTransparency = 0
+i78.Font = Enum.Font.Code
+i78.TextSize = 16
+i78.TextScaled = false
+i78.TextWrapped = true
+i78.TextXAlignment = Enum.TextXAlignment.Left
+i78.TextYAlignment = Enum.TextYAlignment.Center
+i78.RichText = false
+i78.Rotation = 0
+i78.Parent = i77
+local i79 = Instance.new("TextLabel")
+i79.Name = "GangName"
+i79.Visible = true
+i79.Active = false
+i79.AnchorPoint = Vector2.new(0, 0)
+i79.Position = UDim2.new(0.575, 0, 0.117371, 0)
+i79.Size = UDim2.new(0.425, 0, 1, 0)
+i79.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i79.ZIndex = 2
+i79.Rotation = 0
+i79.ClipsDescendants = false
+i79.LayoutOrder = 0
+i79.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+i79.BackgroundTransparency = 1
+i79.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i79.BorderSizePixel = 0
+i79.Text = "Gang-less"
+i79.TextColor3 = Color3.fromRGB(255, 255, 255)
+i79.TextTransparency = 0
+i79.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i79.TextStrokeTransparency = 0
+i79.Font = Enum.Font.Jura
+i79.TextSize = 14
+i79.TextScaled = false
+i79.TextWrapped = true
+i79.TextXAlignment = Enum.TextXAlignment.Right
+i79.TextYAlignment = Enum.TextYAlignment.Center
+i79.RichText = false
+i79.Rotation = 0
+i79.Parent = i77
+local i80 = Instance.new("UITextSizeConstraint")
+i80.Name = "UITextSizeConstraint"
+i80.MaxTextSize = 14
+i80.MinTextSize = 1
+i80.Parent = i79
+local i81 = Instance.new("ImageLabel")
+i81.Name = "ImageLabel"
+i81.Visible = true
+i81.Active = false
+i81.AnchorPoint = Vector2.new(0, 0)
+i81.Position = UDim2.new(0, 0, -0.282629, 0)
+i81.Size = UDim2.new(1.05, 0, 1.8, 0)
+i81.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i81.ZIndex = 1
+i81.Rotation = 0
+i81.ClipsDescendants = false
+i81.LayoutOrder = 0
+i81.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+i81.BackgroundTransparency = 1
+i81.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i81.BorderSizePixel = 1
+i81.Image = "rbxassetid://5928446618"
+i81.ImageColor3 = Color3.fromRGB(255, 255, 255)
+i81.ImageTransparency = 0
+i81.ScaleType = Enum.ScaleType.Fit
+i81.SliceCenter = Rect.new(0, 0, 0, 0)
+i81.SliceScale = 1
+i81.ImageRectOffset = Vector2.new(0, 0)
+i81.ImageRectSize = Vector2.new(0, 0)
+i81.Rotation = 0
+i81.Parent = i77
+local i82 = Instance.new("ImageLabel")
+i82.Name = "Prestige"
+i82.Visible = true
+i82.Active = false
+i82.AnchorPoint = Vector2.new(0, 0)
+i82.Position = UDim2.new(-0.163588, 0, 0, 0)
+i82.Size = UDim2.new(0.153126, 0, 1.31713, 0)
+i82.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i82.ZIndex = 1
+i82.Rotation = 0
+i82.ClipsDescendants = false
+i82.LayoutOrder = 0
+i82.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+i82.BackgroundTransparency = 1
+i82.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i82.BorderSizePixel = 0
+i82.Image = "rbxassetid://5928443068"
+i82.ImageColor3 = Color3.fromRGB(255, 255, 255)
+i82.ImageTransparency = 0
+i82.ScaleType = Enum.ScaleType.Fit
+i82.SliceCenter = Rect.new(0, 0, 0, 0)
+i82.SliceScale = 1
+i82.ImageRectOffset = Vector2.new(0, 0)
+i82.ImageRectSize = Vector2.new(0, 0)
+i82.Rotation = 0
+i82.Parent = i77
+local i83 = Instance.new("TextLabel")
+i83.Name = "TextLabel"
+i83.Visible = true
+i83.Active = false
+i83.AnchorPoint = Vector2.new(0, 0)
+i83.Position = UDim2.new(0, 0, 0, 0)
+i83.Size = UDim2.new(1, 0, 1, 0)
+i83.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i83.ZIndex = 1
+i83.Rotation = 0
+i83.ClipsDescendants = false
+i83.LayoutOrder = 0
+i83.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+i83.BackgroundTransparency = 1
+i83.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i83.BorderSizePixel = 0
+i83.Text = "0"
+i83.TextColor3 = Color3.fromRGB(255, 255, 255)
+i83.TextTransparency = 0
+i83.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i83.TextStrokeTransparency = 0
+i83.Font = Enum.Font.Arcade
+i83.TextSize = 14
+i83.TextScaled = true
+i83.TextWrapped = true
+i83.TextXAlignment = Enum.TextXAlignment.Center
+i83.TextYAlignment = Enum.TextYAlignment.Center
+i83.RichText = false
+i83.Rotation = 0
+i83.Parent = i82
+local i84 = Instance.new("TextLabel")
+i84.Name = "PlayerRank"
+i84.Visible = false
+i84.Active = false
+i84.AnchorPoint = Vector2.new(0, 0)
+i84.Position = UDim2.new(-0.00442403, 0, 0.117, 0)
+i84.Size = UDim2.new(0.159785, 0, 1, 0)
+i84.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i84.ZIndex = 2
+i84.Rotation = 0
+i84.ClipsDescendants = false
+i84.LayoutOrder = 0
+i84.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+i84.BackgroundTransparency = 1
+i84.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i84.BorderSizePixel = 0
+i84.Text = "#50"
+i84.TextColor3 = Color3.fromRGB(255, 255, 255)
+i84.TextTransparency = 0
+i84.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i84.TextStrokeTransparency = 0
+i84.Font = Enum.Font.GothamBlack
+i84.TextSize = 16
+i84.TextScaled = true
+i84.TextWrapped = true
+i84.TextXAlignment = Enum.TextXAlignment.Center
+i84.TextYAlignment = Enum.TextYAlignment.Center
+i84.RichText = false
+i84.Rotation = 0
+i84.Parent = i77
+local i85 = Instance.new("UITextSizeConstraint")
+i85.Name = "UITextSizeConstraint"
+i85.MaxTextSize = 16
+i85.MinTextSize = 1
+i85.Parent = i84
+local i86 = Instance.new("TextLabel")
+i86.Name = "PlayerName"
+i86.Visible = true
+i86.Active = false
+i86.AnchorPoint = Vector2.new(0, 0)
+i86.Position = UDim2.new(0.0500827, 0, 0.117371, 0)
+i86.Size = UDim2.new(0.514917, 0, 1, 0)
+i86.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i86.ZIndex = 2
+i86.Rotation = 0
+i86.ClipsDescendants = false
+i86.LayoutOrder = 0
+i86.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+i86.BackgroundTransparency = 1
+i86.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i86.BorderSizePixel = 0
+i86.Text = "cepit88d82"
+i86.TextColor3 = Color3.fromRGB(255, 255, 255)
+i86.TextTransparency = 0
+i86.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i86.TextStrokeTransparency = 0
+i86.Font = Enum.Font.Code
+i86.TextSize = 16
+i86.TextScaled = true
+i86.TextWrapped = true
+i86.TextXAlignment = Enum.TextXAlignment.Center
+i86.TextYAlignment = Enum.TextYAlignment.Center
+i86.RichText = false
+i86.Rotation = 0
+i86.Parent = i77
+local i87 = Instance.new("UITextSizeConstraint")
+i87.Name = "UITextSizeConstraint"
+i87.MaxTextSize = 16
+i87.MinTextSize = 1
+i87.Parent = i86
+local i88 = Instance.new("Frame")
+i88.Name = "44v4s"
+i88.Visible = true
+i88.Active = false
+i88.AnchorPoint = Vector2.new(0, 0)
+i88.Position = UDim2.new(0.2, 0, 0.21, 0)
+i88.Size = UDim2.new(0.75, 0, 0.06, 0)
+i88.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i88.ZIndex = 1
+i88.Rotation = 0
+i88.ClipsDescendants = false
+i88.LayoutOrder = 0
+i88.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+i88.BackgroundTransparency = 1
+i88.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i88.BorderSizePixel = 1
+i88.Rotation = 0
+i88.Parent = i58
+local i89 = Instance.new("TextLabel")
+i89.Name = "PlayerNameRanked"
+i89.Visible = false
+i89.Active = false
+i89.AnchorPoint = Vector2.new(0, 0)
+i89.Position = UDim2.new(0.182679, 0, 0.117371, 0)
+i89.Size = UDim2.new(0.382321, 0, 1, 0)
+i89.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i89.ZIndex = 2
+i89.Rotation = 0
+i89.ClipsDescendants = false
+i89.LayoutOrder = 0
+i89.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+i89.BackgroundTransparency = 1
+i89.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i89.BorderSizePixel = 0
+i89.Text = "44v4s"
+i89.TextColor3 = Color3.fromRGB(239, 184, 56)
+i89.TextTransparency = 0
+i89.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i89.TextStrokeTransparency = 0
+i89.Font = Enum.Font.Code
+i89.TextSize = 16
+i89.TextScaled = false
+i89.TextWrapped = true
+i89.TextXAlignment = Enum.TextXAlignment.Left
+i89.TextYAlignment = Enum.TextYAlignment.Center
+i89.RichText = false
+i89.Rotation = 0
+i89.Parent = i88
+local i90 = Instance.new("TextLabel")
+i90.Name = "GangName"
+i90.Visible = true
+i90.Active = false
+i90.AnchorPoint = Vector2.new(0, 0)
+i90.Position = UDim2.new(0.575, 0, 0.117371, 0)
+i90.Size = UDim2.new(0.425, 0, 1, 0)
+i90.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i90.ZIndex = 2
+i90.Rotation = 0
+i90.ClipsDescendants = false
+i90.LayoutOrder = 0
+i90.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+i90.BackgroundTransparency = 1
+i90.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i90.BorderSizePixel = 0
+i90.Text = "Gang-less"
+i90.TextColor3 = Color3.fromRGB(255, 255, 255)
+i90.TextTransparency = 0
+i90.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i90.TextStrokeTransparency = 0
+i90.Font = Enum.Font.Jura
+i90.TextSize = 14
+i90.TextScaled = false
+i90.TextWrapped = true
+i90.TextXAlignment = Enum.TextXAlignment.Right
+i90.TextYAlignment = Enum.TextYAlignment.Center
+i90.RichText = false
+i90.Rotation = 0
+i90.Parent = i88
+local i91 = Instance.new("UITextSizeConstraint")
+i91.Name = "UITextSizeConstraint"
+i91.MaxTextSize = 14
+i91.MinTextSize = 1
+i91.Parent = i90
+local i92 = Instance.new("ImageLabel")
+i92.Name = "ImageLabel"
+i92.Visible = true
+i92.Active = false
+i92.AnchorPoint = Vector2.new(0, 0)
+i92.Position = UDim2.new(0, 0, -0.282629, 0)
+i92.Size = UDim2.new(1.05, 0, 1.8, 0)
+i92.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i92.ZIndex = 1
+i92.Rotation = 0
+i92.ClipsDescendants = false
+i92.LayoutOrder = 0
+i92.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+i92.BackgroundTransparency = 1
+i92.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i92.BorderSizePixel = 1
+i92.Image = "rbxassetid://5928446618"
+i92.ImageColor3 = Color3.fromRGB(255, 255, 255)
+i92.ImageTransparency = 0
+i92.ScaleType = Enum.ScaleType.Fit
+i92.SliceCenter = Rect.new(0, 0, 0, 0)
+i92.SliceScale = 1
+i92.ImageRectOffset = Vector2.new(0, 0)
+i92.ImageRectSize = Vector2.new(0, 0)
+i92.Rotation = 0
+i92.Parent = i88
+local i93 = Instance.new("ImageLabel")
+i93.Name = "Prestige"
+i93.Visible = true
+i93.Active = false
+i93.AnchorPoint = Vector2.new(0, 0)
+i93.Position = UDim2.new(-0.163588, 0, 0, 0)
+i93.Size = UDim2.new(0.153126, 0, 1.31713, 0)
+i93.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i93.ZIndex = 1
+i93.Rotation = 0
+i93.ClipsDescendants = false
+i93.LayoutOrder = 0
+i93.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+i93.BackgroundTransparency = 1
+i93.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i93.BorderSizePixel = 0
+i93.Image = "rbxassetid://5928443068"
+i93.ImageColor3 = Color3.fromRGB(255, 255, 255)
+i93.ImageTransparency = 0
+i93.ScaleType = Enum.ScaleType.Fit
+i93.SliceCenter = Rect.new(0, 0, 0, 0)
+i93.SliceScale = 1
+i93.ImageRectOffset = Vector2.new(0, 0)
+i93.ImageRectSize = Vector2.new(0, 0)
+i93.Rotation = 0
+i93.Parent = i88
+local i94 = Instance.new("TextLabel")
+i94.Name = "TextLabel"
+i94.Visible = true
+i94.Active = false
+i94.AnchorPoint = Vector2.new(0, 0)
+i94.Position = UDim2.new(0, 0, 0, 0)
+i94.Size = UDim2.new(1, 0, 1, 0)
+i94.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i94.ZIndex = 1
+i94.Rotation = 0
+i94.ClipsDescendants = false
+i94.LayoutOrder = 0
+i94.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+i94.BackgroundTransparency = 1
+i94.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i94.BorderSizePixel = 0
+i94.Text = "III"
+i94.TextColor3 = Color3.fromRGB(239, 184, 56)
+i94.TextTransparency = 0
+i94.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i94.TextStrokeTransparency = 0
+i94.Font = Enum.Font.Arcade
+i94.TextSize = 14
+i94.TextScaled = true
+i94.TextWrapped = true
+i94.TextXAlignment = Enum.TextXAlignment.Center
+i94.TextYAlignment = Enum.TextYAlignment.Center
+i94.RichText = false
+i94.Rotation = 0
+i94.Parent = i93
+local i95 = Instance.new("TextLabel")
+i95.Name = "PlayerRank"
+i95.Visible = false
+i95.Active = false
+i95.AnchorPoint = Vector2.new(0, 0)
+i95.Position = UDim2.new(-0.00442403, 0, 0.117, 0)
+i95.Size = UDim2.new(0.159785, 0, 1, 0)
+i95.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i95.ZIndex = 2
+i95.Rotation = 0
+i95.ClipsDescendants = false
+i95.LayoutOrder = 0
+i95.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+i95.BackgroundTransparency = 1
+i95.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i95.BorderSizePixel = 0
+i95.Text = "#50"
+i95.TextColor3 = Color3.fromRGB(255, 255, 255)
+i95.TextTransparency = 0
+i95.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i95.TextStrokeTransparency = 0
+i95.Font = Enum.Font.GothamBlack
+i95.TextSize = 16
+i95.TextScaled = true
+i95.TextWrapped = true
+i95.TextXAlignment = Enum.TextXAlignment.Center
+i95.TextYAlignment = Enum.TextYAlignment.Center
+i95.RichText = false
+i95.Rotation = 0
+i95.Parent = i88
+local i96 = Instance.new("UITextSizeConstraint")
+i96.Name = "UITextSizeConstraint"
+i96.MaxTextSize = 16
+i96.MinTextSize = 1
+i96.Parent = i95
+local i97 = Instance.new("TextLabel")
+i97.Name = "PlayerName"
+i97.Visible = true
+i97.Active = false
+i97.AnchorPoint = Vector2.new(0, 0)
+i97.Position = UDim2.new(0.0500827, 0, 0.117371, 0)
+i97.Size = UDim2.new(0.514917, 0, 1, 0)
+i97.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i97.ZIndex = 2
+i97.Rotation = 0
+i97.ClipsDescendants = false
+i97.LayoutOrder = 0
+i97.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+i97.BackgroundTransparency = 1
+i97.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i97.BorderSizePixel = 0
+i97.Text = "44v4s"
+i97.TextColor3 = Color3.fromRGB(239, 184, 56)
+i97.TextTransparency = 0
+i97.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i97.TextStrokeTransparency = 0
+i97.Font = Enum.Font.Code
+i97.TextSize = 16
+i97.TextScaled = true
+i97.TextWrapped = true
+i97.TextXAlignment = Enum.TextXAlignment.Center
+i97.TextYAlignment = Enum.TextYAlignment.Center
+i97.RichText = false
+i97.Rotation = 0
+i97.Parent = i88
+local i98 = Instance.new("UITextSizeConstraint")
+i98.Name = "UITextSizeConstraint"
+i98.MaxTextSize = 16
+i98.MinTextSize = 1
+i98.Parent = i97
+local i99 = Instance.new("Frame")
+i99.Name = "bss_1844"
+i99.Visible = true
+i99.Active = false
+i99.AnchorPoint = Vector2.new(0, 0)
+i99.Position = UDim2.new(0.2, 0, 0.295, 0)
+i99.Size = UDim2.new(0.75, 0, 0.06, 0)
+i99.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i99.ZIndex = 1
+i99.Rotation = 0
+i99.ClipsDescendants = false
+i99.LayoutOrder = 0
+i99.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+i99.BackgroundTransparency = 1
+i99.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i99.BorderSizePixel = 1
+i99.Rotation = 0
+i99.Parent = i58
+local i100 = Instance.new("TextLabel")
+i100.Name = "PlayerNameRanked"
+i100.Visible = false
+i100.Active = false
+i100.AnchorPoint = Vector2.new(0, 0)
+i100.Position = UDim2.new(0.182679, 0, 0.117371, 0)
+i100.Size = UDim2.new(0.382321, 0, 1, 0)
+i100.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i100.ZIndex = 2
+i100.Rotation = 0
+i100.ClipsDescendants = false
+i100.LayoutOrder = 0
+i100.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+i100.BackgroundTransparency = 1
+i100.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i100.BorderSizePixel = 0
+i100.Text = "bss_1844"
+i100.TextColor3 = Color3.fromRGB(239, 184, 56)
+i100.TextTransparency = 0
+i100.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i100.TextStrokeTransparency = 0
+i100.Font = Enum.Font.Code
+i100.TextSize = 16
+i100.TextScaled = false
+i100.TextWrapped = true
+i100.TextXAlignment = Enum.TextXAlignment.Left
+i100.TextYAlignment = Enum.TextYAlignment.Center
+i100.RichText = false
+i100.Rotation = 0
+i100.Parent = i99
+local i101 = Instance.new("TextLabel")
+i101.Name = "GangName"
+i101.Visible = true
+i101.Active = false
+i101.AnchorPoint = Vector2.new(0, 0)
+i101.Position = UDim2.new(0.575, 0, 0.117371, 0)
+i101.Size = UDim2.new(0.425, 0, 1, 0)
+i101.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i101.ZIndex = 2
+i101.Rotation = 0
+i101.ClipsDescendants = false
+i101.LayoutOrder = 0
+i101.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+i101.BackgroundTransparency = 1
+i101.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i101.BorderSizePixel = 0
+i101.Text = "Gang-less"
+i101.TextColor3 = Color3.fromRGB(255, 255, 255)
+i101.TextTransparency = 0
+i101.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i101.TextStrokeTransparency = 0
+i101.Font = Enum.Font.Jura
+i101.TextSize = 14
+i101.TextScaled = false
+i101.TextWrapped = true
+i101.TextXAlignment = Enum.TextXAlignment.Right
+i101.TextYAlignment = Enum.TextYAlignment.Center
+i101.RichText = false
+i101.Rotation = 0
+i101.Parent = i99
+local i102 = Instance.new("UITextSizeConstraint")
+i102.Name = "UITextSizeConstraint"
+i102.MaxTextSize = 14
+i102.MinTextSize = 1
+i102.Parent = i101
+local i103 = Instance.new("ImageLabel")
+i103.Name = "ImageLabel"
+i103.Visible = true
+i103.Active = false
+i103.AnchorPoint = Vector2.new(0, 0)
+i103.Position = UDim2.new(0, 0, -0.282629, 0)
+i103.Size = UDim2.new(1.05, 0, 1.8, 0)
+i103.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i103.ZIndex = 1
+i103.Rotation = 0
+i103.ClipsDescendants = false
+i103.LayoutOrder = 0
+i103.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+i103.BackgroundTransparency = 1
+i103.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i103.BorderSizePixel = 1
+i103.Image = "rbxassetid://5928446618"
+i103.ImageColor3 = Color3.fromRGB(255, 255, 255)
+i103.ImageTransparency = 0
+i103.ScaleType = Enum.ScaleType.Fit
+i103.SliceCenter = Rect.new(0, 0, 0, 0)
+i103.SliceScale = 1
+i103.ImageRectOffset = Vector2.new(0, 0)
+i103.ImageRectSize = Vector2.new(0, 0)
+i103.Rotation = 0
+i103.Parent = i99
+local i104 = Instance.new("ImageLabel")
+i104.Name = "Prestige"
+i104.Visible = true
+i104.Active = false
+i104.AnchorPoint = Vector2.new(0, 0)
+i104.Position = UDim2.new(-0.163588, 0, 0, 0)
+i104.Size = UDim2.new(0.153126, 0, 1.31713, 0)
+i104.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i104.ZIndex = 1
+i104.Rotation = 0
+i104.ClipsDescendants = false
+i104.LayoutOrder = 0
+i104.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+i104.BackgroundTransparency = 1
+i104.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i104.BorderSizePixel = 0
+i104.Image = "rbxassetid://5928443068"
+i104.ImageColor3 = Color3.fromRGB(255, 255, 255)
+i104.ImageTransparency = 0
+i104.ScaleType = Enum.ScaleType.Fit
+i104.SliceCenter = Rect.new(0, 0, 0, 0)
+i104.SliceScale = 1
+i104.ImageRectOffset = Vector2.new(0, 0)
+i104.ImageRectSize = Vector2.new(0, 0)
+i104.Rotation = 0
+i104.Parent = i99
+local i105 = Instance.new("TextLabel")
+i105.Name = "TextLabel"
+i105.Visible = true
+i105.Active = false
+i105.AnchorPoint = Vector2.new(0, 0)
+i105.Position = UDim2.new(0, 0, 0, 0)
+i105.Size = UDim2.new(1, 0, 1, 0)
+i105.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i105.ZIndex = 1
+i105.Rotation = 0
+i105.ClipsDescendants = false
+i105.LayoutOrder = 0
+i105.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+i105.BackgroundTransparency = 1
+i105.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i105.BorderSizePixel = 0
+i105.Text = "III"
+i105.TextColor3 = Color3.fromRGB(239, 184, 56)
+i105.TextTransparency = 0
+i105.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i105.TextStrokeTransparency = 0
+i105.Font = Enum.Font.Arcade
+i105.TextSize = 14
+i105.TextScaled = true
+i105.TextWrapped = true
+i105.TextXAlignment = Enum.TextXAlignment.Center
+i105.TextYAlignment = Enum.TextYAlignment.Center
+i105.RichText = false
+i105.Rotation = 0
+i105.Parent = i104
+local i106 = Instance.new("TextLabel")
+i106.Name = "PlayerRank"
+i106.Visible = false
+i106.Active = false
+i106.AnchorPoint = Vector2.new(0, 0)
+i106.Position = UDim2.new(-0.00442403, 0, 0.117, 0)
+i106.Size = UDim2.new(0.159785, 0, 1, 0)
+i106.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i106.ZIndex = 2
+i106.Rotation = 0
+i106.ClipsDescendants = false
+i106.LayoutOrder = 0
+i106.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+i106.BackgroundTransparency = 1
+i106.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i106.BorderSizePixel = 0
+i106.Text = "#50"
+i106.TextColor3 = Color3.fromRGB(255, 255, 255)
+i106.TextTransparency = 0
+i106.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i106.TextStrokeTransparency = 0
+i106.Font = Enum.Font.GothamBlack
+i106.TextSize = 16
+i106.TextScaled = true
+i106.TextWrapped = true
+i106.TextXAlignment = Enum.TextXAlignment.Center
+i106.TextYAlignment = Enum.TextYAlignment.Center
+i106.RichText = false
+i106.Rotation = 0
+i106.Parent = i99
+local i107 = Instance.new("UITextSizeConstraint")
+i107.Name = "UITextSizeConstraint"
+i107.MaxTextSize = 16
+i107.MinTextSize = 1
+i107.Parent = i106
+local i108 = Instance.new("TextLabel")
+i108.Name = "PlayerName"
+i108.Visible = true
+i108.Active = false
+i108.AnchorPoint = Vector2.new(0, 0)
+i108.Position = UDim2.new(0.0500827, 0, 0.117371, 0)
+i108.Size = UDim2.new(0.514917, 0, 1, 0)
+i108.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i108.ZIndex = 2
+i108.Rotation = 0
+i108.ClipsDescendants = false
+i108.LayoutOrder = 0
+i108.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+i108.BackgroundTransparency = 1
+i108.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i108.BorderSizePixel = 0
+i108.Text = "bss_1844"
+i108.TextColor3 = Color3.fromRGB(239, 184, 56)
+i108.TextTransparency = 0
+i108.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i108.TextStrokeTransparency = 0
+i108.Font = Enum.Font.Code
+i108.TextSize = 16
+i108.TextScaled = true
+i108.TextWrapped = true
+i108.TextXAlignment = Enum.TextXAlignment.Center
+i108.TextYAlignment = Enum.TextYAlignment.Center
+i108.RichText = false
+i108.Rotation = 0
+i108.Parent = i99
+local i109 = Instance.new("UITextSizeConstraint")
+i109.Name = "UITextSizeConstraint"
+i109.MaxTextSize = 16
+i109.MinTextSize = 1
+i109.Parent = i108
+local i110 = Instance.new("Frame")
+i110.Name = "D99528345"
+i110.Visible = true
+i110.Active = false
+i110.AnchorPoint = Vector2.new(0, 0)
+i110.Position = UDim2.new(0.2, 0, 0.38, 0)
+i110.Size = UDim2.new(0.75, 0, 0.06, 0)
+i110.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i110.ZIndex = 1
+i110.Rotation = 0
+i110.ClipsDescendants = false
+i110.LayoutOrder = 0
+i110.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+i110.BackgroundTransparency = 1
+i110.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i110.BorderSizePixel = 1
+i110.Rotation = 0
+i110.Parent = i58
+local i111 = Instance.new("TextLabel")
+i111.Name = "PlayerNameRanked"
+i111.Visible = false
+i111.Active = false
+i111.AnchorPoint = Vector2.new(0, 0)
+i111.Position = UDim2.new(0.182679, 0, 0.117371, 0)
+i111.Size = UDim2.new(0.382321, 0, 1, 0)
+i111.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i111.ZIndex = 2
+i111.Rotation = 0
+i111.ClipsDescendants = false
+i111.LayoutOrder = 0
+i111.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+i111.BackgroundTransparency = 1
+i111.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i111.BorderSizePixel = 0
+i111.Text = "D99528345"
+i111.TextColor3 = Color3.fromRGB(239, 184, 56)
+i111.TextTransparency = 0
+i111.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i111.TextStrokeTransparency = 0
+i111.Font = Enum.Font.Code
+i111.TextSize = 16
+i111.TextScaled = false
+i111.TextWrapped = true
+i111.TextXAlignment = Enum.TextXAlignment.Left
+i111.TextYAlignment = Enum.TextYAlignment.Center
+i111.RichText = false
+i111.Rotation = 0
+i111.Parent = i110
+local i112 = Instance.new("TextLabel")
+i112.Name = "GangName"
+i112.Visible = true
+i112.Active = false
+i112.AnchorPoint = Vector2.new(0, 0)
+i112.Position = UDim2.new(0.575, 0, 0.117371, 0)
+i112.Size = UDim2.new(0.425, 0, 1, 0)
+i112.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i112.ZIndex = 2
+i112.Rotation = 0
+i112.ClipsDescendants = false
+i112.LayoutOrder = 0
+i112.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+i112.BackgroundTransparency = 1
+i112.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i112.BorderSizePixel = 0
+i112.Text = "Gang-less"
+i112.TextColor3 = Color3.fromRGB(255, 255, 255)
+i112.TextTransparency = 0
+i112.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i112.TextStrokeTransparency = 0
+i112.Font = Enum.Font.Jura
+i112.TextSize = 14
+i112.TextScaled = false
+i112.TextWrapped = true
+i112.TextXAlignment = Enum.TextXAlignment.Right
+i112.TextYAlignment = Enum.TextYAlignment.Center
+i112.RichText = false
+i112.Rotation = 0
+i112.Parent = i110
+local i113 = Instance.new("UITextSizeConstraint")
+i113.Name = "UITextSizeConstraint"
+i113.MaxTextSize = 14
+i113.MinTextSize = 1
+i113.Parent = i112
+local i114 = Instance.new("ImageLabel")
+i114.Name = "ImageLabel"
+i114.Visible = true
+i114.Active = false
+i114.AnchorPoint = Vector2.new(0, 0)
+i114.Position = UDim2.new(0, 0, -0.282629, 0)
+i114.Size = UDim2.new(1.05, 0, 1.8, 0)
+i114.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i114.ZIndex = 1
+i114.Rotation = 0
+i114.ClipsDescendants = false
+i114.LayoutOrder = 0
+i114.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+i114.BackgroundTransparency = 1
+i114.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i114.BorderSizePixel = 1
+i114.Image = "rbxassetid://5928446618"
+i114.ImageColor3 = Color3.fromRGB(255, 255, 255)
+i114.ImageTransparency = 0
+i114.ScaleType = Enum.ScaleType.Fit
+i114.SliceCenter = Rect.new(0, 0, 0, 0)
+i114.SliceScale = 1
+i114.ImageRectOffset = Vector2.new(0, 0)
+i114.ImageRectSize = Vector2.new(0, 0)
+i114.Rotation = 0
+i114.Parent = i110
+local i115 = Instance.new("ImageLabel")
+i115.Name = "Prestige"
+i115.Visible = true
+i115.Active = false
+i115.AnchorPoint = Vector2.new(0, 0)
+i115.Position = UDim2.new(-0.163588, 0, 0, 0)
+i115.Size = UDim2.new(0.153126, 0, 1.31713, 0)
+i115.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i115.ZIndex = 1
+i115.Rotation = 0
+i115.ClipsDescendants = false
+i115.LayoutOrder = 0
+i115.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+i115.BackgroundTransparency = 1
+i115.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i115.BorderSizePixel = 0
+i115.Image = "rbxassetid://5928443068"
+i115.ImageColor3 = Color3.fromRGB(255, 255, 255)
+i115.ImageTransparency = 0
+i115.ScaleType = Enum.ScaleType.Fit
+i115.SliceCenter = Rect.new(0, 0, 0, 0)
+i115.SliceScale = 1
+i115.ImageRectOffset = Vector2.new(0, 0)
+i115.ImageRectSize = Vector2.new(0, 0)
+i115.Rotation = 0
+i115.Parent = i110
+local i116 = Instance.new("TextLabel")
+i116.Name = "TextLabel"
+i116.Visible = true
+i116.Active = false
+i116.AnchorPoint = Vector2.new(0, 0)
+i116.Position = UDim2.new(0, 0, 0, 0)
+i116.Size = UDim2.new(1, 0, 1, 0)
+i116.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i116.ZIndex = 1
+i116.Rotation = 0
+i116.ClipsDescendants = false
+i116.LayoutOrder = 0
+i116.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+i116.BackgroundTransparency = 1
+i116.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i116.BorderSizePixel = 0
+i116.Text = "III"
+i116.TextColor3 = Color3.fromRGB(239, 184, 56)
+i116.TextTransparency = 0
+i116.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i116.TextStrokeTransparency = 0
+i116.Font = Enum.Font.Arcade
+i116.TextSize = 14
+i116.TextScaled = true
+i116.TextWrapped = true
+i116.TextXAlignment = Enum.TextXAlignment.Center
+i116.TextYAlignment = Enum.TextYAlignment.Center
+i116.RichText = false
+i116.Rotation = 0
+i116.Parent = i115
+local i117 = Instance.new("TextLabel")
+i117.Name = "PlayerRank"
+i117.Visible = false
+i117.Active = false
+i117.AnchorPoint = Vector2.new(0, 0)
+i117.Position = UDim2.new(-0.00442403, 0, 0.117, 0)
+i117.Size = UDim2.new(0.159785, 0, 1, 0)
+i117.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i117.ZIndex = 2
+i117.Rotation = 0
+i117.ClipsDescendants = false
+i117.LayoutOrder = 0
+i117.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+i117.BackgroundTransparency = 1
+i117.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i117.BorderSizePixel = 0
+i117.Text = "#50"
+i117.TextColor3 = Color3.fromRGB(255, 255, 255)
+i117.TextTransparency = 0
+i117.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i117.TextStrokeTransparency = 0
+i117.Font = Enum.Font.GothamBlack
+i117.TextSize = 16
+i117.TextScaled = true
+i117.TextWrapped = true
+i117.TextXAlignment = Enum.TextXAlignment.Center
+i117.TextYAlignment = Enum.TextYAlignment.Center
+i117.RichText = false
+i117.Rotation = 0
+i117.Parent = i110
+local i118 = Instance.new("UITextSizeConstraint")
+i118.Name = "UITextSizeConstraint"
+i118.MaxTextSize = 16
+i118.MinTextSize = 1
+i118.Parent = i117
+local i119 = Instance.new("TextLabel")
+i119.Name = "PlayerName"
+i119.Visible = true
+i119.Active = false
+i119.AnchorPoint = Vector2.new(0, 0)
+i119.Position = UDim2.new(0.0500827, 0, 0.117371, 0)
+i119.Size = UDim2.new(0.514917, 0, 1, 0)
+i119.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i119.ZIndex = 2
+i119.Rotation = 0
+i119.ClipsDescendants = false
+i119.LayoutOrder = 0
+i119.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+i119.BackgroundTransparency = 1
+i119.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i119.BorderSizePixel = 0
+i119.Text = "D99528345"
+i119.TextColor3 = Color3.fromRGB(239, 184, 56)
+i119.TextTransparency = 0
+i119.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i119.TextStrokeTransparency = 0
+i119.Font = Enum.Font.Code
+i119.TextSize = 16
+i119.TextScaled = true
+i119.TextWrapped = true
+i119.TextXAlignment = Enum.TextXAlignment.Center
+i119.TextYAlignment = Enum.TextYAlignment.Center
+i119.RichText = false
+i119.Rotation = 0
+i119.Parent = i110
+local i120 = Instance.new("UITextSizeConstraint")
+i120.Name = "UITextSizeConstraint"
+i120.MaxTextSize = 16
+i120.MinTextSize = 1
+i120.Parent = i119
+local i121 = Instance.new("Frame")
+i121.Name = "ngtnXGW047v"
+i121.Visible = true
+i121.Active = false
+i121.AnchorPoint = Vector2.new(0, 0)
+i121.Position = UDim2.new(0.2, 0, 0.465, 0)
+i121.Size = UDim2.new(0.75, 0, 0.06, 0)
+i121.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i121.ZIndex = 1
+i121.Rotation = 0
+i121.ClipsDescendants = false
+i121.LayoutOrder = 0
+i121.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+i121.BackgroundTransparency = 1
+i121.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i121.BorderSizePixel = 1
+i121.Rotation = 0
+i121.Parent = i58
+local i122 = Instance.new("TextLabel")
+i122.Name = "PlayerNameRanked"
+i122.Visible = false
+i122.Active = false
+i122.AnchorPoint = Vector2.new(0, 0)
+i122.Position = UDim2.new(0.182679, 0, 0.117371, 0)
+i122.Size = UDim2.new(0.382321, 0, 1, 0)
+i122.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i122.ZIndex = 2
+i122.Rotation = 0
+i122.ClipsDescendants = false
+i122.LayoutOrder = 0
+i122.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+i122.BackgroundTransparency = 1
+i122.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i122.BorderSizePixel = 0
+i122.Text = "ngtnXGW047v"
+i122.TextColor3 = Color3.fromRGB(239, 184, 56)
+i122.TextTransparency = 0
+i122.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i122.TextStrokeTransparency = 0
+i122.Font = Enum.Font.Code
+i122.TextSize = 16
+i122.TextScaled = false
+i122.TextWrapped = true
+i122.TextXAlignment = Enum.TextXAlignment.Left
+i122.TextYAlignment = Enum.TextYAlignment.Center
+i122.RichText = false
+i122.Rotation = 0
+i122.Parent = i121
+local i123 = Instance.new("TextLabel")
+i123.Name = "GangName"
+i123.Visible = true
+i123.Active = false
+i123.AnchorPoint = Vector2.new(0, 0)
+i123.Position = UDim2.new(0.575, 0, 0.117371, 0)
+i123.Size = UDim2.new(0.425, 0, 1, 0)
+i123.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i123.ZIndex = 2
+i123.Rotation = 0
+i123.ClipsDescendants = false
+i123.LayoutOrder = 0
+i123.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+i123.BackgroundTransparency = 1
+i123.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i123.BorderSizePixel = 0
+i123.Text = "Gang-less"
+i123.TextColor3 = Color3.fromRGB(255, 255, 255)
+i123.TextTransparency = 0
+i123.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i123.TextStrokeTransparency = 0
+i123.Font = Enum.Font.Jura
+i123.TextSize = 14
+i123.TextScaled = false
+i123.TextWrapped = true
+i123.TextXAlignment = Enum.TextXAlignment.Right
+i123.TextYAlignment = Enum.TextYAlignment.Center
+i123.RichText = false
+i123.Rotation = 0
+i123.Parent = i121
+local i124 = Instance.new("UITextSizeConstraint")
+i124.Name = "UITextSizeConstraint"
+i124.MaxTextSize = 14
+i124.MinTextSize = 1
+i124.Parent = i123
+local i125 = Instance.new("ImageLabel")
+i125.Name = "ImageLabel"
+i125.Visible = true
+i125.Active = false
+i125.AnchorPoint = Vector2.new(0, 0)
+i125.Position = UDim2.new(0, 0, -0.282629, 0)
+i125.Size = UDim2.new(1.05, 0, 1.8, 0)
+i125.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i125.ZIndex = 1
+i125.Rotation = 0
+i125.ClipsDescendants = false
+i125.LayoutOrder = 0
+i125.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+i125.BackgroundTransparency = 1
+i125.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i125.BorderSizePixel = 1
+i125.Image = "rbxassetid://5928446618"
+i125.ImageColor3 = Color3.fromRGB(255, 255, 255)
+i125.ImageTransparency = 0
+i125.ScaleType = Enum.ScaleType.Fit
+i125.SliceCenter = Rect.new(0, 0, 0, 0)
+i125.SliceScale = 1
+i125.ImageRectOffset = Vector2.new(0, 0)
+i125.ImageRectSize = Vector2.new(0, 0)
+i125.Rotation = 0
+i125.Parent = i121
+local i126 = Instance.new("ImageLabel")
+i126.Name = "Prestige"
+i126.Visible = true
+i126.Active = false
+i126.AnchorPoint = Vector2.new(0, 0)
+i126.Position = UDim2.new(-0.163588, 0, 0, 0)
+i126.Size = UDim2.new(0.153126, 0, 1.31713, 0)
+i126.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i126.ZIndex = 1
+i126.Rotation = 0
+i126.ClipsDescendants = false
+i126.LayoutOrder = 0
+i126.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+i126.BackgroundTransparency = 1
+i126.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i126.BorderSizePixel = 0
+i126.Image = "rbxassetid://5928443068"
+i126.ImageColor3 = Color3.fromRGB(255, 255, 255)
+i126.ImageTransparency = 0
+i126.ScaleType = Enum.ScaleType.Fit
+i126.SliceCenter = Rect.new(0, 0, 0, 0)
+i126.SliceScale = 1
+i126.ImageRectOffset = Vector2.new(0, 0)
+i126.ImageRectSize = Vector2.new(0, 0)
+i126.Rotation = 0
+i126.Parent = i121
+local i127 = Instance.new("TextLabel")
+i127.Name = "TextLabel"
+i127.Visible = true
+i127.Active = false
+i127.AnchorPoint = Vector2.new(0, 0)
+i127.Position = UDim2.new(0, 0, 0, 0)
+i127.Size = UDim2.new(1, 0, 1, 0)
+i127.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i127.ZIndex = 1
+i127.Rotation = 0
+i127.ClipsDescendants = false
+i127.LayoutOrder = 0
+i127.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+i127.BackgroundTransparency = 1
+i127.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i127.BorderSizePixel = 0
+i127.Text = "III"
+i127.TextColor3 = Color3.fromRGB(239, 184, 56)
+i127.TextTransparency = 0
+i127.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i127.TextStrokeTransparency = 0
+i127.Font = Enum.Font.Arcade
+i127.TextSize = 14
+i127.TextScaled = true
+i127.TextWrapped = true
+i127.TextXAlignment = Enum.TextXAlignment.Center
+i127.TextYAlignment = Enum.TextYAlignment.Center
+i127.RichText = false
+i127.Rotation = 0
+i127.Parent = i126
+local i128 = Instance.new("TextLabel")
+i128.Name = "PlayerRank"
+i128.Visible = false
+i128.Active = false
+i128.AnchorPoint = Vector2.new(0, 0)
+i128.Position = UDim2.new(-0.00442403, 0, 0.117, 0)
+i128.Size = UDim2.new(0.159785, 0, 1, 0)
+i128.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i128.ZIndex = 2
+i128.Rotation = 0
+i128.ClipsDescendants = false
+i128.LayoutOrder = 0
+i128.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+i128.BackgroundTransparency = 1
+i128.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i128.BorderSizePixel = 0
+i128.Text = "#50"
+i128.TextColor3 = Color3.fromRGB(255, 255, 255)
+i128.TextTransparency = 0
+i128.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i128.TextStrokeTransparency = 0
+i128.Font = Enum.Font.GothamBlack
+i128.TextSize = 16
+i128.TextScaled = true
+i128.TextWrapped = true
+i128.TextXAlignment = Enum.TextXAlignment.Center
+i128.TextYAlignment = Enum.TextYAlignment.Center
+i128.RichText = false
+i128.Rotation = 0
+i128.Parent = i121
+local i129 = Instance.new("UITextSizeConstraint")
+i129.Name = "UITextSizeConstraint"
+i129.MaxTextSize = 16
+i129.MinTextSize = 1
+i129.Parent = i128
+local i130 = Instance.new("TextLabel")
+i130.Name = "PlayerName"
+i130.Visible = true
+i130.Active = false
+i130.AnchorPoint = Vector2.new(0, 0)
+i130.Position = UDim2.new(0.0500827, 0, 0.117371, 0)
+i130.Size = UDim2.new(0.514917, 0, 1, 0)
+i130.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i130.ZIndex = 2
+i130.Rotation = 0
+i130.ClipsDescendants = false
+i130.LayoutOrder = 0
+i130.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+i130.BackgroundTransparency = 1
+i130.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i130.BorderSizePixel = 0
+i130.Text = "ngtnXGW047v"
+i130.TextColor3 = Color3.fromRGB(239, 184, 56)
+i130.TextTransparency = 0
+i130.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i130.TextStrokeTransparency = 0
+i130.Font = Enum.Font.Code
+i130.TextSize = 16
+i130.TextScaled = true
+i130.TextWrapped = true
+i130.TextXAlignment = Enum.TextXAlignment.Center
+i130.TextYAlignment = Enum.TextYAlignment.Center
+i130.RichText = false
+i130.Rotation = 0
+i130.Parent = i121
+local i131 = Instance.new("UITextSizeConstraint")
+i131.Name = "UITextSizeConstraint"
+i131.MaxTextSize = 16
+i131.MinTextSize = 1
+i131.Parent = i130
+local i132 = Instance.new("Frame")
+i132.Name = "swqqzi"
+i132.Visible = true
+i132.Active = false
+i132.AnchorPoint = Vector2.new(0, 0)
+i132.Position = UDim2.new(0.2, 0, 0.55, 0)
+i132.Size = UDim2.new(0.75, 0, 0.06, 0)
+i132.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i132.ZIndex = 1
+i132.Rotation = 0
+i132.ClipsDescendants = false
+i132.LayoutOrder = 0
+i132.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+i132.BackgroundTransparency = 1
+i132.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i132.BorderSizePixel = 1
+i132.Rotation = 0
+i132.Parent = i58
+local i133 = Instance.new("TextLabel")
+i133.Name = "PlayerNameRanked"
+i133.Visible = false
+i133.Active = false
+i133.AnchorPoint = Vector2.new(0, 0)
+i133.Position = UDim2.new(0.182679, 0, 0.117371, 0)
+i133.Size = UDim2.new(0.382321, 0, 1, 0)
+i133.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i133.ZIndex = 2
+i133.Rotation = 0
+i133.ClipsDescendants = false
+i133.LayoutOrder = 0
+i133.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+i133.BackgroundTransparency = 1
+i133.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i133.BorderSizePixel = 0
+i133.Text = "swqqzi"
+i133.TextColor3 = Color3.fromRGB(239, 184, 56)
+i133.TextTransparency = 0
+i133.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i133.TextStrokeTransparency = 0
+i133.Font = Enum.Font.Code
+i133.TextSize = 16
+i133.TextScaled = false
+i133.TextWrapped = true
+i133.TextXAlignment = Enum.TextXAlignment.Left
+i133.TextYAlignment = Enum.TextYAlignment.Center
+i133.RichText = false
+i133.Rotation = 0
+i133.Parent = i132
+local i134 = Instance.new("TextLabel")
+i134.Name = "GangName"
+i134.Visible = true
+i134.Active = false
+i134.AnchorPoint = Vector2.new(0, 0)
+i134.Position = UDim2.new(0.575, 0, 0.117371, 0)
+i134.Size = UDim2.new(0.425, 0, 1, 0)
+i134.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i134.ZIndex = 2
+i134.Rotation = 0
+i134.ClipsDescendants = false
+i134.LayoutOrder = 0
+i134.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+i134.BackgroundTransparency = 1
+i134.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i134.BorderSizePixel = 0
+i134.Text = "Gang-less"
+i134.TextColor3 = Color3.fromRGB(255, 255, 255)
+i134.TextTransparency = 0
+i134.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i134.TextStrokeTransparency = 0
+i134.Font = Enum.Font.Jura
+i134.TextSize = 14
+i134.TextScaled = false
+i134.TextWrapped = true
+i134.TextXAlignment = Enum.TextXAlignment.Right
+i134.TextYAlignment = Enum.TextYAlignment.Center
+i134.RichText = false
+i134.Rotation = 0
+i134.Parent = i132
+local i135 = Instance.new("UITextSizeConstraint")
+i135.Name = "UITextSizeConstraint"
+i135.MaxTextSize = 14
+i135.MinTextSize = 1
+i135.Parent = i134
+local i136 = Instance.new("ImageLabel")
+i136.Name = "ImageLabel"
+i136.Visible = true
+i136.Active = false
+i136.AnchorPoint = Vector2.new(0, 0)
+i136.Position = UDim2.new(0, 0, -0.282629, 0)
+i136.Size = UDim2.new(1.05, 0, 1.8, 0)
+i136.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i136.ZIndex = 1
+i136.Rotation = 0
+i136.ClipsDescendants = false
+i136.LayoutOrder = 0
+i136.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+i136.BackgroundTransparency = 1
+i136.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i136.BorderSizePixel = 1
+i136.Image = "rbxassetid://5928446618"
+i136.ImageColor3 = Color3.fromRGB(255, 255, 255)
+i136.ImageTransparency = 0
+i136.ScaleType = Enum.ScaleType.Fit
+i136.SliceCenter = Rect.new(0, 0, 0, 0)
+i136.SliceScale = 1
+i136.ImageRectOffset = Vector2.new(0, 0)
+i136.ImageRectSize = Vector2.new(0, 0)
+i136.Rotation = 0
+i136.Parent = i132
+local i137 = Instance.new("ImageLabel")
+i137.Name = "Prestige"
+i137.Visible = true
+i137.Active = false
+i137.AnchorPoint = Vector2.new(0, 0)
+i137.Position = UDim2.new(-0.163588, 0, 0, 0)
+i137.Size = UDim2.new(0.153126, 0, 1.31713, 0)
+i137.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i137.ZIndex = 1
+i137.Rotation = 0
+i137.ClipsDescendants = false
+i137.LayoutOrder = 0
+i137.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+i137.BackgroundTransparency = 1
+i137.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i137.BorderSizePixel = 0
+i137.Image = "rbxassetid://5928443068"
+i137.ImageColor3 = Color3.fromRGB(255, 255, 255)
+i137.ImageTransparency = 0
+i137.ScaleType = Enum.ScaleType.Fit
+i137.SliceCenter = Rect.new(0, 0, 0, 0)
+i137.SliceScale = 1
+i137.ImageRectOffset = Vector2.new(0, 0)
+i137.ImageRectSize = Vector2.new(0, 0)
+i137.Rotation = 0
+i137.Parent = i132
+local i138 = Instance.new("TextLabel")
+i138.Name = "TextLabel"
+i138.Visible = true
+i138.Active = false
+i138.AnchorPoint = Vector2.new(0, 0)
+i138.Position = UDim2.new(0, 0, 0, 0)
+i138.Size = UDim2.new(1, 0, 1, 0)
+i138.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i138.ZIndex = 1
+i138.Rotation = 0
+i138.ClipsDescendants = false
+i138.LayoutOrder = 0
+i138.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+i138.BackgroundTransparency = 1
+i138.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i138.BorderSizePixel = 0
+i138.Text = "III"
+i138.TextColor3 = Color3.fromRGB(239, 184, 56)
+i138.TextTransparency = 0
+i138.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i138.TextStrokeTransparency = 0
+i138.Font = Enum.Font.Arcade
+i138.TextSize = 14
+i138.TextScaled = true
+i138.TextWrapped = true
+i138.TextXAlignment = Enum.TextXAlignment.Center
+i138.TextYAlignment = Enum.TextYAlignment.Center
+i138.RichText = false
+i138.Rotation = 0
+i138.Parent = i137
+local i139 = Instance.new("TextLabel")
+i139.Name = "PlayerRank"
+i139.Visible = false
+i139.Active = false
+i139.AnchorPoint = Vector2.new(0, 0)
+i139.Position = UDim2.new(-0.00442403, 0, 0.117, 0)
+i139.Size = UDim2.new(0.159785, 0, 1, 0)
+i139.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i139.ZIndex = 2
+i139.Rotation = 0
+i139.ClipsDescendants = false
+i139.LayoutOrder = 0
+i139.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+i139.BackgroundTransparency = 1
+i139.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i139.BorderSizePixel = 0
+i139.Text = "#50"
+i139.TextColor3 = Color3.fromRGB(255, 255, 255)
+i139.TextTransparency = 0
+i139.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i139.TextStrokeTransparency = 0
+i139.Font = Enum.Font.GothamBlack
+i139.TextSize = 16
+i139.TextScaled = true
+i139.TextWrapped = true
+i139.TextXAlignment = Enum.TextXAlignment.Center
+i139.TextYAlignment = Enum.TextYAlignment.Center
+i139.RichText = false
+i139.Rotation = 0
+i139.Parent = i132
+local i140 = Instance.new("UITextSizeConstraint")
+i140.Name = "UITextSizeConstraint"
+i140.MaxTextSize = 16
+i140.MinTextSize = 1
+i140.Parent = i139
+local i141 = Instance.new("TextLabel")
+i141.Name = "PlayerName"
+i141.Visible = true
+i141.Active = false
+i141.AnchorPoint = Vector2.new(0, 0)
+i141.Position = UDim2.new(0.0500827, 0, 0.117371, 0)
+i141.Size = UDim2.new(0.514917, 0, 1, 0)
+i141.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i141.ZIndex = 2
+i141.Rotation = 0
+i141.ClipsDescendants = false
+i141.LayoutOrder = 0
+i141.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+i141.BackgroundTransparency = 1
+i141.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i141.BorderSizePixel = 0
+i141.Text = "swqqzi"
+i141.TextColor3 = Color3.fromRGB(239, 184, 56)
+i141.TextTransparency = 0
+i141.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i141.TextStrokeTransparency = 0
+i141.Font = Enum.Font.Code
+i141.TextSize = 16
+i141.TextScaled = true
+i141.TextWrapped = true
+i141.TextXAlignment = Enum.TextXAlignment.Center
+i141.TextYAlignment = Enum.TextYAlignment.Center
+i141.RichText = false
+i141.Rotation = 0
+i141.Parent = i132
+local i142 = Instance.new("UITextSizeConstraint")
+i142.Name = "UITextSizeConstraint"
+i142.MaxTextSize = 16
+i142.MinTextSize = 1
+i142.Parent = i141
+local i146 = Instance.new("Frame")
+i146.Name = "Main"
+i146.Visible = true
+i146.Active = false
+i146.AnchorPoint = Vector2.new(0, 0)
+i146.Position = UDim2.new(0, 0, 0, 0)
+i146.Size = UDim2.new(1, 0, 1, 0)
+i146.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i146.ZIndex = 1
+i146.Rotation = 0
+i146.ClipsDescendants = false
+i146.LayoutOrder = 0
+i146.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+i146.BackgroundTransparency = 1
+i146.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i146.BorderSizePixel = 1
+i146.Rotation = 0
+i146.Parent = i4
+local i1621 = Instance.new("ImageButton")
+i1621.Name = "DropMoney"
+i1621.Visible = true
+i1621.Active = true
+i1621.AnchorPoint = Vector2.new(0, 0.5)
+i1621.Position = UDim2.new(0.02, 0, 0.5, 0)
+i1621.Size = UDim2.new(0.028146, 0, 0.0602194, 0)
+i1621.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i1621.ZIndex = 3
+i1621.Rotation = 0
+i1621.ClipsDescendants = false
+i1621.LayoutOrder = 0
+i1621.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+i1621.BackgroundTransparency = 1
+i1621.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i1621.BorderSizePixel = 1
+i1621.Image = "rbxassetid://10469475410"
+i1621.ImageColor3 = Color3.fromRGB(255, 255, 255)
+i1621.ImageTransparency = 0
+i1621.ScaleType = Enum.ScaleType.Fit
+i1621.SliceCenter = Rect.new(0, 0, 0, 0)
+i1621.SliceScale = 1
+i1621.ImageRectOffset = Vector2.new(0, 0)
+i1621.ImageRectSize = Vector2.new(0, 0)
+i1621.Rotation = 0
+i1621.Parent = i146
+local i1622 = Instance.new("TextLabel")
+i1622.Name = "Money"
+i1622.Visible = true
+i1622.Active = false
+i1622.AnchorPoint = Vector2.new(0, 0)
+i1622.Position = UDim2.new(1.2, 0, 0.143, 0)
+i1622.Size = UDim2.new(1.52334, 0, 0.714286, 0)
+i1622.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i1622.ZIndex = 1
+i1622.Rotation = 0
+i1622.ClipsDescendants = false
+i1622.LayoutOrder = 0
+i1622.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+i1622.BackgroundTransparency = 1
+i1622.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i1622.BorderSizePixel = 1
+i1622.Text = "100"
+i1622.TextColor3 = Color3.fromRGB(255, 255, 255)
+i1622.TextTransparency = 0
+i1622.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i1622.TextStrokeTransparency = 0
+i1622.Font = Enum.Font.Cartoon
+i1622.TextSize = 14
+i1622.TextScaled = true
+i1622.TextWrapped = true
+i1622.TextXAlignment = Enum.TextXAlignment.Left
+i1622.TextYAlignment = Enum.TextYAlignment.Center
+i1622.RichText = false
+i1622.Rotation = 0
+i1622.Parent = i1621
+local i1623 = Instance.new("TextLabel")
+i1623.Name = "Template"
+i1623.Visible = false
+i1623.Active = false
+i1623.AnchorPoint = Vector2.new(0, 0)
+i1623.Position = UDim2.new(1.2, 0, 0, 0)
+i1623.Size = UDim2.new(6.35464, 0, 1, 0)
+i1623.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i1623.ZIndex = 1
+i1623.Rotation = 0
+i1623.ClipsDescendants = false
+i1623.LayoutOrder = 0
+i1623.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+i1623.BackgroundTransparency = 1
+i1623.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i1623.BorderSizePixel = 1
+i1623.Text = "+100"
+i1623.TextColor3 = Color3.fromRGB(255, 255, 255)
+i1623.TextTransparency = 0
+i1623.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i1623.TextStrokeTransparency = 0
+i1623.Font = Enum.Font.Cartoon
+i1623.TextSize = 14
+i1623.TextScaled = true
+i1623.TextWrapped = true
+i1623.TextXAlignment = Enum.TextXAlignment.Left
+i1623.TextYAlignment = Enum.TextYAlignment.Center
+i1623.RichText = false
+i1623.Rotation = 0
+i1623.Parent = i1622
+local i1624 = Instance.new("TextBox")
+i1624.Name = "DropAmount"
+i1624.Visible = false
+i1624.Active = true
+i1624.AnchorPoint = Vector2.new(0, 0)
+i1624.Position = UDim2.new(0, 0, 1.21001, 0)
+i1624.Size = UDim2.new(2.72334, 0, 0.78675, 0)
+i1624.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i1624.ZIndex = 1
+i1624.Rotation = 0
+i1624.ClipsDescendants = false
+i1624.LayoutOrder = 0
+i1624.BackgroundColor3 = Color3.fromRGB(58, 58, 58)
+i1624.BackgroundTransparency = 0
+i1624.BorderColor3 = Color3.fromRGB(255, 194, 11)
+i1624.BorderSizePixel = 1
+i1624.Text = ""
+i1624.TextColor3 = Color3.fromRGB(178, 178, 178)
+i1624.TextTransparency = 0
+i1624.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i1624.TextStrokeTransparency = 1
+i1624.Font = Enum.Font.Cartoon
+i1624.TextSize = 14
+i1624.TextScaled = true
+i1624.TextWrapped = true
+i1624.TextXAlignment = Enum.TextXAlignment.Center
+i1624.TextYAlignment = Enum.TextYAlignment.Center
+i1624.RichText = false
+i1624.Rotation = 0
+i1624.Parent = i1621
+local i1625 = Instance.new("TextLabel")
+i1625.Name = "HoverText"
+i1625.Visible = false
+i1625.Active = false
+i1625.AnchorPoint = Vector2.new(0, 0)
+i1625.Position = UDim2.new(0.703445, 0, -1.46552, 0)
+i1625.Size = UDim2.new(3.46025, 0, 1, 0)
+i1625.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i1625.ZIndex = 1
+i1625.Rotation = -30
+i1625.ClipsDescendants = false
+i1625.LayoutOrder = 0
+i1625.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+i1625.BackgroundTransparency = 1
+i1625.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i1625.BorderSizePixel = 1
+i1625.Text = "DROP MONEY"
+i1625.TextColor3 = Color3.fromRGB(255, 255, 255)
+i1625.TextTransparency = 0
+i1625.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i1625.TextStrokeTransparency = 0
+i1625.Font = Enum.Font.Kalam
+i1625.TextSize = 14
+i1625.TextScaled = true
+i1625.TextWrapped = true
+i1625.TextXAlignment = Enum.TextXAlignment.Left
+i1625.TextYAlignment = Enum.TextYAlignment.Center
+i1625.RichText = false
+i1625.Rotation = -30
+i1625.Parent = i1621
+local i1626 = Instance.new("UIAspectRatioConstraint")
+i1626.Name = "UIAspectRatioConstraint"
+i1626.AspectRatio = 1
+i1626.Parent = i1621
+local i1627 = Instance.new("ImageLabel")
+i1627.Name = "ButtonIcon"
+i1627.Visible = true
+i1627.Active = true
+i1627.AnchorPoint = Vector2.new(0.5, 0.5)
+i1627.Position = UDim2.new(0.5, 0, 0.5, 0)
+i1627.Size = UDim2.new(0.75, 0, 0.75, 0)
+i1627.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i1627.ZIndex = 3
+i1627.Rotation = 0
+i1627.ClipsDescendants = false
+i1627.LayoutOrder = 0
+i1627.BackgroundColor3 = Color3.fromRGB(248, 248, 248)
+i1627.BackgroundTransparency = 1
+i1627.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i1627.BorderSizePixel = 1
+i1627.Image = "rbxassetid://10469473291"
+i1627.ImageColor3 = Color3.fromRGB(255, 255, 255)
+i1627.ImageTransparency = 0
+i1627.ScaleType = Enum.ScaleType.Fit
+i1627.SliceCenter = Rect.new(0, 0, 0, 0)
+i1627.SliceScale = 1
+i1627.ImageRectOffset = Vector2.new(0, 0)
+i1627.ImageRectSize = Vector2.new(0, 0)
+i1627.Rotation = 0
+i1627.Parent = i1621
+local i1628 = Instance.new("Frame")
+i1628.Name = "Indicators"
+i1628.Visible = true
+i1628.Active = false
+i1628.AnchorPoint = Vector2.new(0, 0)
+i1628.Position = UDim2.new(0, 0, 0, 0)
+i1628.Size = UDim2.new(0.133, 0, 0.202, 0)
+i1628.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i1628.ZIndex = 1
+i1628.Rotation = 0
+i1628.ClipsDescendants = false
+i1628.LayoutOrder = 0
+i1628.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+i1628.BackgroundTransparency = 1
+i1628.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i1628.BorderSizePixel = 1
+i1628.Rotation = 0
+i1628.Parent = i146
+local i1629 = Instance.new("ImageLabel")
+i1629.Name = "ImageLabel"
+i1629.Visible = true
+i1629.Active = false
+i1629.AnchorPoint = Vector2.new(0, 0)
+i1629.Position = UDim2.new(0, 0, 0, 0)
+i1629.Size = UDim2.new(1, 0, 1, 0)
+i1629.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i1629.ZIndex = 3
+i1629.Rotation = -90
+i1629.ClipsDescendants = false
+i1629.LayoutOrder = 0
+i1629.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+i1629.BackgroundTransparency = 1
+i1629.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i1629.BorderSizePixel = 1
+i1629.Image = "rbxassetid://5927656531"
+i1629.ImageColor3 = Color3.fromRGB(255, 255, 255)
+i1629.ImageTransparency = 0
+i1629.ScaleType = Enum.ScaleType.Fit
+i1629.SliceCenter = Rect.new(0, 0, 0, 0)
+i1629.SliceScale = 1
+i1629.ImageRectOffset = Vector2.new(0, 0)
+i1629.ImageRectSize = Vector2.new(0, 0)
+i1629.Rotation = -90
+i1629.Parent = i1628
+local i1630 = Instance.new("ImageLabel")
+i1630.Name = "Sparkle"
+i1630.Visible = false
+i1630.Active = false
+i1630.AnchorPoint = Vector2.new(0, 0)
+i1630.Position = UDim2.new(0, 0, 0, 0)
+i1630.Size = UDim2.new(1, 0, 1, 0)
+i1630.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i1630.ZIndex = 3
+i1630.Rotation = 0
+i1630.ClipsDescendants = false
+i1630.LayoutOrder = 0
+i1630.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+i1630.BackgroundTransparency = 1
+i1630.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i1630.BorderSizePixel = 1
+i1630.Image = "http://www.roblox.com/asset/?id=669133414"
+i1630.ImageColor3 = Color3.fromRGB(255, 255, 255)
+i1630.ImageTransparency = 0
+i1630.ScaleType = Enum.ScaleType.Stretch
+i1630.SliceCenter = Rect.new(0, 0, 0, 0)
+i1630.SliceScale = 1
+i1630.ImageRectOffset = Vector2.new(0, 0)
+i1630.ImageRectSize = Vector2.new(0, 0)
+i1630.Rotation = 0
+i1630.Parent = i1629
+local i1631 = Instance.new("TextLabel")
+i1631.Name = "Level"
+i1631.Visible = true
+i1631.Active = false
+i1631.AnchorPoint = Vector2.new(0, 0)
+i1631.Position = UDim2.new(0.597644, 0, 0.356688, 0)
+i1631.Size = UDim2.new(0.257189, 0, 0.280255, 0)
+i1631.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i1631.ZIndex = 4
+i1631.Rotation = 0
+i1631.ClipsDescendants = false
+i1631.LayoutOrder = 0
+i1631.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+i1631.BackgroundTransparency = 1
+i1631.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i1631.BorderSizePixel = 1
+i1631.Text = "50"
+i1631.TextColor3 = Color3.fromRGB(255, 255, 255)
+i1631.TextTransparency = 0
+i1631.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i1631.TextStrokeTransparency = 0
+i1631.Font = Enum.Font.Arcade
+i1631.TextSize = 24
+i1631.TextScaled = false
+i1631.TextWrapped = false
+i1631.TextXAlignment = Enum.TextXAlignment.Left
+i1631.TextYAlignment = Enum.TextYAlignment.Center
+i1631.RichText = false
+i1631.Rotation = 0
+i1631.Parent = i1628
+local i1632 = Instance.new("TextLabel")
+i1632.Name = "MultiTimer"
+i1632.Visible = false
+i1632.Active = false
+i1632.AnchorPoint = Vector2.new(0, 0)
+i1632.Position = UDim2.new(1.51478, 0, 0.264177, 0)
+i1632.Size = UDim2.new(0.964931, 0, 0.109203, 0)
+i1632.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i1632.ZIndex = 1
+i1632.Rotation = 0
+i1632.ClipsDescendants = false
+i1632.LayoutOrder = 0
+i1632.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+i1632.BackgroundTransparency = 1
+i1632.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i1632.BorderSizePixel = 1
+i1632.Text = "1.5X EXP: 3600"
+i1632.TextColor3 = Color3.fromRGB(199, 255, 193)
+i1632.TextTransparency = 0
+i1632.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i1632.TextStrokeTransparency = 0
+i1632.Font = Enum.Font.Code
+i1632.TextSize = 60
+i1632.TextScaled = true
+i1632.TextWrapped = true
+i1632.TextXAlignment = Enum.TextXAlignment.Right
+i1632.TextYAlignment = Enum.TextYAlignment.Center
+i1632.RichText = false
+i1632.Rotation = 0
+i1632.Parent = i1628
+local i1633 = Instance.new("TextLabel")
+i1633.Name = "TextLabel"
+i1633.Visible = true
+i1633.Active = false
+i1633.AnchorPoint = Vector2.new(0, 0)
+i1633.Position = UDim2.new(0.433121, 0, 0.356688, 0)
+i1633.Size = UDim2.new(0.164523, 0, 0.280255, 0)
+i1633.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i1633.ZIndex = 4
+i1633.Rotation = 0
+i1633.ClipsDescendants = false
+i1633.LayoutOrder = 0
+i1633.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+i1633.BackgroundTransparency = 1
+i1633.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i1633.BorderSizePixel = 1
+i1633.Text = "Lv."
+i1633.TextColor3 = Color3.fromRGB(255, 255, 255)
+i1633.TextTransparency = 0
+i1633.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i1633.TextStrokeTransparency = 0
+i1633.Font = Enum.Font.Arcade
+i1633.TextSize = 16
+i1633.TextScaled = false
+i1633.TextWrapped = false
+i1633.TextXAlignment = Enum.TextXAlignment.Right
+i1633.TextYAlignment = Enum.TextYAlignment.Center
+i1633.RichText = false
+i1633.Rotation = 0
+i1633.Parent = i1628
+local i1634 = Instance.new("ImageLabel")
+i1634.Name = "Bars"
+i1634.Visible = true
+i1634.Active = false
+i1634.AnchorPoint = Vector2.new(0, 0)
+i1634.Position = UDim2.new(0.362, 0, 0.400892, 0)
+i1634.Size = UDim2.new(2.992, 0, 0.229, 0)
+i1634.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i1634.ZIndex = 1
+i1634.Rotation = 0
+i1634.ClipsDescendants = false
+i1634.LayoutOrder = 0
+i1634.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+i1634.BackgroundTransparency = 1
+i1634.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i1634.BorderSizePixel = 1
+i1634.Image = ""
+i1634.ImageColor3 = Color3.fromRGB(255, 255, 255)
+i1634.ImageTransparency = 0
+i1634.ScaleType = Enum.ScaleType.Fit
+i1634.SliceCenter = Rect.new(0, 0, 0, 0)
+i1634.SliceScale = 1
+i1634.ImageRectOffset = Vector2.new(0, 0)
+i1634.ImageRectSize = Vector2.new(0, 0)
+i1634.Rotation = 0
+i1634.Parent = i1628
+local i1635 = Instance.new("ImageLabel")
+i1635.Name = "HealthLost"
+i1635.Visible = true
+i1635.Active = false
+i1635.AnchorPoint = Vector2.new(0, 0)
+i1635.Position = UDim2.new(0.0414232, 0, -1.03026e-07, 0)
+i1635.Size = UDim2.new(0.63853, 0, 0.475939, 0)
+i1635.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i1635.ZIndex = -1
+i1635.Rotation = 0
+i1635.ClipsDescendants = false
+i1635.LayoutOrder = 0
+i1635.BackgroundColor3 = Color3.fromRGB(255, 52, 52)
+i1635.BackgroundTransparency = 0
+i1635.BorderColor3 = Color3.fromRGB(0, 0, 0)
+i1635.BorderSizePixel = 0
+i1635.Image = ""
+i1635.ImageColor3 = Color3.fromRGB(255, 255, 255)
+i1635.ImageTransparency = 0
+i1635.ScaleType = Enum.ScaleType.Stretch
+i1635.SliceCenter = Rect.new(0, 0, 0, 0)
+i1635.SliceScale = 1
+i1635.ImageRectOffset = Vector2.new(0, 0)
+i1635.ImageRectSize = Vector2.new(0, 0)
+i1635.Rotation = 0
+i1635.Parent = i1634
+local i1636 = Instance.new("ImageLabel")
+i1636.Name = "Gradient"
+i1636.Visible = true
+i1636.Active = false
+i1636.AnchorPoint = Vector2.new(0, 0)
+i1636.Position = UDim2.new(0, 0, 0, 0)
+i1636.Size = UDim2.new(1, 0, 1, 0)
+i1636.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i1636.ZIndex = 0
+i1636.Rotation = 0
+i1636.ClipsDescendants = false
+i1636.LayoutOrder = 0
+i1636.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+i1636.BackgroundTransparency = 1
+i1636.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i1636.BorderSizePixel = 0
+i1636.Image = "http://www.roblox.com/asset/?id=43479241"
+i1636.ImageColor3 = Color3.fromRGB(255, 255, 255)
+i1636.ImageTransparency = 0
+i1636.ScaleType = Enum.ScaleType.Stretch
+i1636.SliceCenter = Rect.new(0, 0, 0, 0)
+i1636.SliceScale = 1
+i1636.ImageRectOffset = Vector2.new(0, 0)
+i1636.ImageRectSize = Vector2.new(0, 0)
+i1636.Rotation = 0
+i1636.Parent = i1635
+local i1637 = Instance.new("ImageLabel")
+i1637.Name = "Health"
+i1637.Visible = true
+i1637.Active = false
+i1637.AnchorPoint = Vector2.new(0, 0)
+i1637.Position = UDim2.new(0.0414233, 0, -1.03026e-07, 0)
+i1637.Size = UDim2.new(0.63853, 0, 0.475939, 0)
+i1637.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i1637.ZIndex = 1
+i1637.Rotation = 0
+i1637.ClipsDescendants = false
+i1637.LayoutOrder = 0
+i1637.BackgroundColor3 = Color3.fromRGB(0, 255, 127)
+i1637.BackgroundTransparency = 0
+i1637.BorderColor3 = Color3.fromRGB(0, 0, 0)
+i1637.BorderSizePixel = 0
+i1637.Image = ""
+i1637.ImageColor3 = Color3.fromRGB(255, 255, 255)
+i1637.ImageTransparency = 0
+i1637.ScaleType = Enum.ScaleType.Stretch
+i1637.SliceCenter = Rect.new(0, 0, 0, 0)
+i1637.SliceScale = 1
+i1637.ImageRectOffset = Vector2.new(0, 0)
+i1637.ImageRectSize = Vector2.new(0, 0)
+i1637.Rotation = 0
+i1637.Parent = i1634
+local i1638 = Instance.new("ImageLabel")
+i1638.Name = "Gradient"
+i1638.Visible = true
+i1638.Active = false
+i1638.AnchorPoint = Vector2.new(0, 0)
+i1638.Position = UDim2.new(0, 0, 0, 0)
+i1638.Size = UDim2.new(1, 0, 1, 0)
+i1638.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i1638.ZIndex = 1
+i1638.Rotation = 0
+i1638.ClipsDescendants = false
+i1638.LayoutOrder = 0
+i1638.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+i1638.BackgroundTransparency = 1
+i1638.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i1638.BorderSizePixel = 0
+i1638.Image = "http://www.roblox.com/asset/?id=43479241"
+i1638.ImageColor3 = Color3.fromRGB(255, 255, 255)
+i1638.ImageTransparency = 0
+i1638.ScaleType = Enum.ScaleType.Stretch
+i1638.SliceCenter = Rect.new(0, 0, 0, 0)
+i1638.SliceScale = 1
+i1638.ImageRectOffset = Vector2.new(0, 0)
+i1638.ImageRectSize = Vector2.new(0, 0)
+i1638.Rotation = 0
+i1638.Parent = i1637
+local i1639 = Instance.new("ImageLabel")
+i1639.Name = "Experience"
+i1639.Visible = true
+i1639.Active = false
+i1639.AnchorPoint = Vector2.new(0, 0)
+i1639.Position = UDim2.new(0.0414232, 0, 0.475939, 0)
+i1639.Size = UDim2.new(0.63853, 0, 0.395833, 0)
+i1639.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i1639.ZIndex = 1
+i1639.Rotation = 0
+i1639.ClipsDescendants = false
+i1639.LayoutOrder = 0
+i1639.BackgroundColor3 = Color3.fromRGB(255, 255, 127)
+i1639.BackgroundTransparency = 0
+i1639.BorderColor3 = Color3.fromRGB(0, 0, 0)
+i1639.BorderSizePixel = 0
+i1639.Image = ""
+i1639.ImageColor3 = Color3.fromRGB(255, 255, 255)
+i1639.ImageTransparency = 0
+i1639.ScaleType = Enum.ScaleType.Stretch
+i1639.SliceCenter = Rect.new(0, 0, 0, 0)
+i1639.SliceScale = 1
+i1639.ImageRectOffset = Vector2.new(0, 0)
+i1639.ImageRectSize = Vector2.new(0, 0)
+i1639.Rotation = 0
+i1639.Parent = i1634
+local i1640 = Instance.new("Sound")
+i1640.Name = "Sound"
+i1640.Parent = i1639
+local i1641 = Instance.new("Frame")
+i1641.Name = "ProgressSample"
+i1641.Visible = false
+i1641.Active = false
+i1641.AnchorPoint = Vector2.new(0, 0)
+i1641.Position = UDim2.new(1, 0, 0, 0)
+i1641.Size = UDim2.new(0.036, 0, 1, 0)
+i1641.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i1641.ZIndex = 2
+i1641.Rotation = 0
+i1641.ClipsDescendants = false
+i1641.LayoutOrder = 0
+i1641.BackgroundColor3 = Color3.fromRGB(255, 255, 127)
+i1641.BackgroundTransparency = 0.5
+i1641.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i1641.BorderSizePixel = 0
+i1641.Rotation = 0
+i1641.Parent = i1639
+local i1642 = Instance.new("ImageLabel")
+i1642.Name = "Gradient"
+i1642.Visible = true
+i1642.Active = false
+i1642.AnchorPoint = Vector2.new(0, 0)
+i1642.Position = UDim2.new(0, 0, 0, 0)
+i1642.Size = UDim2.new(1, 0, 1, 0)
+i1642.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i1642.ZIndex = 1
+i1642.Rotation = 0
+i1642.ClipsDescendants = false
+i1642.LayoutOrder = 0
+i1642.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+i1642.BackgroundTransparency = 1
+i1642.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i1642.BorderSizePixel = 0
+i1642.Image = "http://www.roblox.com/asset/?id=43479241"
+i1642.ImageColor3 = Color3.fromRGB(255, 255, 255)
+i1642.ImageTransparency = 0
+i1642.ScaleType = Enum.ScaleType.Stretch
+i1642.SliceCenter = Rect.new(0, 0, 0, 0)
+i1642.SliceScale = 1
+i1642.ImageRectOffset = Vector2.new(0, 0)
+i1642.ImageRectSize = Vector2.new(0, 0)
+i1642.Rotation = 0
+i1642.Parent = i1639
+local i1643 = Instance.new("ImageLabel")
+i1643.Name = "ImageLabel"
+i1643.Visible = true
+i1643.Active = false
+i1643.AnchorPoint = Vector2.new(0, 0)
+i1643.Position = UDim2.new(0, 0, -0.0877578, 0)
+i1643.Size = UDim2.new(0.695721, 0, 0.960152, 0)
+i1643.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i1643.ZIndex = 2
+i1643.Rotation = 0
+i1643.ClipsDescendants = false
+i1643.LayoutOrder = 0
+i1643.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+i1643.BackgroundTransparency = 1
+i1643.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i1643.BorderSizePixel = 1
+i1643.Image = "rbxassetid://5928935333"
+i1643.ImageColor3 = Color3.fromRGB(255, 255, 255)
+i1643.ImageTransparency = 0
+i1643.ScaleType = Enum.ScaleType.Stretch
+i1643.SliceCenter = Rect.new(0, 0, 0, 0)
+i1643.SliceScale = 1
+i1643.ImageRectOffset = Vector2.new(0, 0)
+i1643.ImageRectSize = Vector2.new(0, 0)
+i1643.Rotation = 0
+i1643.Parent = i1634
+local i1644 = Instance.new("TextLabel")
+i1644.Name = "Label"
+i1644.Visible = true
+i1644.Active = false
+i1644.AnchorPoint = Vector2.new(0, 0)
+i1644.Position = UDim2.new(0.134053, 0, 0.521725, 0)
+i1644.Size = UDim2.new(0.521832, 0, 0, 8)
+i1644.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i1644.ZIndex = 3
+i1644.Rotation = 0
+i1644.ClipsDescendants = false
+i1644.LayoutOrder = 0
+i1644.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+i1644.BackgroundTransparency = 1
+i1644.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i1644.BorderSizePixel = 1
+i1644.Text = "E X P E R I E N C E"
+i1644.TextColor3 = Color3.fromRGB(255, 255, 255)
+i1644.TextTransparency = 0
+i1644.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i1644.TextStrokeTransparency = 0.5
+i1644.Font = Enum.Font.Arcade
+i1644.TextSize = 10
+i1644.TextScaled = false
+i1644.TextWrapped = true
+i1644.TextXAlignment = Enum.TextXAlignment.Right
+i1644.TextYAlignment = Enum.TextYAlignment.Center
+i1644.RichText = false
+i1644.Rotation = 0
+i1644.Parent = i1634
+local i1645 = Instance.new("TextLabel")
+i1645.Name = "HealthLabel"
+i1645.Visible = true
+i1645.Active = false
+i1645.AnchorPoint = Vector2.new(0, 0)
+i1645.Position = UDim2.new(0.134053, 0, 0.101725, 0)
+i1645.Size = UDim2.new(0.521832, 0, 0, 8)
+i1645.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i1645.ZIndex = 3
+i1645.Rotation = 0
+i1645.ClipsDescendants = false
+i1645.LayoutOrder = 0
+i1645.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+i1645.BackgroundTransparency = 1
+i1645.BorderColor3 = Color3.fromRGB(27, 42, 53)
+i1645.BorderSizePixel = 1
+i1645.Text = "H E A L T H"
+i1645.TextColor3 = Color3.fromRGB(255, 255, 255)
+i1645.TextTransparency = 0
+i1645.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+i1645.TextStrokeTransparency = 0.5
+i1645.Font = Enum.Font.Arcade
+i1645.TextSize = 10
+i1645.TextScaled = false
+i1645.TextWrapped = true
+i1645.TextXAlignment = Enum.TextXAlignment.Right
+i1645.TextYAlignment = Enum.TextYAlignment.Center
+i1645.RichText = false
+i1645.Rotation = 0
+i1645.Parent = i1634
+return i4
+end
+local function buildMessages(parent)
+local i183 = Instance.new("ScreenGui")
+i183.Name = "Messages"
+i183.AutoLocalize = true
+i183.DisplayOrder = 100000
+i183.Enabled = true
+i183.ResetOnSpawn = true
+i183.SelectionGroup = false
+i183.ZIndexBehavior = Enum.ZIndexBehavior.Global
+i183.Parent = parent
+local i184 = Instance.new("Frame")
+i184.Name = "List"
+i184.Active = false
+i184.AnchorPoint = Vector2.new(0, 0)
+i184.AutoLocalize = true
+i184.AutomaticSize = Enum.AutomaticSize.None
+i184.BackgroundColor3 = Color3.new(1, 1, 1)
+i184.BackgroundTransparency = 1
+i184.BorderColor3 = Color3.new(0, 0, 0)
+i184.BorderSizePixel = 0
+i184.ClipsDescendants = false
+i184.Draggable = false
+i184.Interactable = true
+i184.LayoutOrder = 0
+i184.Position = UDim2.new(0.22066057, 0, 0.022836538, 0)
+i184.Rotation = 0
+i184.Selectable = false
+i184.SelectionGroup = false
+i184.SelectionOrder = 0
+i184.Size = UDim2.new(0.5579761, 0, 0.796875, 0)
+i184.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i184.Visible = true
+i184.ZIndex = 1
+i184.Parent = i183
+local i185 = Instance.new("UIListLayout")
+i185.Name = "UIListLayout"
+i185.FillDirection = Enum.FillDirection.Vertical
+i185.HorizontalAlignment = Enum.HorizontalAlignment.Center
+i185.Padding = UDim.new(0, 0)
+i185.SortOrder = Enum.SortOrder.LayoutOrder
+i185.VerticalAlignment = Enum.VerticalAlignment.Top
+i185.Wraps = false
+i185.Parent = i184
+local i186 = Instance.new("TextLabel")
+i186.Name = "Template"
+i186.Active = false
+i186.AnchorPoint = Vector2.new(0, 0)
+i186.AutoLocalize = true
+i186.AutomaticSize = Enum.AutomaticSize.None
+i186.BackgroundColor3 = Color3.new(1, 1, 1)
+i186.BackgroundTransparency = 1
+i186.BorderColor3 = Color3.new(0.10588236, 0.16470589, 0.20784315)
+i186.BorderSizePixel = 1
+i186.ClipsDescendants = false
+i186.Draggable = false
+i186.Interactable = true
+i186.LayoutOrder = 0
+i186.LineHeight = 1
+i186.LocalizationMatchIdentifier = ""
+i186.LocalizationMatchedSourceText = ""
+i186.MaxVisibleGraphemes = -1
+i186.OpenTypeFeatures = ""
+i186.Position = UDim2.new(0.18935797, 0, 0, 0)
+i186.RichText = true
+i186.Rotation = 0
+i186.Selectable = false
+i186.SelectionGroup = false
+i186.SelectionOrder = 0
+i186.Size = UDim2.new(0.7371531, 0, 0.07753717, 0)
+i186.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i186.Text = "<font color=\"rgb(255,125,0)\">New item:</font> Item name"
+i186.TextColor3 = Color3.new(1, 1, 1)
+i186.TextScaled = true
+i186.TextSize = 21
+i186.TextStrokeColor3 = Color3.new(0, 0, 0)
+i186.TextStrokeTransparency = 0
+i186.TextTransparency = 0
+i186.TextWrapped = true
+i186.TextXAlignment = Enum.TextXAlignment.Center
+i186.TextYAlignment = Enum.TextYAlignment.Center
+i186.Visible = false
+i186.ZIndex = 1
+i186.Parent = i184
+local i187 = Instance.new("UITextSizeConstraint")
+i187.Name = "UITextSizeConstraint"
+i187.MaxTextSize = 22
+i187.MinTextSize = 1
+i187.Parent = i186
+
+return i183
+end
+local function buildMessageTemplate(parent)
+local i188 = Instance.new("ScreenGui")
+i188.Name = "Message"
+i188.AutoLocalize = true
+i188.DisplayOrder = 3
+i188.Enabled = true
+i188.ResetOnSpawn = true
+i188.SelectionGroup = false
+i188.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+i188.Parent = parent
+local i189 = Instance.new("TextLabel")
+i189.Name = "TextLabel"
+i189.Active = false
+i189.AnchorPoint = Vector2.new(0, 0)
+i189.AutoLocalize = true
+i189.AutomaticSize = Enum.AutomaticSize.None
+i189.BackgroundColor3 = Color3.new(1, 1, 1)
+i189.BackgroundTransparency = 1
+i189.BorderColor3 = Color3.new(0.10588236, 0.16470589, 0.20784315)
+i189.BorderSizePixel = 1
+i189.ClipsDescendants = false
+i189.Draggable = false
+i189.Interactable = true
+i189.LayoutOrder = 0
+i189.LineHeight = 1
+i189.LocalizationMatchIdentifier = ""
+i189.LocalizationMatchedSourceText = ""
+i189.MaxVisibleGraphemes = -1
+i189.OpenTypeFeatures = ""
+i189.Position = UDim2.new(0.24065423, 0, 0.2878049, 0)
+i189.RichText = true
+i189.Rotation = 0
+i189.Selectable = false
+i189.SelectionGroup = false
+i189.SelectionOrder = 0
+i189.Size = UDim2.new(0.51791275, 0, 0.07479675, 0)
+i189.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i189.Text = "You can only have <font color=\"rgb(255,125,0)\">5 Mysterious Arrow(s)</font> in your inventory..."
+i189.TextColor3 = Color3.new(1, 1, 1)
+i189.TextScaled = false
+i189.TextSize = 21
+i189.TextStrokeColor3 = Color3.new(0, 0, 0)
+i189.TextStrokeTransparency = 0
+i189.TextTransparency = 0
+i189.TextWrapped = true
+i189.TextXAlignment = Enum.TextXAlignment.Center
+i189.TextYAlignment = Enum.TextYAlignment.Center
+i189.Visible = true
+i189.ZIndex = 1
+i189.Parent = i188
+
+return i188
+end
+local function buildFleetFootworkBar(parent)
+local i190 = Instance.new("ScreenGui")
+i190.Name = "Fleet_Footwork Gui"
+i190.AutoLocalize = true
+i190.DisplayOrder = 0
+i190.Enabled = true
+i190.ResetOnSpawn = true
+i190.SelectionGroup = false
+i190.ZIndexBehavior = Enum.ZIndexBehavior.Global
+i190.Parent = parent
+local i191 = Instance.new("Frame")
+i191.Name = "Frame"
+i191.Active = false
+i191.AnchorPoint = Vector2.new(0, 0)
+i191.AutoLocalize = true
+i191.AutomaticSize = Enum.AutomaticSize.None
+i191.BackgroundColor3 = Color3.new(1, 1, 1)
+i191.BackgroundTransparency = 1
+i191.BorderColor3 = Color3.new(0.10588236, 0.16470589, 0.20784315)
+i191.BorderSizePixel = 1
+i191.ClipsDescendants = false
+i191.Draggable = false
+i191.Interactable = true
+i191.LayoutOrder = -100
+i191.Position = UDim2.new(0.018315013, 0, 0.20913461, 0)
+i191.Rotation = 0
+i191.Selectable = false
+i191.SelectionGroup = false
+i191.SelectionOrder = 0
+i191.Size = UDim2.new(0.18511781, 0, 0.024338834, 0)
+i191.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i191.Visible = true
+i191.ZIndex = -100
+i191.Parent = i190
+local i192 = Instance.new("Frame")
+i192.Name = "Meter"
+i192.Active = false
+i192.AnchorPoint = Vector2.new(0, 0.5)
+i192.AutoLocalize = true
+i192.AutomaticSize = Enum.AutomaticSize.None
+i192.BackgroundColor3 = Color3.new(0.2627451, 0.2627451, 0.2627451)
+i192.BackgroundTransparency = 0.5
+i192.BorderColor3 = Color3.new(0.105882354, 0.16470589, 0.20784314)
+i192.BorderSizePixel = 0
+i192.ClipsDescendants = false
+i192.Draggable = false
+i192.Interactable = true
+i192.LayoutOrder = 0
+i192.Position = UDim2.new(0.018999942, 0, 0.57737774, 0)
+i192.Rotation = 0
+i192.Selectable = false
+i192.SelectionGroup = false
+i192.SelectionOrder = 0
+i192.Size = UDim2.new(0.9825102, 0, 0.6743644, 0)
+i192.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i192.Visible = true
+i192.ZIndex = 1
+i192.Parent = i191
+local i193 = Instance.new("TextLabel")
+i193.Name = "TextLabel"
+i193.Active = false
+i193.AnchorPoint = Vector2.new(0, 0)
+i193.AutoLocalize = true
+i193.AutomaticSize = Enum.AutomaticSize.None
+i193.BackgroundColor3 = Color3.new(1, 1, 1)
+i193.BackgroundTransparency = 1
+i193.BorderColor3 = Color3.new(0, 0, 0)
+i193.BorderSizePixel = 0
+i193.ClipsDescendants = false
+i193.Draggable = false
+i193.Interactable = true
+i193.LayoutOrder = 0
+i193.LineHeight = 1
+i193.LocalizationMatchIdentifier = ""
+i193.LocalizationMatchedSourceText = ""
+i193.MaxVisibleGraphemes = -1
+i193.OpenTypeFeatures = ""
+i193.Position = UDim2.new(0.17926556, 0, -0.84483844, 0)
+i193.RichText = false
+i193.Rotation = 0
+i193.Selectable = false
+i193.SelectionGroup = false
+i193.SelectionOrder = 0
+i193.Size = UDim2.new(0.63738847, 0, 1.085034, 0)
+i193.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i193.Text = "Fleet Footwork"
+i193.TextColor3 = Color3.new(1, 1, 1)
+i193.TextScaled = true
+i193.TextSize = 14
+i193.TextStrokeColor3 = Color3.new(0, 0, 0)
+i193.TextStrokeTransparency = 1
+i193.TextTransparency = 0
+i193.TextWrapped = true
+i193.TextXAlignment = Enum.TextXAlignment.Center
+i193.TextYAlignment = Enum.TextYAlignment.Center
+i193.Visible = true
+i193.ZIndex = 1
+i193.Parent = i191
+local i194 = Instance.new("Frame")
+i194.Name = "Meter2"
+i194.Active = false
+i194.AnchorPoint = Vector2.new(0, 0.5)
+i194.AutoLocalize = true
+i194.AutomaticSize = Enum.AutomaticSize.None
+i194.BackgroundColor3 = Color3.new(0.2627451, 0.2627451, 0.2627451)
+i194.BackgroundTransparency = 1
+i194.BorderColor3 = Color3.new(0.105882354, 0.16470589, 0.20784314)
+i194.BorderSizePixel = 0
+i194.ClipsDescendants = false
+i194.Draggable = false
+i194.Interactable = true
+i194.LayoutOrder = 0
+i194.Position = UDim2.new(0.018999942, 0, 0.57737774, 0)
+i194.Rotation = 0
+i194.Selectable = false
+i194.SelectionGroup = false
+i194.SelectionOrder = 0
+i194.Size = UDim2.new(0.9825102, 0, 0.6743644, 0)
+i194.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i194.Visible = true
+i194.ZIndex = 1
+i194.Parent = i191
+local i195 = Instance.new("ImageLabel")
+i195.Name = "Roundify"
+i195.Active = false
+i195.AnchorPoint = Vector2.new(0.5, 0.5)
+i195.AutoLocalize = true
+i195.AutomaticSize = Enum.AutomaticSize.None
+i195.BackgroundColor3 = Color3.new(1, 1, 1)
+i195.BackgroundTransparency = 1
+i195.BorderColor3 = Color3.new(0.10588236, 0.16470589, 0.20784315)
+i195.BorderSizePixel = 1
+i195.ClipsDescendants = false
+i195.Draggable = false
+i195.ImageColor3 = Color3.new(1, 1, 1)
+i195.Image = "rbxassetid://3570695787"
+i195.ImageRectOffset = Vector2.new(0, 0)
+i195.ImageRectSize = Vector2.new(0, 0)
+i195.ImageTransparency = 0
+i195.Interactable = true
+i195.LayoutOrder = 0
+i195.Position = UDim2.new(0.48783615, 0, 0.5299998, 0)
+i195.Rotation = 0
+i195.ScaleType = Enum.ScaleType.Slice
+i195.Selectable = false
+i195.SelectionGroup = false
+i195.SelectionOrder = 0
+i195.Size = UDim2.new(0.94405454, 0, -0.239, 0)
+i195.SizeConstraint = Enum.SizeConstraint.RelativeXY
+i195.SliceCenter = Rect.new(100, 100, 100, 100)
+i195.SliceScale = 0.12
+i195.TileSize = UDim2.new(1, 0, 1, 0)
+i195.Visible = true
+i195.ZIndex = 1
+i195.Parent = i194
+local i196 = Instance.new("UIGradient")
+i196.Name = "UIGradient"
+i196.Color = ColorSequence.new({ColorSequenceKeypoint.new(0, Color3.new(1, 0.8509804, 0)), ColorSequenceKeypoint.new(1, Color3.new(1, 0.8509804, 0))})
+i196.Enabled = true
+i196.Offset = Vector2.new(0, 0)
+i196.Rotation = 0
+i196.Scale = 1
+i196.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0, 0, 0), NumberSequenceKeypoint.new(1, 0, 0)})
+i196.Parent = i195
+local i197 = Instance.new("StringValue")
+i197.Name = "Which Value"
+i197.Value = "FleetFootwork"
+i197.Parent = i191
+
+return i190
+end
+
+
+-- ============================================================================
+-- RUNTIME: Р С‘Р Р…Р С‘РЎвЂ Р С‘Р В°Р В»Р С‘Р В·Р В°РЎвЂ Р С‘РЎРЏ 1-Р Р†-1 UI Р С‘ Р С—РЎР‚Р С‘Р Р†РЎРЏР В·Р С”Р В° Р С” Р С‘Р С–РЎР‚Р Вµ
+-- ============================================================================
+local HUD = buildHUD(guiParent)
+HUD.ResetOnSpawn = false
+HUD.Enabled = true
+if syn and syn.protect_gui then pcall(syn.protect_gui, HUD) end
+
+local MessagesGui = buildMessages(guiParent)
+MessagesGui.ResetOnSpawn = false
+MessagesGui.Enabled = true
+if syn and syn.protect_gui then pcall(syn.protect_gui, MessagesGui) end
+
+local MsgTemplateHolder = buildMessageTemplate(nil)
+local FleetGui = buildFleetFootworkBar(guiParent)
+FleetGui.ResetOnSpawn = false
+FleetGui.Enabled = false
+if syn and syn.protect_gui then pcall(syn.protect_gui, FleetGui) end
+local FleetFrame = FleetGui:WaitForChild("Frame")
+local FleetMeter = FleetFrame:WaitForChild("Meter2")
+FleetFrame.Size = UDim2.new(1, 0, 0, 14)
+FleetFrame.Position = UDim2.new(0, 0, 0, 0)
+local bgMeter = FleetFrame:FindFirstChild("Meter")
+if bgMeter and bgMeter:IsA("GuiObject") then
+	bgMeter.AnchorPoint = Vector2.new(0, 0.5)
+	bgMeter.Position = UDim2.new(0, 0, 0.5, 0)
+	bgMeter.Size = UDim2.new(1, 0, 0, 11)
+	bgMeter.BackgroundColor3 = Color3.fromRGB(32, 32, 32)
+	bgMeter.BackgroundTransparency = 0.4
+	bgMeter.BorderSizePixel = 1
+	bgMeter.BorderColor3 = Color3.fromRGB(18, 18, 18)
+	FleetMeter.Parent = bgMeter
+	FleetMeter.ZIndex = bgMeter.ZIndex + 1
+end
+for _, ch in ipairs(FleetMeter:GetChildren()) do
+	if ch.Name == "Roundify" or ch:IsA("UIGradient") then
+		ch:Destroy()
+	end
+end
+FleetMeter.AnchorPoint = Vector2.new(0, 0)
+FleetMeter.Position = UDim2.new(0, 2, 0, 2)
+FleetMeter.Size = UDim2.new(0, 0, 1, -4)
+FleetMeter.BackgroundTransparency = 0
+FleetMeter.BorderSizePixel = 1
+FleetMeter.BorderColor3 = Color3.fromRGB(12, 12, 12)
+FleetMeter.BackgroundColor3 = Color3.fromRGB(255, 35, 85)
+local fleetLbl = FleetFrame:FindFirstChild("TextLabel")
+if fleetLbl and fleetLbl:IsA("TextLabel") then
+	fleetLbl.Text = "FLEET FOOTWORK"
+	fleetLbl.TextColor3 = Color3.fromRGB(12, 12, 12)
+	fleetLbl.TextStrokeTransparency = 1
+	fleetLbl.Font = Enum.Font.Michroma
+	fleetLbl.TextScaled = false
+	fleetLbl.TextSize = 11
+	fleetLbl.TextXAlignment = Enum.TextXAlignment.Left
+	fleetLbl.Position = UDim2.new(0.01, 0, -1.1, 0)
+end
+
+local BarsStack = Instance.new("Frame")
+BarsStack.Name = "BarsStack"
+BarsStack.BackgroundTransparency = 1
+BarsStack.Position = UDim2.new(0.033, 0, 0.18, 0)
+BarsStack.Size = UDim2.new(0.185, 0, 0.35, 0)
+BarsStack.Parent = FleetGui
+
+local BarsLayout = Instance.new("UIListLayout")
+BarsLayout.Padding = UDim.new(0, 18)
+BarsLayout.SortOrder = Enum.SortOrder.Name
+BarsLayout.Parent = BarsStack
+
+local FleetTemplate = FleetFrame:Clone()
+FleetFrame:Destroy()
+FleetGui.Enabled = true
+
+local chargeEntries = {}
+local function pickBarColor(name)
+	local s = string.gsub(string.lower(name), "%s+", "")
+	if string.find(s, "rage", 1, true) or string.find(s, "stand", 1, true) or string.find(s, "ult", 1, true) then
+		return Color3.fromRGB(155, 50, 255)
+	elseif string.find(s, "blood", 1, true) then
+		return Color3.fromRGB(220, 45, 45)
+	elseif string.find(s, "hamon", 1, true) then
+		return Color3.fromRGB(245, 200, 45)
+	end
+	return Color3.fromRGB(255, 35, 85)
+end
+
+local function SetChargeBar(name, ratio, color)
+	local key = tostring(name)
+	local col = color or pickBarColor(key)
+	local entry = chargeEntries[key]
+	if not entry then
+		local f = FleetTemplate:Clone()
+		f.Name = key
+		local m2 = f:FindFirstChild("Meter2", true)
+		m2.BackgroundColor3 = col
+		local lbl = f:FindFirstChild("TextLabel")
+		if lbl and lbl:IsA("TextLabel") then lbl.Text = string.upper(key) end
+		f.Parent = BarsStack
+		entry = { Frame = f, Meter = m2 }
+		chargeEntries[key] = entry
+	end
+	local r = math.clamp(ratio, 0, 1)
+	entry.Meter.BackgroundColor3 = col
+	entry.Meter.Visible = r > 0.005
+	entry.Meter.Size = UDim2.new(r, -4, 1, -4)
+end
+
+local function RemoveChargeBar(name)
+	local key = tostring(name)
+	local entry = chargeEntries[key]
+	if entry then
+		if entry.Frame and entry.Frame.Parent then entry.Frame:Destroy() end
+		chargeEntries[key] = nil
+	end
+end
+
+pcall(function()
+	local sg = game:GetService("StarterGui")
+	sg:SetCoreGuiEnabled(Enum.CoreGuiType.PlayerList, false)
+	sg:SetCoreGuiEnabled(Enum.CoreGuiType.Health, false)
+end)
+
+-- Р вЂњР В»РЎС“РЎв‚¬Р С‘Р С Р СћР С›Р вЂєР В¬Р С™Р С› Р С•РЎвЂљР Т‘Р ВµР В»РЎРЉР Р…РЎвЂ№Р Вµ ScreenGui Р Р…Р С•Р Р†Р С•Р С–Р С• HUD (MainHUD, CurrencyGui, PlayerListGui, NotificationGui),
+-- Р СњР вЂў РЎвЂљРЎР‚Р С•Р С–Р В°РЎРЏ PlayerGui.HUD (Р С–Р Т‘Р Вµ Р С”Р Р…Р С•Р С—Р С”Р В° Р СР ВµР Р…РЎР‹ ToggleHUD, Frames Р С‘ Р Р†РЎвЂ¦Р С•Р Т‘ Р Р† Р С‘Р С–РЎР‚РЎС“)!
+local SUPPRESS_SEPARATE_GUIS = {
+	["MainHUD"] = true,
+	["CurrencyGui"] = true,
+	["PlayerListGui"] = true,
+	["NotificationGui"] = true,
+	["LedgeGui"] = true,
+	["Messages"] = true,
+	["Message"] = true,
+	["Fleet_Footwork Gui"] = true,
+	["YBA_Standalone_HUD"] = true,
+}
+
+local function hookNativeGui(obj) end -- forward decl, Р С—Р ВµРЎР‚Р ВµР С•Р С—РЎР‚Р ВµР Т‘Р ВµР В»РЎРЏР ВµРЎвЂљРЎРѓРЎРЏ Р Р…Р С‘Р В¶Р Вµ Р С—Р С•РЎРѓР В»Р Вµ РЎРѓР С•Р В·Р Т‘Р В°Р Р…Р С‘РЎРЏ HUD
+
+local function suppressInviteNode(d)
+	if not (d:IsA("TextLabel") or d:IsA("TextButton")) then return end
+	local function checkTxt()
+		local t = string.lower(d.Text)
+		if string.find(t, "stand skin luck", 1, true) or string.find(t, "each friend in your server", 1, true) then
+			local box = d.Parent
+			while box and box.Parent and not box.Parent:IsA("LayerCollector") and string.lower(box.Parent.Name) ~= "main" and string.lower(box.Parent.Name) ~= "holders" and string.lower(box.Parent.Name) ~= "clippedcontainer" and string.lower(box.Parent.Name) ~= "notificationframe" do
+				box = box.Parent
+			end
+			local target = (box and box:IsA("GuiObject")) and box or d
+			target.Visible = false
+			target:GetPropertyChangedSignal("Visible"):Connect(function()
+				if target.Visible then target.Visible = false end
+			end)
+		end
+	end
+	checkTxt()
+	d:GetPropertyChangedSignal("Text"):Connect(checkTxt)
+end
+
+local function suppressGui(obj)
+	if obj == HUD or obj == MessagesGui or obj == FleetGui then return end
+	if not obj:IsA("LayerCollector") then return end
+
+	if SUPPRESS_SEPARATE_GUIS[obj.Name] then
+		obj.Enabled = false
+		obj:GetPropertyChangedSignal("Enabled"):Connect(function()
+			if obj.Enabled then obj.Enabled = false end
+		end)
+		task.defer(hookNativeGui, obj)
+		return
+	end
+
+	-- PlayerGui.HUD (меню, ToggleHUD, v1.83, Server Age) не трогаем вообще (и восстанавливаем Main.Visible если скрыто прошлым запуском)
+	if obj.Name == "HUD" then
+		local m = obj:FindFirstChild("Main")
+		if m and m:IsA("GuiObject") then m.Visible = true end
+		return
+	end
+
+	for _, d in ipairs(obj:GetDescendants()) do
+		suppressInviteNode(d)
+	end
+	obj.DescendantAdded:Connect(function(d)
+		task.defer(suppressInviteNode, d)
+	end)
+end
+
+for _, ch in ipairs(PlayerGui:GetChildren()) do
+	suppressGui(ch)
+end
+PlayerGui.ChildAdded:Connect(function(ch)
+	suppressGui(ch)
+	task.delay(0.15, suppressGui, ch)
+end)
+
+pcall(function()
+	for _, d in ipairs(CoreGui:GetDescendants()) do
+		if not (d:IsDescendantOf(HUD) or d:IsDescendantOf(MessagesGui) or d:IsDescendantOf(FleetGui)) then
+			suppressInviteNode(d)
+		end
+	end
+	CoreGui.DescendantAdded:Connect(function(d)
+		if not (d:IsDescendantOf(HUD) or d:IsDescendantOf(MessagesGui) or d:IsDescendantOf(FleetGui)) then
+			task.defer(suppressInviteNode, d)
+		end
+	end)
+end)
+
+local function toRoman(num)
+	local map = {
+		{1000, "M"}, {900, "CM"}, {500, "D"}, {400, "CD"},
+		{100, "C"}, {90, "XC"}, {50, "L"}, {40, "XL"},
+		{10, "X"}, {9, "IX"}, {5, "V"}, {4, "IV"}, {1, "I"}
+	}
+	local out = ""
+	local v = math.floor(tonumber(num) or 0)
+	for _, pair in ipairs(map) do
+		while v >= pair[1] do
+			out = out .. pair[2]
+			v = v - pair[1]
+		end
+	end
+	return out
+end
+
+-- 1. PlayerlistHandler (1-Р Р†-1 Р В»Р С•Р С–Р С‘Р С”Р В° Р С‘Р В· HUD.PlayerlistHandler)
+local list = HUD:WaitForChild("Playerlist")
+list.ScrollBarThickness = 3
+local template = list:WaitForChild("Template")
+template.Visible = false
+local indicatorsList = list:WaitForChild("Indicators")
+local presHeader = indicatorsList:FindFirstChild("Prestige")
+if presHeader and presHeader:IsA("TextLabel") then
+	presHeader.TextScaled = true
+	presHeader.Text = "PRESTIGE"
+end
+local templatePos = template.Position
+local playerListCanvasScale = list.CanvasSize.Y.Scale
+local templateSizeScale = template.Size.Y.Scale
+local indicatorsSizeScale = indicatorsList.Size.Y.Scale
+
+local function refreshPlayerList()
+	for _, v in ipairs(list:GetChildren()) do
+		if v ~= template and v ~= indicatorsList and v:IsA("GuiObject") then
+			v:Destroy()
+		end
+	end
+
+	local getPlayers = Players:GetPlayers()
+	for i = #getPlayers, 1, -1 do
+		if getPlayers[i] == LocalPlayer then
+			table.remove(getPlayers, i)
+		end
+	end
+	table.sort(getPlayers, function(p1, p2)
+		return p1.Name:lower() < p2.Name:lower()
+	end)
+
+	local amount = #getPlayers / 9
+	if amount < 1 then amount = 1 end
+
+	templatePos = UDim2.new(template.Position.X.Scale, 0, template.Position.Y.Scale / amount, 0)
+	list.CanvasSize = UDim2.new(0, 0, playerListCanvasScale * amount, 0)
+	template.Size = UDim2.new(template.Size.X.Scale, 0, templateSizeScale / amount, 0)
+	indicatorsList.Size = UDim2.new(indicatorsList.Size.X.Scale, 0, indicatorsSizeScale / amount, 0)
+
+	local function addNew(num, plr)
+		local clone = template:Clone()
+		clone.Name = plr.Name
+		clone.PlayerName.Text = plr.Name
+		clone.GangName.Text = "Gang-less"
+
+		local ps = plr:FindFirstChild("PlayerStats")
+		if ps then
+			local gang = ps:FindFirstChild("Gang")
+			if gang and gang.Value ~= "" then
+				clone.GangName.Text = tostring(gang.Value)
+			end
+			local pres = ps:FindFirstChild("Prestige")
+			if pres and tonumber(pres.Value) and tonumber(pres.Value) > 0 then
+				local pv = tonumber(pres.Value)
+				clone.Prestige.TextLabel.Text = toRoman(pv)
+				if pv == 1 then
+					clone.Prestige.TextLabel.TextColor3 = Color3.fromRGB(226, 155, 64)
+				elseif pv == 2 then
+					clone.Prestige.TextLabel.TextColor3 = Color3.fromRGB(163, 162, 165)
+				elseif pv >= 3 and pv <= 5 then
+					clone.Prestige.TextLabel.TextColor3 = Color3.fromRGB(239, 184, 56)
+					clone.PlayerName.TextColor3 = Color3.fromRGB(239, 184, 56)
+				else
+					clone.Prestige.TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+				end
+			end
+		else
+			local natPL = PlayerGui:FindFirstChild("PlayerListGui")
+			local natRow = natPL and natPL:FindFirstChild("List", true) and natPL:FindFirstChild("List", true):FindFirstChild(plr.Name)
+			if natRow then
+				local ct = natRow:FindFirstChild("ClanText")
+				if ct and ct:IsA("TextLabel") and ct.Text ~= "" then
+					clone.GangName.Text = ct.Text
+				end
+				local pr = natRow:FindFirstChild("Prestige")
+				local pt = pr and pr:FindFirstChild("Text")
+				if pt and pt:IsA("TextLabel") and pt.Text ~= "" then
+					clone.Prestige.TextLabel.Text = pt.Text
+					clone.Prestige.TextLabel.TextColor3 = pt.TextColor3
+					clone.PlayerName.TextColor3 = pt.TextColor3
+				end
+			end
+		end
+
+		local decal = clone.Prestige:FindFirstChild("Decal")
+		if decal and plr:GetAttribute("DecalID") then
+			clone.Prestige.TextLabel.Visible = false
+			decal.Image = "http://www.roblox.com/asset/?id=" .. tostring(plr:GetAttribute("DecalID"))
+			decal.Visible = true
+		end
+
+		clone.Parent = list
+		if num == 1 then
+			clone.Position = templatePos
+		else
+			clone.Position = templatePos + UDim2.new(0, 0, 0.085 / amount * (num - 1), 0)
+		end
+		clone.Visible = true
+	end
+
+	addNew(1, LocalPlayer)
+	for idx, plr in ipairs(getPlayers) do
+		addNew(1 + idx, plr)
+	end
+end
+
+refreshPlayerList()
+Players.PlayerAdded:Connect(function() task.defer(refreshPlayerList) end)
+Players.PlayerRemoving:Connect(function() task.defer(refreshPlayerList) end)
+local plRemote = ReplicatedStorage:FindFirstChild("PlayerlistHandlerRemote")
+if plRemote and plRemote:IsA("RemoteEvent") then
+	plRemote.OnClientEvent:Connect(function(a)
+		if a == "Refresh" then refreshPlayerList() end
+	end)
+end
+
+-- Tab-тоггл убран (в оригинале Playerlist висит постоянно)
+
+-- 2. HUD Indicators (Health / HealthLost / Experience / Level / Money)
+local Main = HUD:WaitForChild("Main")
+local tHud = Main:FindFirstChild("ToggleHUD")
+if tHud then tHud:Destroy() end
+local Indicators = Main:WaitForChild("Indicators")
+local Bars = Indicators:WaitForChild("Bars")
+local BarHealth = Bars:WaitForChild("Health")
+local BarHealthLost = Bars:WaitForChild("HealthLost")
+local BarExp = Bars:WaitForChild("Experience")
+local LevelText = Indicators:WaitForChild("Level")
+local MoneyText = Main:WaitForChild("DropMoney"):WaitForChild("Money")
+
+local healthSize = BarHealth.Size
+local expSize = BarExp.Size
+local LEVEL_MULTIPLIER = 100
+
+local LevelInd = Main:FindFirstChild("LevelIndicator")
+if LevelInd then LevelInd.Visible = false end
+local LI_Health = LevelInd and LevelInd:FindFirstChild("HealthBar") and LevelInd.HealthBar:FindFirstChild("Health")
+local LI_HealthLost = LevelInd and LevelInd:FindFirstChild("HealthBar") and LevelInd.HealthBar:FindFirstChild("HealthLost")
+local LI_Exp = LevelInd and LevelInd:FindFirstChild("ExperienceBar") and LevelInd.ExperienceBar:FindFirstChild("Experience")
+local LI_Level = LevelInd and LevelInd:FindFirstChild("Level")
+
+local function updateHealth(hp, maxHp)
+	local m = math.max(tonumber(maxHp) or 100, 1)
+	local ratio = math.clamp((tonumber(hp) or 0) / m, 0, 1)
+	BarHealth.Size = UDim2.new(healthSize.X.Scale * ratio, 0, healthSize.Y.Scale, 0)
+	TweenService:Create(BarHealthLost, TweenInfo.new(1.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+		Size = UDim2.new(healthSize.X.Scale * ratio, 0, healthSize.Y.Scale, 0)
+	}):Play()
+	if LI_Health and LI_HealthLost then
+		LI_Health.Size = UDim2.new(ratio, 0, 1, 0)
+		TweenService:Create(LI_HealthLost, TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+			Size = UDim2.new(ratio, 0, 1, 0)
+		}):Play()
+	end
+end
+
+local function updateExp(exp, lvl)
+	local l = math.max(tonumber(lvl) or 1, 1)
+	local req = math.max(l * LEVEL_MULTIPLIER, 1)
+	local ratio = math.clamp((tonumber(exp) or 0) / req, 0, 1)
+	BarExp:TweenSize(UDim2.new(expSize.X.Scale * ratio, 0, expSize.Y.Scale, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 1, true)
+	LevelText.Text = tostring(l)
+	if LI_Exp and LI_Level then
+		LI_Exp:TweenSize(UDim2.new(ratio, 0, 1, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 1, true)
+		LI_Level.Text = tostring(l)
+	end
+end
+
+local function SetFleetMeter(val, maxVal)
+	local ratio = math.clamp((tonumber(val) or 0) / math.max(tonumber(maxVal) or 100, 1), 0, 1)
+	SetChargeBar("Fleet Footwork", ratio)
+end
+
+local AddMessage, ShowQuestCompleted
+
+local function bindChar(char)
+	local hv = char:FindFirstChild("HealthVal") or char:FindFirstChild("Health")
+	if hv and (hv:IsA("DoubleConstrainedValue") or hv:IsA("IntConstrainedValue") or hv:IsA("NumberValue") or hv:IsA("IntValue")) then
+		local ok, maxV = pcall(function() return hv.MaxValue end)
+		maxV = (ok and maxV) or 100
+		updateHealth(hv.Value, maxV)
+		hv.Changed:Connect(function(v)
+			local ok2, m2 = pcall(function() return hv.MaxValue end)
+			updateHealth(v, (ok2 and m2) or maxV)
+		end)
+	else
+		local hum = char:WaitForChild("Humanoid", 5)
+		if hum then
+			updateHealth(hum.Health, hum.MaxHealth)
+			hum.HealthChanged:Connect(function(v) updateHealth(v, hum.MaxHealth) end)
+		end
+	end
+
+	-- Р СџР С•Р Т‘Р С”Р В»РЎР‹РЎвЂЎР В°Р ВµР С РЎРѓР ВµРЎР‚Р Р†Р ВµРЎР‚Р Р…РЎвЂ№Р Вµ РЎС“Р Р†Р ВµР Т‘Р С•Р СР В»Р ВµР Р…Р С‘РЎРЏ РЎвЂЎР ВµРЎР‚Р ВµР В· Character.RemoteEvent Р С”Р В°Р С” Р Р† Р С•РЎР‚Р С‘Р С–Р С‘Р Р…Р В°Р В»Р Вµ
+	local function hookRemote(re)
+		if not re or not re:IsA("RemoteEvent") then return end
+		re.OnClientEvent:Connect(function(cmd, payload)
+			if (cmd == "AddMessage" or cmd == "Message") and type(payload) == "table" and payload.Text then
+				AddMessage(payload.Text, payload.TextColor, payload.Dura)
+			elseif cmd == "Quest Completed" and type(payload) == "table" then
+				ShowQuestCompleted(payload.Quest, payload.Experience, payload.Money, payload.Tool)
+			end
+		end)
+	end
+	local re = char:FindFirstChild("RemoteEvent")
+	if re then hookRemote(re) end
+
+	-- Р СџР С•Р Т‘Р С”Р В»РЎР‹РЎвЂЎР В°Р ВµР С Which Value Р Т‘Р В»РЎРЏ Fleet_Footwork Р В±Р В°РЎР‚a (Р С‘Р В»Р С‘ Р В»РЎР‹Р В±Р С•Р Вµ fleet NumberValue/IntValue)
+	local function hookMeter(v)
+		if v and (v:IsA("NumberValue") or v:IsA("IntValue")) then
+			local ln = string.lower(v.Name)
+			if string.find(ln, "fleet", 1, true) or string.find(ln, "rage", 1, true) or string.find(ln, "hamon", 1, true) or string.find(ln, "blood", 1, true) or string.find(ln, "ult", 1, true) then
+				local dispName = string.gsub(v.Name, "_", " ")
+				local maxV = math.max(v.MaxValue or 100, 1)
+				if v.Value > 0 then
+					SetChargeBar(dispName, v.Value / maxV)
+				end
+				v.Changed:Connect(function(nv)
+					if nv > 0 then
+						SetChargeBar(dispName, nv / math.max(v.MaxValue or 100, 1))
+					else
+						RemoveChargeBar(dispName)
+					end
+				end)
+				v.AncestryChanged:Connect(function(_, p)
+					if not p then RemoveChargeBar(dispName) end
+				end)
+			end
+		end
+	end
+	for _, ch in ipairs(char:GetChildren()) do
+		hookMeter(ch)
+	end
+
+	char.ChildAdded:Connect(function(ch)
+		if ch.Name == "RemoteEvent" then hookRemote(ch) end
+		hookMeter(ch)
+	end)
+end
+if LocalPlayer.Character then task.spawn(bindChar, LocalPlayer.Character) end
+LocalPlayer.CharacterAdded:Connect(bindChar)
+
+task.spawn(function()
+	local ps = LocalPlayer:FindFirstChild("PlayerStats") or LocalPlayer:WaitForChild("PlayerStats", 3)
+	if not ps then return end
+	local lvl = ps:FindFirstChild("Level")
+	local exp = ps:FindFirstChild("Experience")
+	local money = ps:FindFirstChild("Money")
+	if lvl and exp then
+		updateExp(exp.Value, lvl.Value)
+		exp.Changed:Connect(function() updateExp(exp.Value, lvl.Value) end)
+		lvl.Changed:Connect(function() updateExp(exp.Value, lvl.Value) end)
+	end
+	if money then
+		MoneyText.Text = tostring(money.Value)
+		money.Changed:Connect(function(v) MoneyText.Text = tostring(v) end)
+	end
+end)
+
+-- 3. Fleet Footwork Bar (РЎС“Р В¶Р Вµ Р С‘Р Р…Р С‘РЎвЂ Р С‘Р В°Р В»Р С‘Р В·Р С‘РЎР‚Р С•Р Р†Р В°Р Р… Р Р†РЎвЂ№РЎв‚¬Р Вµ)
+-- 3.5. Р С™Р Р…Р С•Р С—Р С”Р В° РЎРѓР В±РЎР‚Р С•РЎРѓР В° Р Т‘Р ВµР Р…Р ВµР С– (Main.Money -> DropAmount -> RemoteEvent:FireServer("DropMoney", amt))
+local MoneyBtn = Main:WaitForChild("DropMoney")
+local DropAmount = MoneyBtn:FindFirstChild("DropAmount")
+if DropAmount then
+	DropAmount.Visible = false
+	MoneyBtn.MouseButton1Click:Connect(function()
+		DropAmount.Visible = not DropAmount.Visible
+		if DropAmount.Visible then
+			DropAmount:CaptureFocus()
+		end
+	end)
+	local function submitDropMoney()
+		if not DropAmount.Visible then return end
+		local txt = DropAmount.Text
+		if txt:lower() == "nan" or txt == "" then return end
+		local amt = tonumber(txt)
+		if not amt or amt <= 0 then return end
+		local char = LocalPlayer.Character
+		local re = char and char:FindFirstChild("RemoteEvent")
+		if re and re:IsA("RemoteEvent") then
+			re:FireServer("DropMoney", amt)
+		end
+		DropAmount.Text = ""
+		DropAmount.Visible = false
+	end
+	DropAmount.FocusLost:Connect(function(enterPressed)
+		if enterPressed then submitDropMoney() end
+	end)
+	UserInputService.InputBegan:Connect(function(input)
+		if input.KeyCode == Enum.KeyCode.Return and DropAmount.Visible then
+			submitDropMoney()
+		end
+	end)
+end
+
+-- 4. AddMessage (РЎвЂљР С•РЎРѓРЎвЂљРЎвЂ№ РЎРѓР В±Р С•Р С”РЎС“ РЎРѓР В»Р ВµР Р†Р В° РЎРѓР Р…Р С‘Р В·РЎС“ Р Р…Р В°Р Т‘ РЎвЂ¦Р С•РЎвЂљР В±Р В°РЎР‚Р С•Р С) + QuestCompleted
+local MsgList = MessagesGui:WaitForChild("List")
+MsgList.AnchorPoint = Vector2.new(0, 1)
+MsgList.Position = UDim2.new(0, 14, 1, -90)
+MsgList.Size = UDim2.new(0, 420, 0, 260)
+local msgLayout = MsgList:FindFirstChildOfClass("UIListLayout")
+if msgLayout then
+	msgLayout.VerticalAlignment = Enum.VerticalAlignment.Bottom
+end
+local MsgTemplate = MsgList:WaitForChild("Template")
+MsgTemplate.Visible = false
+MsgTemplate.TextXAlignment = Enum.TextXAlignment.Left
+
+AddMessage = function(text, color, dura)
+	local message = MsgTemplate:Clone()
+	message.Parent = MsgList
+	message.Text = tostring(text)
+	message.TextTransparency = 1
+	message.TextStrokeTransparency = 1
+	message.Name = "Message"
+	message.Visible = true
+	if color then message.TextColor3 = color end
+	local tIn = TweenService:Create(message, TweenInfo.new(0.5, Enum.EasingStyle.Linear), { TextTransparency = 0, TextStrokeTransparency = 0 })
+	tIn:Play()
+	tIn.Completed:Connect(function()
+		task.wait(dura or 3.5)
+		local tOut = TweenService:Create(message, TweenInfo.new(0.5, Enum.EasingStyle.Linear), { TextTransparency = 1, TextStrokeTransparency = 1 })
+		tOut:Play()
+		tOut.Completed:Connect(function()
+			if message.Parent then message:Destroy() end
+		end)
+	end)
+end
+
+ShowQuestCompleted = function(questName, expGain, moneyGain, toolName)
+	local C = HUD:WaitForChild("QuestCompleted"):Clone()
+	Debris:AddItem(C, 8)
+	C.Position = UDim2.new(1, 0, 0.375, 0)
+	C.Experience.Text = "+" .. tostring(expGain or 0) .. " EXP"
+	C.Tool.Text = (toolName and toolName ~= "") and ("+Tool " .. tostring(toolName)) or " "
+	C.Money.Text = "+$" .. tostring(moneyGain or 0)
+	C.Quest.Text = tostring(questName) .. ": COMPLETED"
+	C.Parent = HUD
+	pcall(function() C.Sound:Play() end)
+	C.Visible = true
+	C:TweenPosition(UDim2.new(0.75, 0, 0.6, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Linear, 0.5, true)
+	task.delay(4, function()
+		if C.Parent then
+			C:TweenPosition(UDim2.new(1, 0, 0.6, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Linear, 2, true)
+		end
+	end)
+end
+
+hookNativeGui = function(obj)
+	if not obj or obj:GetAttribute("_HookedByYBA") then return end
+	obj:SetAttribute("_HookedByYBA", true)
+
+	if obj.Name == "MainHUD" then
+		local m = obj:FindFirstChild("Main")
+		if m then
+			local lvlLbl = m:FindFirstChild("Level")
+			if lvlLbl and lvlLbl:IsA("TextLabel") then
+				local function syncLvl()
+					LevelText.Text = string.gsub(lvlLbl.Text, "^Lv%.%s*", "")
+				end
+				syncLvl()
+				lvlLbl:GetPropertyChangedSignal("Text"):Connect(syncLvl)
+			end
+			local expFrame = m:FindFirstChild("Experience")
+			local expDisp = expFrame and expFrame:FindFirstChild("Display")
+			if expDisp and expDisp:IsA("TextLabel") then
+				local function syncExp()
+					local c, mx = string.match(expDisp.Text, "([%d%.]+)%s*/%s*([%d%.]+)")
+					if c and mx and tonumber(mx) > 0 then
+						local ratio = math.clamp(tonumber(c) / tonumber(mx), 0, 1)
+						BarExp:TweenSize(UDim2.new(expSize.X.Scale * ratio, 0, expSize.Y.Scale, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.4, true)
+					end
+				end
+				syncExp()
+				expDisp:GetPropertyChangedSignal("Text"):Connect(syncExp)
+			end
+			local cb = m:FindFirstChild("ChargeBars")
+			if cb then
+				local function hookChargeBar(bar)
+					if not bar:IsA("GuiObject") or bar.Name == "Template" then return end
+					local title = bar.Name
+					for _, d in ipairs(bar:GetDescendants()) do
+						if d:IsA("TextLabel") and d.Text ~= "" then
+							title = d.Text
+							break
+						end
+					end
+					local barContainer = bar:FindFirstChild("BarContainer")
+					local barNode = barContainer and barContainer:FindFirstChild("Bar")
+					local gradNode = barNode and barNode:FindFirstChildOfClass("UIGradient")
+					local fallbackFill = barNode or bar:FindFirstChild("Fill", true) or bar:FindFirstChild("Meter2", true)
+
+					local function syncBar()
+						if not bar.Visible or not bar.Parent then
+							RemoveChargeBar(title)
+							return
+						end
+						local ratio = 0
+						if gradNode then
+							ratio = math.clamp(gradNode.Offset.X, 0, 1)
+						elseif fallbackFill and fallbackFill:IsA("GuiObject") then
+							ratio = math.clamp(fallbackFill.Size.X.Scale, 0, 1)
+						end
+						SetChargeBar(title, ratio)
+					end
+
+					syncBar()
+					bar:GetPropertyChangedSignal("Visible"):Connect(syncBar)
+					if gradNode then
+						gradNode:GetPropertyChangedSignal("Offset"):Connect(syncBar)
+					elseif fallbackFill and fallbackFill:IsA("GuiObject") then
+						fallbackFill:GetPropertyChangedSignal("Size"):Connect(syncBar)
+					end
+					bar.AncestryChanged:Connect(function(_, p)
+						if not p then RemoveChargeBar(title) end
+					end)
+				end
+				for _, ch in ipairs(cb:GetChildren()) do hookChargeBar(ch) end
+				cb.ChildAdded:Connect(function(ch) task.defer(hookChargeBar, ch) end)
+			end
+		end
+	elseif obj.Name == "CurrencyGui" then
+		local m = obj:FindFirstChild("CurrencyContainer")
+		local mon = m and m:FindFirstChild("Money")
+		local txt = mon and mon:FindFirstChild("Contents") and mon.Contents:FindFirstChild("Text")
+		if txt and txt:IsA("TextLabel") then
+			MoneyText.Text = string.gsub(txt.Text, ",", "")
+			txt:GetPropertyChangedSignal("Text"):Connect(function()
+				MoneyText.Text = string.gsub(txt.Text, ",", "")
+			end)
+		end
+	elseif obj.Name == "NotificationGui" then
+		local st = obj:FindFirstChild("Stack")
+		if st then
+			st.ChildAdded:Connect(function(ch)
+				task.defer(function()
+					for _, d in ipairs(ch:GetDescendants()) do
+						if d:IsA("TextLabel") and d.Text ~= "" then
+							AddMessage(d.Text, d.TextColor3, 3.5)
+							break
+						end
+					end
+				end)
+			end)
+		end
+	elseif obj.Name == "PlayerListGui" then
+		local lst = obj:FindFirstChild("List", true)
+		if lst then
+			lst.ChildAdded:Connect(function() task.defer(refreshPlayerList) end)
+			lst.ChildRemoved:Connect(function() task.defer(refreshPlayerList) end)
+			task.defer(refreshPlayerList)
+		end
+	end
+end
+
+for _, ch in ipairs(PlayerGui:GetChildren()) do
+	if SUPPRESS_SEPARATE_GUIS[ch.Name] then
+		task.spawn(hookNativeGui, ch)
+	end
+end
+
+Indicators.Position = UDim2.new(Indicators.Position.X.Scale, Indicators.Position.X.Offset, 0.0000, -57)
+list.Position = UDim2.new(list.Position.X.Scale, list.Position.X.Offset, 0.0334, -41)
+
+local env = (type(getgenv) == "function" and getgenv()) or _G
+env.YBA_UI = {
+	HUD = HUD,
+	Messages = MessagesGui,
+	FleetGui = FleetGui,
+	AddMessage = AddMessage,
+	QuestCompleted = ShowQuestCompleted,
+	SetFleetMeter = SetFleetMeter,
+	SetExp = updateExp,
+	SetMoney = function(v) MoneyText.Text = tostring(v) end,
+	RefreshPlayers = refreshPlayerList,
+}
+
+AddMessage("YBA 1:1 HUD loaded", Color3.fromRGB(255, 230, 120), 2.5)
